@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Donate India - Login</title>
+  <link rel="stylesheet" href="css/login.css" media="screen" type="text/css" /> 
+</head>
+
+
+<body ng-app="myApp" ng-controller="LoginCtrl">
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="container">
+
+    <div id="login">
+
+      <form class="form-horizontal" name="myForm" autocomplete="on" novalidate>
+
+
+        <fieldset class="clearfix">
+
+          <p><span class="fontawesome-user"></span>
+            <input type="text" ng-model="login.email" value="Username" onBlur="if(this.value == '') this.value = 'Username'" onFocus="if(this.value == 'Username') this.value = ''"
+            required>
+          </p>
+          <!-- JS because of IE support; better: placeholder="Username" -->
+          <p><span class="fontawesome-lock"></span>
+            <input type="password" ng-model="login.password" value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''"
+            required>
+          </p>
+          <!-- JS because of IE support; better: placeholder="Password" -->
+          <p>
+            <input type="button" value="Sign In or Register" ng-click="Login(login)">
+            <br>
+            <center/> {{loginResult}}
+          </p>
+          <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+        </fieldset>
+
+      </form>
+    </div>
+    <!-- end login -->
+    
+  </div>
+</body>
+
+</html>

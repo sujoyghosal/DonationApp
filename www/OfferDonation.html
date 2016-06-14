@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Donate India - Offer Donation</title>
+
+    <link rel="stylesheet" href="css/login.css" media="screen" type="text/css" />
+
+</head>
+
+<body>
+
+    <html lang="en-US">
+
+    <body ng-app="myApp">
+
+        <div class="container">
+
+            <div id="login">
+
+                <form class="form-horizontal" ng-controller="DonationCtrl" name="myForm" autocomplete="on" novalidate>
+
+                    <center>
+                        <legend>CREATE A DONATION OFFER</legend>
+                        <center>
+                            <br>
+                            <fieldset class="clearfix:after">
+
+                                <p><span class="fontawesome-user"></span>
+                                    <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder="Full Name" class="form-control input-md"
+                                    ng-required="true">
+                                    <h2 ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</h2>
+
+                                </p>
+                                <!-- JS because of IE support; better: placeholder="Username" -->
+                                <p><span class="fontawesome-envelope"></span>
+                                    <input id="email" name="email" ng-model="offer.email" ng-minlength="2" type="email" placeholder={{login_email}} class="form-control input-md"
+                                    ng-readonly="true">
+                                    <h2 ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</h2>
+
+                                </p>
+                                <!-- JS because of IE support; better: placeholder="Username" -->
+                                <p><span class="fontawesome-phone"></span>
+                                    <input id="phone" name="phone" ng-model="offer.phone" ng-minlength="8" type="tel" placeholder="Mobile Number" class="form-control input-md"
+                                    ng-required="true">
+                                    <h2 ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</h2>
+                                </p>
+                                <!-- JS because of IE support; better: placeholder="Username" -->
+                                <p><span class="fa fa-map-marker"></span>
+                                    <input id="city" name="city" ng-model="offer.city" ng-minlength="2" type="text" placeholder="City" class="form-control input-md"
+                                    ng-required="true">
+                                    <h2 ng-show="myForm.city.$dirty && myForm.city.$invalid">Invalid City</h2>
+
+                                </p>
+                                <!-- JS because of IE support; better: placeholder="Username" -->
+                                <p><span class="fa fa-flag-o"></span>
+                                    <input id="from" name="from" ng-model="offer.from" ng-minlength="2" type="text" placeholder="Pickup From" class="form-control input-md"
+                                    required="true">
+                                    <h2 ng-show="myForm.from.$dirty && myForm.from.$invalid">Invalid Start Point</h2>
+
+                                </p>
+                               
+                                
+                                <p><span class="fa fa-clock-o"></span>
+                                    <input id="time" name="time" ng-model="offer.time" ng-minlength="2" type="datetime-local" placeholder="Via e.g. Victoria, Ballygunje"
+                                    class="form-control input-md" ng-required="true">
+                                    <h2 ng-show="myForm.time.$dirty && myForm.time.$invalid">Invalid Time/Date in Past</h2>
+
+                                </p>
+                                
+                                <p><span class="fa fa-car"></span>
+                                    <input id="items" name="items" ng-model="offer.items" ng-minlength="2" type="text" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md"
+                                    ng-required="true">
+                                    <h2 ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Vehicle Type</h2>
+                                </p>
+                                <p>
+                                    <input type="button" name="submit" value="SUBMIT" ng-click="SendOffer(offer)" ng-disabled="myForm.name.$invalid 
+                  ||  myForm.email.$invalid ||  myForm.phone.$invalid ||  myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid ||  myForm.time.$invalid">
+                                    <br>
+                                    <center/> {{loginResult}}
+                                </p>
+                                <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
+                            </fieldset>
+                            <br class='clear'>
+                </form>
+            </div>
+            <!-- end login -->
+        </div>
+
+    </body>
+
+    </html>

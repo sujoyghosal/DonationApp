@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/rating.css">
+    <link rel="stylesheet" href="css/offerdonation.css">
+    <link rel="stylesheet" href="css/responsivetable.css">
+</head>
+
+<body>
+    <br>
+    <br>
+
+    <br>
+    <br>
+    <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="orderByField='time'">
+        <button class="btn btn-primary btn-md" ng-click="GetDonations('email',login_email)">VIEW DONATIONS I OFFERED</button>
+        <br>
+        <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+
+        <p>
+            <p/><b/>{{found}}
+            <br>
+            <br>
+            <label ng-show="alldonations">Search in Donations:
+                <input ng-model="searchText">
+            </label>
+            <div class="container">
+                <table class="table table-bordered" ng-show="alldonations">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>City</th>
+                            <th ng-click="orderByField='offeredby'; reverse = !reverse" nowrap>Offered By
+                                <span ng-show="orderByField == 'offeredby'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th ng-click="orderByField='email'; reverse = !reverse" nowrap>EMail
+                                <span ng-show="orderByField == 'email'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th>Mobile</th>
+                            <th ng-click="orderByField='items'; reverse = !reverse" nowrap>Items
+                                <span ng-show="orderByField == 'items'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th ng-click="orderByField='time'; reverse = !reverse" nowrap>Pickup Time
+                                <span ng-show="orderByField == 'time'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th ng-click="orderByField='from_place'; reverse = !reverse" nowrap>Pickup Place
+                                <span ng-show="orderByField == 'from_place'">
+                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse | filter:searchText">
+                        <td>{{$index + 1}}</td>
+                        <td>{{row.city}}</td>
+                        <td>{{row.offeredby}}</td>
+                        <td>{{row.email}}</td>
+                        <td>{{row.phone_number}}</td>
+                        <td>{{row.items}}</td>
+                        <td>{{row.time | date: 'short'}}</td>
+                        <td>{{row.from_place}}</td>
+
+                        <td>
+                            <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </p>
+    </div>
+    </center>
+</body>
+
+</html>
