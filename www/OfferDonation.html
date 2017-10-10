@@ -2,94 +2,198 @@
 <html>
 
 <head>
-
     <meta charset="UTF-8">
-
     <title>Donate India - Offer Donation</title>
-
     <link rel="stylesheet" href="css/login.css" media="screen" type="text/css" />
-
+    <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css" />
+    <script src="js/jquery.datetimepicker.js"></script>
+    <script src="js/jquery.js"></script>
 </head>
 
-<body>
+<body ng-app="myApp">
+    <div class="container">
+        <!--              -->
+        <div id="login">
 
-    <html lang="en-US">
+            <form class="form-horizontal" ng-controller="DonationCtrl" name="myForm" autocomplete="on" novalidate>
 
-    <body ng-app="myApp">
-
-        <div class="container">
-
-            <div id="login">
-
-                <form class="form-horizontal" ng-controller="DonationCtrl" name="myForm" autocomplete="on" novalidate>
-
+                <center>
+                    <legend>CREATE A DONATION OFFER</legend>
                     <center>
-                        <legend>CREATE A DONATION OFFER</legend>
-                        <center>
-                            <br>
-                            <fieldset class="clearfix:after">
-
-                                <p><span class="fontawesome-user"></span>
-                                    <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder="Full Name" class="form-control input-md"
-                                    ng-required="true">
-                                    <h2 ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</h2>
-
-                                </p>
-                                <!-- JS because of IE support; better: placeholder="Username" -->
-                                <p><span class="fontawesome-envelope"></span>
-                                    <input id="email" name="email" ng-model="offer.email" ng-minlength="2" type="email" placeholder={{login_email}} class="form-control input-md"
-                                    ng-readonly="true">
-                                    <h2 ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</h2>
-
-                                </p>
-                                <!-- JS because of IE support; better: placeholder="Username" -->
-                                <p><span class="fontawesome-phone"></span>
-                                    <input id="phone" name="phone" ng-model="offer.phone" ng-minlength="8" type="tel" placeholder="Mobile Number" class="form-control input-md"
-                                    ng-required="true">
-                                    <h2 ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</h2>
-                                </p>
-                                <!-- JS because of IE support; better: placeholder="Username" -->
-                                <p><span class="fa fa-map-marker"></span>
-                                    <input id="city" name="city" ng-model="offer.city" ng-minlength="2" type="text" placeholder="City" class="form-control input-md"
-                                    ng-required="true">
-                                    <h2 ng-show="myForm.city.$dirty && myForm.city.$invalid">Invalid City</h2>
-
-                                </p>
-                                <!-- JS because of IE support; better: placeholder="Username" -->
-                                <p><span class="fa fa-flag-o"></span>
-                                    <input id="from" name="from" ng-model="offer.from" ng-minlength="2" type="text" placeholder="Pickup From" class="form-control input-md"
-                                    required="true">
-                                    <h2 ng-show="myForm.from.$dirty && myForm.from.$invalid">Invalid Start Point</h2>
-
-                                </p>
-                               
-                                
-                                <p><span class="fa fa-clock-o"></span>
-                                    <input id="time" name="time" ng-model="offer.time" ng-minlength="2" type="datetime-local" placeholder="Via e.g. Victoria, Ballygunje"
-                                    class="form-control input-md" ng-required="true">
-                                    <h2 ng-show="myForm.time.$dirty && myForm.time.$invalid">Invalid Time/Date in Past</h2>
-
-                                </p>
-                                
-                                <p><span class="fa fa-car"></span>
-                                    <input id="items" name="items" ng-model="offer.items" ng-minlength="2" type="text" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md"
-                                    ng-required="true">
-                                    <h2 ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Vehicle Type</h2>
-                                </p>
-                                <p>
-                                    <input type="button" name="submit" value="SUBMIT" ng-click="SendOffer(offer)" ng-disabled="myForm.name.$invalid 
-                  ||  myForm.email.$invalid ||  myForm.phone.$invalid ||  myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid ||  myForm.time.$invalid">
-                                    <br>
-                                    <center/> {{loginResult}}
-                                </p>
-                                <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
-                            </fieldset>
-                            <br class='clear'>
-                </form>
-            </div>
-            <!-- end login -->
+                        <br>
+                        <fieldset class="clearfix:after">
+                            <p><span class="fontawesome-user"></span>
+                                <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder="Full Name" class="form-control input-md" ng-required="true">
+                                <h2 ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</h2>
+                            </p>
+                            <!-- JS because of IE support; better: placeholder="Username" -->
+                            <p><span class="fontawesome-envelope"></span>
+                                <input id="email" name="email" ng-model="offer.email" ng-minlength="2" type="email" placeholder="{{login_email}}" class="form-control input-md" ng-readonly="true">
+                                <h2 ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</h2>
+                            </p>
+                            <!-- JS because of IE support; better: placeholder="Username" -->
+                            <p><span class="fontawesome-phone"></span>
+                                <input id="phone" name="phone" ng-model="offer.phone" ng-minlength="8" type="tel" placeholder="Mobile Number" class="form-control input-md" ng-required="true">
+                                <h2 ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</h2>
+                            </p>
+                            <!-- JS because of IE support; better: placeholder="Username" -->
+                            <p><span class="fa fa-map-marker"></span>
+                                <input id="city" name="city" ng-model="offer.city" ng-minlength="2" type="text" placeholder="City" class="form-control input-md" ng-required="true">
+                                <h2 ng-show="myForm.city.$dirty && myForm.city.$invalid">Invalid City</h2>
+                            </p>
+                            <!-- JS because of IE support; better: placeholder="Username" -->
+                            <p><span class="fa fa-flag-o"></span>
+                                <input id="from" name="from" ng-model="offer.from" ng-minlength="2" type="text" placeholder="Pickup From" class="form-control input-md" required="true">
+                                <h2 ng-show="myForm.from.$dirty && myForm.from.$invalid">Invalid Start Point</h2>
+                            </p>
+                            <p><span class="fa fa-clock-o"></span>
+                                <input id="datetimepicker" name="time" ng-model="offer.time" ng-minlength="2" type="text" value="" ng-required="true">
+                                <h2 ng-show="myForm.time.$dirty && myForm.time.$invalid">Invalid Time/Date in Past</h2>
+                            </p>
+                            <p><span class="fa fa-car"></span>
+                                <input id="items" name="items" ng-model="offer.items" ng-minlength="2" type="text" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
+                                <h2 ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Vehicle Type</h2>
+                            </p>
+                            <p>
+                                <input type="button" name="submit" value="SUBMIT" ng-click="SendOffer(offer)" ng-disabled="myForm.name.$invalid 
+                                    ||  myForm.email.$invalid ||  myForm.phone.$invalid ||  myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid ||  myForm.time.$invalid">
+                                <br>
+                                <center/> {{loginResult}}
+                            </p>
+                            <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
+                        </fieldset>
+                    </center>
+                </center>
+            </form>
         </div>
+    </div>
+</body>
+<script>
+    $('#datetimepicker').datetimepicker({
+        dayOfWeekStart: 1,
+        lang: 'en',
+        disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
+        startDate: '1986/01/05'
+    });
+    $('#datetimepicker').datetimepicker({
+        value: '2015/04/15 05:03',
+        step: 10
+    });
+    $('.some_class').datetimepicker();
 
-    </body>
+    $('#default_datetimepicker').datetimepicker({
+        formatTime: 'H:i',
+        formatDate: 'd.m.Y',
+        //defaultDate:'8.12.1986', // it's my birthday
+        defaultDate: '+03.01.1970', // it's my birthday
+        defaultTime: '10:00',
+        timepickerScrollbar: false
+    });
 
-    </html>
+    $('#datetimepicker10').datetimepicker({
+        step: 5,
+        inline: true
+    });
+    $('#datetimepicker_mask').datetimepicker({
+        mask: '9999/19/39 29:59'
+    });
+
+    $('#datetimepicker1').datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        step: 5
+    });
+    $('#datetimepicker2').datetimepicker({
+        yearOffset: 222,
+        lang: 'ch',
+        timepicker: false,
+        format: 'd/m/Y',
+        formatDate: 'Y/m/d',
+        minDate: '-1970/01/02', // yesterday is minimum date
+        maxDate: '+1970/01/02' // and tommorow is maximum date calendar
+    });
+    $('#datetimepicker3').datetimepicker({
+        inline: true
+    });
+    $('#datetimepicker4').datetimepicker();
+    $('#open').click(function() {
+        $('#datetimepicker4').datetimepicker('show');
+    });
+    $('#close').click(function() {
+        $('#datetimepicker4').datetimepicker('hide');
+    });
+    $('#reset').click(function() {
+        $('#datetimepicker4').datetimepicker('reset');
+    });
+    $('#datetimepicker5').datetimepicker({
+        datepicker: false,
+        allowTimes: ['12:00', '13:00', '15:00', '17:00', '17:05', '17:20', '19:00', '20:00'],
+        step: 5
+    });
+    $('#datetimepicker6').datetimepicker();
+    $('#destroy').click(function() {
+        if ($('#datetimepicker6').data('xdsoft_datetimepicker')) {
+            $('#datetimepicker6').datetimepicker('destroy');
+            this.value = 'create';
+        } else {
+            $('#datetimepicker6').datetimepicker();
+            this.value = 'destroy';
+        }
+    });
+    var logic = function(currentDateTime) {
+        if (currentDateTime && currentDateTime.getDay() == 6) {
+            this.setOptions({
+                minTime: '11:00'
+            });
+        } else
+            this.setOptions({
+                minTime: '8:00'
+            });
+    };
+    $('#datetimepicker7').datetimepicker({
+        onChangeDateTime: logic,
+        onShow: logic
+    });
+    $('#datetimepicker8').datetimepicker({
+        onGenerate: function(ct) {
+            $(this).find('.xdsoft_date')
+                .toggleClass('xdsoft_disabled');
+        },
+        minDate: '-1970/01/2',
+        maxDate: '+1970/01/2',
+        timepicker: false
+    });
+    $('#datetimepicker9').datetimepicker({
+        onGenerate: function(ct) {
+            $(this).find('.xdsoft_date.xdsoft_weekend')
+                .addClass('xdsoft_disabled');
+        },
+        weekends: ['01.01.2014', '02.01.2014', '03.01.2014', '04.01.2014', '05.01.2014', '06.01.2014'],
+        timepicker: false
+    });
+    var dateToDisable = new Date();
+    dateToDisable.setDate(dateToDisable.getDate() + 2);
+    $('#datetimepicker11').datetimepicker({
+        beforeShowDay: function(date) {
+            if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                return [false, ""]
+            }
+
+            return [true, ""];
+        }
+    });
+    $('#datetimepicker12').datetimepicker({
+        beforeShowDay: function(date) {
+            if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                return [true, "custom-date-style"];
+            }
+
+            return [true, ""];
+        }
+    });
+    $('#datetimepicker_dark').datetimepicker({
+        theme: 'dark'
+    })
+</script>
+
+</html>

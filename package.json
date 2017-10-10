@@ -1,12 +1,12 @@
 {
-  "name": "Carpool",
-  "version": "1.0.0",
-  "description": "Carpool Node.js on Docker",
-  "author": "Sujoy Ghosal <gsujoy@yahoo.com>",
-  "main": "carpool.js",
+  "name": "usergrid-node",
+  "version": "0.0.0",
+  "description": "Usergrid Proxy",
+  "main": "server-usergrid.js",
   "dependencies": {
-    "express": "^4.13.3",
-    "body-parser": "1.14.2",
-    "usergrid": "0.10.11"
+    "angular-bootstrap-datetimepicker": "^1.1.4",
+    "argo": "x.x.x",
+    "express": "3.x.x",
+    "usergrid": "x.x.x"
   }
 }

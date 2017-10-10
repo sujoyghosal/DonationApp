@@ -27,8 +27,8 @@ app.use(express.json());
 var ug = new usergrid.client({
     'orgName': 'sujoyghosal',
     'appName': 'DONATEINDIA',
-    'clientId': 'YXA6larGwMGAEeWLKesJUX2s_Q',
-    'clientSecret': 'YXA66T9rvgD87IwjKZJcm9-hXjsBGrk',
+    'clientId': 'YXA6dTv62KmMEeetMhIuBzeXfQ',
+    'clientSecret': 'YXA6KTLqcZ1HI981e5PuvWg4eWkAVdU',
     logging:    true
 });
 

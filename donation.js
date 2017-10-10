@@ -1,5 +1,4 @@
 var express = require('express');
-var bodyParser = require('body-parser')
 var usergrid = require('usergrid');
 
 
@@ -21,22 +20,16 @@ var allowCrossDomain = function(req, res, next) {
 var app = express();
 app.use(allowCrossDomain);
 //app.use(express.bodyParser());
-//app.use(express.urlencoded());
-//app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.json());
 // Initialize Usergrid
-// parse various different custom JSON types as JSON 
-app.use(bodyParser.json({ type: 'application/*+json' }))
- 
-// parse some custom thing into a Buffer 
-app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
- 
-// parse an HTML body into a string 
-app.use(bodyParser.text({ type: 'text/html' }))
+
 var ug = new usergrid.client({
     'orgName': 'sujoyghosal',
-    'appName': 'rideshare',
-    'clientId': 'YXA6cRy90I7XEeW3w8FZA2DhQg',
-    'clientSecret': 'YXA6Ia6ex7xPsJK7hrhLky5ZvP03CbQ',
+    'appName': 'FREECYCLE',
+    'URI': 'https://apibaas-trial.apigee.net',
+    'clientId': 'YXA6G1hmX-hzEea1pBIuBzeXfQ',
+    'clientSecret': 'YXA6c7dP5Vh70lI3N1VHoQfP1lvlstQ',
     logging:    true
 });
 
@@ -47,37 +40,37 @@ var loggedIn = null;
 // GET / 
 
 var rootTemplate = {
-  'rideshare': { 'href': './rideshare' }
+  'donations': { 'href': './donations' }
 };
 
 
 app.get('/', function(req, resp) {
 //    resp.jsonp(rootTemplate);
   	  out = "Hey, are you looking for something?";
-      out += "  Use /allrideshare to get all rideshare or createrideshare with name=value pairs to create a rideshare";
+      out += "  Use /alldonations to get all donations or createdonations with name=value pairs to create a donations";
       resp.jsonp(out);      
 });
 
 // GET 
 var userid;
-app.get('/allrideshare', function(req, res) {
+app.get('/alldonations', function(req, res) {
     if (loggedIn === null) {
-      logIn(req, res, getrideshare);
+      logIn(req, res, getalldonations);
     } else {
       userid = req.param('userid');
-      getrideshare(req, res);
+      getalldonations(req, res);
     }//qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
 });
 
 var options = {
-      type: "wiprorideshares?limit=100",
+      type: "donations?limit=100",
       qs : {"ql": "user_id='" + userid + "'"}
     };
 //Call request to initiate the API call
 
-function getrideshare(req, res) {
+function getalldonations(req, res) {
      
-  loggedIn.createCollection({ type: 'wiprorideshares?limit=100' }, function(err, rideshare) {
+  loggedIn.createCollection({ type: 'donations?limit=100' }, function(err, donations) {
 //    loggedIn.createCollection(options, function(err, ngccnotifications) {
 //  loggedIn.request({ options, function(err, ngccnotifications) {      
         if (err) {
@@ -85,49 +78,50 @@ function getrideshare(req, res) {
           return;
         }
         
-        var allrideshare = [];
-        while (rideshare.hasNextEntity()) {
-          var arideshare = rideshare.getNextEntity().get();
-          allrideshare.push(arideshare);
+        var alldonations = [];
+        while (donations.hasNextEntity()) {
+          var adonations = donations.getNextEntity().get();
+          alldonations.push(adonations);
         }
-        res.jsonp(allrideshare);
+        res.jsonp(alldonations);
     });
 }
 
-var rides_query='';
-app.get('/getrides', function(req, res) {
+var donations_query='';
+app.get('/getdonations', function(req, res) {
     var paramname = req.param('paramname');
     var paramvalue = req.param('paramvalue');
-    rides_query = {
-		type:"wiprorideshares?limit=100", //Required - the type of collection to be retrieved
+    donations_query = {
+		type:"donations?limit=100", //Required - the type of collection to be retrieved
           qs: {"ql": paramname +"='" + paramvalue + "'"}
 	};
 	if(paramname === 'uuid'){
-	 rides_query = {
-		"type":"wiprorideshares", //Required - the type of collection to be retrieved
+	 donations_query = {
+		"type":"donations", //Required - the type of collection to be retrieved
         "uuid": paramvalue
 	};
 	}
     if (loggedIn === null) {
-      logIn(req, res, getrides);
+      logIn(req, res, getdonations);
     } else {
-      getrides(req, res);
+      getdonations(req, res);
     }//qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
 });
 
 
-function getrides(req, res) {
-  loggedIn.createCollection(rides_query, function(err, rideshare) {
+function getdonations(req, res) {
+  loggedIn.createCollection(donations_query, function(err, donations) {
         if (err) {
           res.jsonp(500, {'error': JSON.stringify(err) });
           return;
         }
-        var allrideshare = [];
-        while (rideshare.hasNextEntity()) {
-          var arideshare = rideshare.getNextEntity().get();
-          allrideshare.push(arideshare);
+        var alldonations = [];
+        while (donations.hasNextEntity()) {
+          var adonations = donations.getNextEntity().get();
+          
+          alldonations.push(adonations);
         }
-        res.jsonp(allrideshare);
+        res.jsonp(alldonations);
     });
 }
 var group_query = '';
@@ -150,7 +144,7 @@ app.get('/getusersingroup', function(req, res) {
 function getusersingroup(req, res) {
   loggedIn.request(group_query, function (err, users) {
         if (err) {
-            res.send("ERROR");
+            res.send("ERROR - " + JSON.stringify(err));
         } else {
             res.send(users.entities);
         }
@@ -264,8 +258,10 @@ function updateusersettings(req, res) {
           //  res.send(entity);
             var settings = {
                 'pushon':req.param('pushon'),
-                'pushstarttime':req.param('starttime'),
-                'pushstoptime':req.param('stoptime'),
+                'pushstarttimehrs':req.param('starttimehrs'),
+                'pushstoptimehrs':req.param('stoptimehrs'),
+                'pushstarttimemin':req.param('starttimemin'),
+                'pushstoptimemin':req.param('stoptimemin')
             };
             entity.set('settings', settings);
             entity.save(function (err) {
@@ -279,34 +275,30 @@ function updateusersettings(req, res) {
     });
 }
 var uuid='';
-var currentcount='';
-var maxcount='';
 var updateoptions='';
-var passenger={};
+var receiver={};
 var acceptoptions='';
 
-app.get('/acceptride', function(req, res) {
+app.get('/acceptdonation', function(req, res) {
     uuid = req.param('uuid');
-    currentcount = req.param('currentcount');
-    currentcount = +currentcount + 1;
-    maxcount = req.param('maxcount');
-    passenger = {
-	    "passenger_name": req.param('passenger_name'),
-        "passenger_phone": req.param('passenger_phone'),
-        "passenger_email": req.param('passenger_email'),
-        "passenger_uuid": req.param('passenger_uuid')
+    
+    receiver = {
+	    "receiver_name": req.param('receiver_name'),
+        "receiver_phone": req.param('receiver_phone'),
+        "receiver_email": req.param('receiver_email'),
+        "receiver_uuid": req.param('receiver_uuid'),
+        "received_time": req.param('received_time')
 	};
-    updateoptions = {
-        "cuurentcount": currentcount,
-        "passengers": passenger,
+    updateoptions = {        
+        "receiver": receiver,
         "status": "Accepted"
 	};
-	var acname = uuid + req.param('passenger_email');
+	var acname = uuid + req.param('receiver_email');
 	acceptoptions = {
-        "rideid": uuid,
+        "donationid": uuid,
         "name": acname,
-        "passenger": passenger,
-        "status": "accepted"
+        "receiver": receiver,
+        "status": "Accepted"
 	};
 /*    if (loggedIn === null) {
       logIn(req, res, updatecount);
@@ -316,23 +308,23 @@ app.get('/acceptride', function(req, res) {
     }*///qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
     if (loggedIn === null) {
         logIn(req, res, function() {
-        //    acceptRide(acceptoptions,updateoptions, req, res);
-        acceptride(1, uuid, req, res);
+        //    acceptdonation(acceptoptions,updateoptions, req, res);
+        acceptdonation(uuid, req, res);
         });
     } else {
-        //acceptRide(acceptoptions,updateoptions, req, res);
-        acceptride(1, uuid, req, res);
+        //acceptdonation(acceptoptions,updateoptions, req, res);
+        acceptdonation(uuid, req, res);
     }
 });
 
 
-function acceptride(incr,uuid, req, res) {
+function acceptdonation(uuid, req, res) {
   var opt =  {
-		"type": "wiprorideshares", //Required - the type of collection to be retrieved
+		"type": "donations", //Required - the type of collection to be retrieved
         "uuid": uuid
   };
    
-  loggedIn.getEntity(opt, function(err, rideshare) {
+  loggedIn.getEntity(opt, function(err, donations) {
 //    loggedIn.createCollection(options, function(err, ngccnotifications) {
 //  loggedIn.request({ options, function(err, ngccnotifications) {      
         if (err) {
@@ -340,35 +332,12 @@ function acceptride(incr,uuid, req, res) {
           return;
         }
         
-//        res.send(rideshare._data.passengers.length);
+//        res.send(donations._data.passengers.length);
 //        return;
-        if(!rideshare._data.passengers || rideshare._data.passengers.length === 0){
-            var p = [];
-            p.push(passenger);
-            rideshare.set('passengers',p);
-        } else {
-              for (var i=0; i < rideshare._data.passengers.length; i++) {
-              var apasseneger = rideshare._data.passengers[i];
-              if(apasseneger.passenger_email === passenger.passenger_email){
-                  res.send("Already Accepted");
-                  return;
-              }
-            }
-            rideshare._data.passengers.push(passenger);
-        }
-        var currentcount = rideshare.get('currentcount');
-        var maxcount = rideshare.get('maxcount');
-        
-        currentcount = +currentcount + (+incr);
-        if(+currentcount <= +maxcount && +currentcount >= 0)
-            rideshare.set('currentcount', +currentcount);
-        if(+currentcount == +maxcount){
-            res.jsonp("Reached max count " + maxcount);
-            
-        }
-        
-//        rideshare.set('passengers',  passengers);
-        rideshare.save(function(err){
+        donations.set('receiver',receiver);
+        donations.set('status', req.param('status'));
+
+        donations.save(function(err){
         if (err){
         //error - user not updated
         //  res.jsonp(500, {'error': JSON.stringify(err) });
@@ -376,76 +345,70 @@ function acceptride(incr,uuid, req, res) {
           return;
         } else {
         //success - user updated
-           res.jsonp(rideshare);
+           res.jsonp(donations);
         }
         });
     });
 }
 
-var arides_query='';
-app.get('/acceptedrides', function(req, res) {
+var adonations_query='';
+app.get('/accepteddonations', function(req, res) {
     var email = req.param('email');
     
     if (loggedIn === null) {
         logIn(req, res, function() {
-            acceptedrides(email, req, res);
+            accepteddonations(email, req, res);
         });
     } else {
-        acceptedrides(email, req, res);
+        accepteddonations(email, req, res);
     }
 });
 
 
-function acceptedrides(email, req, res) {
+function accepteddonations(email, req, res) {
   var opt = {
-      "type": "wiprorideshares",
-      qs: {"ql": "status='active'"}
+      "type": "donations",
+      qs: {"ql": "status='ACCEPTED' && receiver.receiver_email='" + email + "'"}
   };
-  loggedIn.createCollection(opt, function(err, rideshare) {
+  loggedIn.createCollection(opt, function(err, donations) {
         if (err) {
           res.jsonp(500, {'error': JSON.stringify(err) });
           return;
         }
-//        res.jsonp(rideshare._list[0]._data.passengers);
+//        res.jsonp(donations._list[0]._data.passengers);
 //        return;
-        var accepted_rides = [];
-        if(!rideshare._list || rideshare._list.length === 0){
-            res.send("You Have No Accepted Rides.");
+        var accepted_donations = [];
+        if(!donations._list || donations._list.length === 0){
+            res.send("You Have No Accepted donations.");
             return;
         } else {
-                for (var i=0; i < rideshare._list.length; i++) {
-                    if(rideshare._list[i]._data.passengers && rideshare._list[i]._data.passengers.length > 0){
-                        for (var j=0; j < rideshare._list[i]._data.passengers.length; j++) {
-                            if(rideshare._list[i]._data.passengers[j].passenger_email === email){
-                              accepted_rides.push(rideshare._list[i]);
-                            } 
-                        }
-                    }
+                for (var i=0; i < donations._list.length; i++) {
+                    accepted_donations.push(donations._list[i]);
                 }
             }
-        if(accepted_rides && accepted_rides.length > 0)
-            res.send(accepted_rides);
+        if(accepted_donations && accepted_donations.length > 0)
+            res.send(accepted_donations);
         else
-            res.send("You Have No Accepted Rides.");
+            res.send("You Have No Accepted donations.");
     });
 }
-var arides_query='';
-app.get('/getpassengersforride', function(req, res) {
+var adonations_query='';
+app.get('/getpassengersfordonation', function(req, res) {
     var uuid = req.param('uuid');
     
     if (loggedIn === null) {
         logIn(req, res, function() {
-            getpassengersforride(uuid, req, res);
+            getpassengersfordonation(uuid, req, res);
         });
     } else {
-        getpassengersforride(uuid, req, res);
+        getpassengersfordonation(uuid, req, res);
     }
 });
 
 
-function getpassengersforride(uuid, req, res) {
+function getpassengersfordonation(uuid, req, res) {
     var query = {
-        type: 'wiprorideshares',
+        type: 'donations',
         uuid: uuid
     };
     loggedIn.getEntity(query, function (err, entity) {
@@ -458,7 +421,7 @@ function getpassengersforride(uuid, req, res) {
         });
 };
 
-var arides_query='';
+var adonations_query='';
 app.get('/getgcmidsbyuser', function(req, res) {
     var uuid = req.param('uuid');
     
@@ -487,7 +450,7 @@ function getgcmidsbyuser(uuid, req, res) {
         });
 };
 
-var arides_query='';
+var adonations_query='';
 app.get('/getuserbyuuid', function(req, res) {
     var uuid = req.param('uuid');
     
@@ -531,7 +494,7 @@ app.get('/canceloffer', function(req, res) {
 
 function canceloffer(uuid, req, res) {
   var opt = {
-      "type": "wiprorideshares",
+      "type": "donations",
       "uuid": uuid
   };
   loggedIn.getEntity(opt, function(err, o) {
@@ -545,53 +508,43 @@ function canceloffer(uuid, req, res) {
         	} else {
         		//success - user deleted from database
         		o = null; //blow away the local object
-        		res.send("Successfully Cancelled Offered Ride.");
+        		res.send("Successfully Cancelled Offered donation.");
         	}
         });
     });
 }
 
 
-app.get('/cancelacceptedride', function(req, res) {
+app.get('/cancelaccepteddonation', function(req, res) {
     var uuid = req.param('uuid');
-//    var auuid = req.param('auuid');
-    var currentcount = req.param('currentcount');
-    currentcount = +currentcount + 1;
-    var maxcount = req.param('maxcount');
-    var passenger_email = req.param('passenger_email');
+    var receiver_email = req.param('receiver_email');
         
 	
     updateoptions = {
-		"type": "wiprorideshares", //Required - the type of collection to be retrieved
+		"type": "donations", //Required - the type of collection to be retrieved
         "uuid": uuid,
 	};
 	
     if (loggedIn === null) {
         logIn(req, res, function() {
-            cancelRide(passenger_email,updateoptions, req, res);
+            canceldonation(receiver_email,updateoptions, req, res);
         });
     } else {
-        cancelRide(passenger_email,updateoptions, req, res);
+        canceldonation(receiver_email,updateoptions, req, res);
     }
 });
-function cancelRide(e, updateoptions, req, res) {
+function canceldonation(e, updateoptions, req, res) {
     loggedIn.getEntity(updateoptions, function(err, o) {
         if (err) {
             res.jsonp(500, err);
             return;
         }
-        for(var i = o._data.passengers.length - 1; i >= 0; i--) {
-            if(o._data.passengers[i].passenger_email === e) {
-                o._data.passengers.splice(i, 1);
+            if(o._data.receiver.receiver_email === e) {
+               o.set('receiver',"");
+               o.set('status', 'OFFERED');
             }
-        }
-        var cc = o._data.currentcount;
-            cc = +cc - 1;
-            if(+cc > 0)
-                o.set('currentcount',cc);
-            else {
-                o.set('currentcount',0);
-            }
+        
+        
             
             o.save(function(err) {
             if (err) {
@@ -606,7 +559,7 @@ function cancelRide(e, updateoptions, req, res) {
     });
 }
 
-app.get('/createrideshare', function(req, res) {
+app.get('/createdonations', function(req, res) {
    
     var b = req.body;
     var name = req.param('email') + '-' + req.param('time');
@@ -614,16 +567,13 @@ app.get('/createrideshare', function(req, res) {
       'name': name,
       'offeredby': req.param('offeredby'),
       'from_place': req.param('from_place'),
-      'to_place': req.param('to_place'),
-      'via': req.param('via'),
       'city': req.param('city'),
       'state': req.param('state'),
       'phone_number': req.param('phone_number'),
       'email': req.param('email'),
-      'maxcount': req.param('maxcount'),
       'currentcount': '0',
-      'vehicle_type': req.param('vehicle_type'),
-      'status': 'active',
+      'items': req.param('items'),
+      'status': 'OFFERED',
       'time': req.param('time'),
       'location': {	
 		'latitude': req.param('latitude'),
@@ -633,16 +583,16 @@ app.get('/createrideshare', function(req, res) {
     
     if (loggedIn === null) {
         logIn(req, res, function() {
-            createrideshare(e, req, res);
+            createdonations(e, req, res);
         });
     } else {
-        createrideshare(e, req, res);
+        createdonations(e, req, res);
     }
 });
 
-function createrideshare(e, req, res) {
+function createdonations(e, req, res) {
     var opts = {
-        type: 'wiprorideshares',
+        type: 'donations',
 //        name: 'Dominos' 
     };
     loggedIn.createEntity(opts, function(err, o) {
@@ -664,7 +614,7 @@ function createrideshare(e, req, res) {
 
 
 var geo_query = '';
-app.get('/vicinityrideshare', function(req, res) {
+app.get('/vicinitydonations', function(req, res) {
   		var criteria = 'location within ' + req.param('radius') + ' of ' + req.param('latitude') + ', ' + req.param('longitude');
   		var count=100;
   		if (req.param('nearest') == '') {
@@ -674,33 +624,33 @@ app.get('/vicinityrideshare', function(req, res) {
           count=req.param('nearest');
  		}
     	geo_query = {
-		type:"wiprorideshares?limit=" + count, //Required - the type of collection to be retrieved
+		type:"donations?limit=" + count, //Required - the type of collection to be retrieved
 //		qs:criteria
 //        qs: {"ql": "location within 500 of 51.5183638, -0.1712939000000233"}
           qs: {"ql": criteria}
 	};
    
   if (loggedIn === null) {
-      logIn(req, res, getridesharebylocation);
+      logIn(req, res, getdonationsbylocation);
     } else {
 //      userid = req.param('userid');
-//      alert("Calling getridesharebylocation');
-      getridesharebylocation(req, res);
+//      alert("Calling getdonationsbylocation');
+      getdonationsbylocation(req, res);
     }
   	
 });
 
-function getridesharebylocation(req, res) {
+function getdonationsbylocation(req, res) {
   	
-    loggedIn.createCollection(geo_query, function(err, rideshare) {     
+    loggedIn.createCollection(geo_query, function(err, donations) {     
         if (err) {
-          res.jsonp(500, {'getridesharebylocation_error': JSON.stringify(err) });
+          res.jsonp(500, {'getdonationsbylocation_error': JSON.stringify(err) });
           return;
         }
         
-        var allrideshare = [];
-        while (rideshare.hasNextEntity()) {
-          var arow = rideshare.getNextEntity().get();
+        var alldonations = [];
+        while (donations.hasNextEntity()) {
+          var arow = donations.getNextEntity().get();
 /*          var e = { 'ID': arow.uuid,
             		'name': arow.name,
                     'street': arow.street,
@@ -716,9 +666,9 @@ function getridesharebylocation(req, res) {
 			'EatOut': arow.eatout,
 			'Hiking': arow.hiking,
                    'Created': deal.created};*/
-          allrideshare.push(arow);
+          alldonations.push(arow);
         }
-        res.jsonp(allrideshare);
+        res.jsonp(alldonations);
     });
 }
 app.get('/creategroup', function (req, res) {
@@ -788,7 +738,6 @@ app.get('/createuser', function (req, res) {
     var fullname = req.param('fullname');
     var password = req.param('password');
     var email = req.param('email');
-    var dept = req.param('dept');
     var phone = req.param('phone');
 
     var options = {
@@ -800,8 +749,7 @@ app.get('/createuser', function (req, res) {
             email: email,
             fullname: fullname,
             password: password,
-            phone: phone,
-            dept: dept
+            phone: phone
         }
     };
 
@@ -873,7 +821,7 @@ var login_query = '';
 
 function logIn(req, res, next) {
     console.log('Logging in as %s', 'sujoyghosal');
-    ug.login('sujoyghosal', 'Kolkata41', function(err) {
+    ug.login('sujoyghosal', 'Kolkata1', function(err) {
         if (err) {
           console.log('Login failed: %s', JSON.stringify(err));
           res.jsonp(500, {error: err});
@@ -882,7 +830,8 @@ function logIn(req, res, next) {
         
         loggedIn = new usergrid.client({
             'orgName' :  'sujoyghosal',
-            'appName' :  'rideshare',
+            'appName' :  'FREECYCLE',
+            'URI': 'https://apibaas-trial.apigee.net',
             'authType' : usergrid.AUTH_APP_USER,
             'token':     ug.token,
             logging:     true

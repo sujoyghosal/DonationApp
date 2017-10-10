@@ -121,7 +121,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
         //   var filterdatetime = $filter('datetmUTC')( offerDate );
     
     
-        var sendURL = "http://sujoyghosal-test.apigee.net/donation/createdonations?email="
+        var sendURL = "http://localhost:9000/createdonations?email="
             + $scope.login_email + "&offeredby=" + offer.name + "&phone_number=" + offer.phone + "&time=" + filteredtime + "&city=" + offer.city + "&status=OFFERED"
             + "&from_place=" + offer.from + "&items=" + offer.items;
         $scope.loginResult = "Sent Request";
@@ -168,7 +168,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
         }
         $scope.spinner = true;
 
-        var notifyURL = encodeURI("http://sujoyghosal-test.apigee.net/sendpush/devicespush?regids=" + gcmids + "&text=" + text);
+        var notifyURL = encodeURI("http://localhost:9000/sendpush/devicespush?regids=" + gcmids + "&text=" + text);
         console.log("SendPush: notifyURL=" + notifyURL);
         $http({
             method: 'GET',
@@ -185,7 +185,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
     var notifyUsersInGroup = function (group, from, time, by, phone) {
         $scope.spinner = true;   
         //first create group with id=<city>-<place>
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/getusersingroup?group=" + group;
+        var getURL = "http://localhost:9000/getusersingroup?group=" + group;
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
@@ -250,7 +250,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
         if (!paramname || !paramvalue)
             return;
         param_name = paramname.trim();
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/getdonations?paramname="
+        var getURL = "http://localhost:9000/getdonations?paramname="
             + param_name + "&paramvalue=" + paramvalue.trim();
         getURL = encodeURI(getURL);
         $http({
@@ -309,7 +309,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
         $scope.spinner = true;
         $scope.result = "Sending Request....";
         //first create group with id=<city>-<place>
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/creategroup?group=";
+        var getURL = "http://localhost:9000/creategroup?group=";
         var group = '';
         if (type === "to") {
             group = "TO-" + data.citySelect.toString().trim().toUpperCase() + "-" + data.to.toString().trim().toUpperCase();
@@ -343,7 +343,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
     var addUserToGroup = function (group, user) {
         $scope.spinner = true;   
         //first create group with id=<city>-<place>
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/addusertogroup?group=" + group + "&user=" + user;
+        var getURL = "http://localhost:9000/addusertogroup?group=" + group + "&user=" + user;
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
@@ -366,7 +366,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
     var getUsersInGroup = function (group) {
         $scope.spinner = true;   
         //first create group with id=<city>-<place>
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/getusersingroup?group=" + group;
+        var getURL = "http://localhost:9000/getusersingroup?group=" + group;
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
@@ -389,7 +389,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
     function SendPushToUserByEmail(email, text) {
 
         $scope.spinner = true;
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/getuser?email=" + email.trim();
+        var getURL = "http://localhost:9000/getuser?email=" + email.trim();
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
@@ -428,7 +428,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
         }
         $scope.spinner = true;
         //first create group with id=<city>-<place>
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/getuser?email=" + email.trim();
+        var getURL = "http://localhost:9000/getuser?email=" + email.trim();
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
@@ -463,7 +463,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
         }
         console.log("Attempting to send push to uuid: " + uuid + " with text: " + text);    
         //first create group with id=<city>-<place>
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/getuserbyuuid?uuid=" + uuid.trim();
+        var getURL = "http://localhost:9000/getuserbyuuid?uuid=" + uuid.trim();
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
@@ -509,7 +509,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
         var stoptimemin = new Date(settings.totime).getMinutes();
 
         $scope.spinner = true;
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/updateusersettings?uuid=" + $scope.uuid + "&starttimehrs=" + starttimehrs
+        var getURL = "http://localhost:9000/updateusersettings?uuid=" + $scope.uuid + "&starttimehrs=" + starttimehrs
             + "&starttimemin=" + starttimemin + "&stoptimehrs=" + stoptimehrs + "&stoptimemin=" + stoptimemin + "&pushon=" + settings.pushon;
         getURL = encodeURI(getURL);
         $http({
@@ -537,7 +537,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
         var loggedinUser = UserService.getLoggedIn();
         var receiveTime = new Date();
         var filteredtime = $filter('date')(receiveTime, 'medium');
-        var updateURL = "http://sujoyghosal-test.apigee.net/donation/acceptdonation?uuid=" + row.uuid
+        var updateURL = "http://localhost:9000/acceptdonation?uuid=" + row.uuid
             + "&receiver_name=" + loggedinUser.fullname
             + "&receiver_phone=" + loggedinUser.phone
             + "&receiver_email=" + loggedinUser.email
@@ -583,7 +583,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
 
     $scope.GetdonationAcceptances = function (row, cancel) {
         $scope.spinner = true;
-        var acceptsURL = "http://sujoyghosal-test.apigee.net/donation/getdonationacceptances?uuid=" + row.uuid;
+        var acceptsURL = "http://localhost:9000/getdonationacceptances?uuid=" + row.uuid;
         $http({
             method: 'GET',
             url: acceptsURL
@@ -606,7 +606,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
 
     $scope.GetAcceptedDonations = function (email) {
         $scope.spinner = true;
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/accepteddonations?email=" + email.trim();
+        var getURL = "http://localhost:9000/accepteddonations?email=" + email.trim();
         getURL = encodeURI(getURL);
         $http({
             method: 'GET',
@@ -638,7 +638,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
     };
     $scope.CancelOffer = function (row) {
         $scope.spinner = true;
-        var cancelURL = "http://sujoyghosal-test.apigee.net/donation/canceloffer?uuid=" + row.uuid;
+        var cancelURL = "http://localhost:9000/canceloffer?uuid=" + row.uuid;
 
         $http({
             method: 'GET',
@@ -668,7 +668,7 @@ app.controller('DonationCtrl', function ($scope, $http, $filter, UserService) {
         //   $scope.uuid = ''; 
         //    $scope.GetdonationAcceptances(row);    
         $scope.spinner = true;
-        var cancelURL = "http://sujoyghosal-test.apigee.net/donation/cancelaccepteddonation?uuid=" + row.uuid + "&receiver_email=" + UserService.getLoggedIn().email;
+        var cancelURL = "http://localhost:9000/cancelaccepteddonation?uuid=" + row.uuid + "&receiver_email=" + UserService.getLoggedIn().email;
         $http({
             method: 'GET',
             url: cancelURL
@@ -767,7 +767,7 @@ app.controller('LoginCtrl', function ($scope, $http, $location, $routeParams, Us
     // alert($scope.showNav + "," + $scope.login_email.length);
     $scope.Login = function (login) {
         $scope.spinner = true;
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/getuser?email="
+        var getURL = "http://localhost:9000/getuser?email="
             + login.email.trim();
 
         getURL = encodeURI(getURL);
@@ -822,7 +822,7 @@ app.controller('RegisterCtrl', function ($scope, $http, $location, UserService) 
 
     $scope.CreateUser = function (user) {
         $scope.spinner = true;
-        var getURL = "http://sujoyghosal-test.apigee.net/donation/createuser?email="
+        var getURL = "http://localhost:9000/createuser?email="
             + user.email.trim() + "&phone=" + user.phone.trim() + "&dept=" + user.dept.trim() + "&fullname=" + user.fullname.trim() + "&password=" + user.password;
         getURL = encodeURI(getURL);
 
