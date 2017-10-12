@@ -3,65 +3,63 @@
 
 <head>
 
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="css/login.css">
-  <title>Donate India</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/login.css">
+    <title>Donate India</title>
 
 </head>
 
 <body ng-app="myApp">
 
+    <br>
+    <br>
+    <div class="container">
 
-  <br>
-  <br>
-  <div class="container">
+        <div id="login">
 
-    <div id="login">
+            <center>
+                <form class="form-horizontal" ng-controller="RegisterCtrl" name="myForm">
 
-      <center>
-        <form class="form-horizontal" ng-controller="RegisterCtrl" name="myForm">
+                    <legend>
+                        <h4/>YOUR INFO
+                    </legend>
+                    <br>
+                    <fieldset class="clearfix">
+                        <p><span class="fontawesome-user"></span>
+                            <input type="text" ng-model="login.fullname" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''" required>
+                        </p>
+                        <p><span class="fontawesome-group"></span>
+                            <input type="text" ng-model="login.dept" value="Department" onBlur="if(this.value == '') this.value = 'Department'" onFocus="if(this.value == 'Department') this.value = ''" required>
+                        </p>
+                        <p><span class="fontawesome-envelope"></span>
+                            <input type="email" ng-model="login.email" value="EMail" onBlur="if(this.value == '') this.value = 'EMail'" onFocus="if(this.value == 'EMail') this.value = ''" required>
+                        </p>
+                        <!-- JS because of IE support; better: placeholder="Username" -->
+                        <p><span class="fontawesome-lock"></span>
+                            <input type="password" ng-model="login.password" value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required>
+                        </p>
+                        <p><span class="fontawesome-phone"></span>
+                            <input type="text" ng-model="login.phone" value="Phone" onBlur="if(this.value == '') this.value = 'Phone'" onFocus="if(this.value == 'Phone') this.value = ''" required>
+                        </p>
+                        <p><span class="fa fa-map-marker"></span>
+                            <textarea rows="4" cols="50" id="address" name="address" ng-model="login.address" ng-minlength="2" placeholder="Address" class="form-control input-md" ng-required="true">
+                          <h2 ng-show="myForm.address.$dirty && myForm.address.$invalid">Invalid Address</h2>
+                          </textarea>
+                        </p>
+                        <!-- JS because of IE support; better: placeholder="Password" -->
+                        <p>
+                            <input type="button" value="SUBMIT" ng-click="CreateUser(login)">{{result}}
+                        </p>
+                        <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
 
+                    </fieldset>
 
-          <legend>
-            <h4/>YOUR INFO
-          </legend>
-          <br>
-          <fieldset class="clearfix">
-            <p><span class="fontawesome-user"></span>
-              <input type="text" ng-model="login.fullname" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''"
-              required>
-            </p>
-            <p><span class="fontawesome-group"></span>
-              <input type="text" ng-model="login.dept" value="Department" onBlur="if(this.value == '') this.value = 'Department'" onFocus="if(this.value == 'Department') this.value = ''"
-              required>
-            </p>
-            <p><span class="fontawesome-envelope"></span>
-              <input type="email" ng-model="login.email" value="EMail" onBlur="if(this.value == '') this.value = 'EMail'" onFocus="if(this.value == 'EMail') this.value = ''"
-              required>
-            </p>
-            <!-- JS because of IE support; better: placeholder="Username" -->
-            <p><span class="fontawesome-lock"></span>
-              <input type="password" ng-model="login.password" value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''"
-              required>
-            </p>
-            <p><span class="fontawesome-phone"></span>
-              <input type="text" ng-model="login.phone" value="Phone" onBlur="if(this.value == '') this.value = 'Phone'" onFocus="if(this.value == 'Phone') this.value = ''"
-              required>
-            </p>
-            <!-- JS because of IE support; better: placeholder="Password" -->
-            <p>
-              <input type="button" value="SUBMIT" ng-click="CreateUser(login)">{{result}}
-            </p>
-            <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
-
-          </fieldset>
-
-        </form>
-      </center>
+                </form>
+            </center>
+        </div>
+        <!-- end login -->
+        {{result}}
     </div>
-    <!-- end login -->
-    {{result}}
-  </div>
 
 </body>
 

@@ -93,7 +93,7 @@
                             <td>{{row.items}}</td>
                             <td>{{row.status}}</td>
                             <td>{{row.time | date: 'short'}}</td>
-                            <td>{{row.from_place}}</td>
+                            <td>{{row.address}}</td>
                             <td ng-hide="HaveIAcceptedThisDonation(row, login_email)">
                                 <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'ACCEPTED')">ACCEPT DONATION</button>
                                 <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'REJECTED')">REJECT DONATION</button>
