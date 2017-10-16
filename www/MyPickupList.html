@@ -40,28 +40,9 @@
                     <table class="table table-bordered" id="donationstable" ng-show="alldonations" id="searchTextResults">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>City</th>
-                                <th ng-click="orderByField='_data.offeredby'; reverse = !reverse" nowrap>Offered By
-                                    <span ng-show="orderByField == '_data.offeredby'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-                                <th ng-click="orderByField='_data.email'; reverse = !reverse" nowrap>EMail
-                                    <span ng-show="orderByField == '_data.email'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-                                <th>Mobile</th>
-                                <th ng-click="orderByField='_data.items'; reverse = !reverse" nowrap>Items
-                                    <span ng-show="orderByField == '_data.items'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                                <th>Offer</th>
                                 <th ng-click="orderByField='_data.status'; reverse = !reverse" nowrap>Status
                                     <span ng-show="orderByField == '_data.status'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-
-                                <th ng-click="orderByField='_data.time'; reverse = !reverse" nowrap>Pickup Time
-                                    <span ng-show="orderByField == '_data.time'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
                                 <th ng-click="orderByField='_data.from_place'; reverse = !reverse" nowrap>Pickup Place
@@ -72,18 +53,12 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse| filter:searchText">
-                            <td>{{$index + 1}}</td>
-                            <td>{{row._data.city}}</td>
-                            <td>{{row._data.offeredby}}</td>
-                            <td>{{row._data.email}}</td>
-                            <td>{{row._data.phone_number}}</td>
-                            <td>{{row._data.items}}</td>
-                            <td>{{row._data.status}}</td>
-                            <td>{{row._data.time | date: 'short'}}</td>
-                            <td>{{row._data.from_place}}</td>
+                            <td>{{$index + 1}}: {{row._data.items}} in {{row._data.city}} offered by {{row._data.offeredby}} - Email: {{row._data.email}} Ph: {{row._data.phone_number}}
+                            </td>
+                            <td>{{row._data.status}} at {{row._data.time | date: 'short'}}</td>
+                            <td>{{row._data.address}}</td>
                             <td ng-hide="HaveIAcceptedThisDonation(row, login_email)">
                                 <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'RECEIVED')">RECEIVE DONATION</button>
-                                <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'REJECTED')">REJECT DONATION</button>
                             </td>
                         </tr>
                     </table>

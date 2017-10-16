@@ -14,7 +14,6 @@
             <div>
                 <input type="radio" ng-model="criteria" value="City" ng-click="alldonations=false;"> City Based
                 <input type="radio" ng-model="criteria" value="Near Me" ng-click="alldonations=false;"> Offers Near Me
-                <input type="radio" ng-model="criteria" value="Items" ng-click="alldonations=false;"> Item Based
             </div>
             <div ng-switch="criteria">
                 <div ng-switch-when="City">
@@ -32,7 +31,6 @@
                     <h3>Offers Near Me</h3>
                     <label for="distance">
                             <p/>Select Radius (km): </label>
-                    <br>
                     <select name="distance" ng-model="data.distance">
                             <option value="1">1</option>
                             <option value="5">5</option>
@@ -42,66 +40,11 @@
                             <option value="30">30</option>
                             <option value="50">50</option>
                         </select>
+                    <p> Of Address
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>
+                        <center/><textarea name="myAddress" rows="5" cols="40" ng-model="data.searchAddress" placeholder="Address"></textarea></p>
+                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearbyDonations(data)">Fetch Donations Within {{data.distance}} km of Address</button>
                     <br>
-                    <br>
-                    <p>Of Address </p>
-                    <button type="button" class="btn btn-primary btn-md" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>
-                    <center/><textarea name="myAddress" rows="5" cols="40" ng-model="data.searchAddress" placeholder="Address"></textarea>
-                    <br><button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearbyDonations(data)">Fetch Donations Within {{data.distance}} km of Address</button>
-                    <br>
-                </div>
-                <div ng-switch-when="Items">
-                    <h3>Items Search</h3><br>
-                    <label for="citySelect">
-                            <p/>Select City: </label>
-                    <br>
-
-                    <select name="citySelect" ng-model="data.citySelect">
-                            <option value="GDC">Gurgaon</option>
-                            <option value="GNDC">Greater Noida</option>
-                            <option value="Kolkata">Kolkata</option>
-                            <option value="Hyderabad">Hyderabad</option>
-                            <option value="Pune">Pune</option>
-                            <option value="Chennai">Chennai</option>
-                            <option value="Bangalore">Bangalore</option>
-                            <option value="Kochi">Kochi</option>
-                        </select>
-                    <br>
-                    <br>
-                    <button type="button" class="btn btn-primary btn-md" ng-click="GetDonations('city',data.citySelect)">Fetch Pickup Points in {{data.citySelect}}</button>
-                    </t>
-                    <br>{{found}}
-                    <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
-                    <p>
-                        <p/><b/>
-                        <br>
-                        <br>
-                        <table class="table table-condensed" ng-show="found.length > 0">
-                            <div class='container-fluid'>
-                                <thead>
-                                    <tr>
-                                        <th>SEARCH</th>
-                                        <th>ITEM</th>
-                                        <th>ACTION</th>
-                                    </tr>
-                                </thead>
-                                <tr>
-                                    <td nowrap>Search For Donations Items: </td>
-                                    <td>
-                                        <input type="text" ng-model="data.from" class="order_input" list="dataSourceFrom" placeholder="Item" />
-                                        <datalist id="dataSourceFrom">
-                                                <option ng-repeat="rest in citydonations | unique: 'items'">{{rest.items}}</option>
-                                            </datalist>
-                                    </td>
-                                    <td>
-                                        <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data,'from', login_user)">
-                                        </button>
-                                    </td>
-                                </tr>
-                            </div>
-                        </table>
-                        {{result}}
-                    </p>
                 </div>
             </div>
 
@@ -111,65 +54,46 @@
                 <br>
             </center>
             <p>
-                <br>
-
                 <div class="container" ng-show="alldonations">
                     <label ng-show="false">Sort By:
                                 <select name="sort" ng-model="offeredby">
                                     <option value="offeredby">Name</option>
                                     <option value="phone_number">Phone</option>
                                     <option value="time">Start Time</option>
-                                    <option value="from_place">From</option>
+                                    <option value="address">Area</option>
                                 </select>
                                 <br>
                             </label>
                     <label ng-show="alldonations">Search Places, Names, Items, Phone Number etc in donations:
                                 <input ng-model="searchText">
                             </label>
-                    <br>
                     <br><b>{{result}}{{}}</b>
                     <table class="table table-bordered" id="donationstable" id="searchResults2">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>City</th>
-                                <th ng-click="orderByField='offeredby'; reverse = !reverse" nowrap>Offered By
-                                    <span ng-show="orderByField == 'offeredby'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-                                <th ng-click="orderByField='email'; reverse = !reverse" nowrap>EMail
+                                <th>Offer</th>
+                                <th ng-click="orderByField='email'; reverse = !reverse" nowrap>Contacts
                                     <span ng-show="orderByField == 'email'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-                                <th>Mobile</th>
-                                <th ng-click="orderByField='items'; reverse = !reverse" nowrap>Items
-                                    <span ng-show="orderByField == 'items'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
+                                </th>
                                 <th ng-click="orderByField='status'; reverse = !reverse" nowrap>Status
                                     <span ng-show="orderByField == 'status'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-                                <th ng-click="orderByField='time'; reverse = !reverse" nowrap>Offered Time
-                                    <span ng-show="orderByField == 'time'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
+                                </th>
                                 <th ng-click="orderByField='address'; reverse = !reverse" nowrap>Pickup Address
                                     <span ng-show="orderByField == 'address'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span></th>
-                                <th>Action</th>
+                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
+                                </th>
+                                <th>Request</th>
                             </tr>
                         </thead>
                         <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse| filter:searchText">
-                            <td>{{$index + 1}}</td>
-                            <td>{{row.city}}</td>
-                            <td>{{row.offeredby}}</td>
-                            <td>{{row.email}}</td>
-                            <td>{{row.phone_number}}</td>
-                            <td>{{row.items}}</td>
-                            <td>{{row.status}}</td>
-                            <td>{{row.time | date: 'short'}}</td>
+                            <td>{{$index + 1}} : {{row.items}} in {{row.city}} offered by {{row.offeredby}}</td>
+                            <td>Email: {{row.email}} Phone: {{row.phone_number}}</td>
+                            <td>{{row.status}} at {{row.time | date: 'short'}}</td>
                             <td>{{row.address}}</td>
                             <td ng-show="row.status!='ACCEPTED'">
                                 <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'ACCEPTED')">ACCEPT DONATION</button>
@@ -180,8 +104,7 @@
                         </tr>
                     </table>
                 </div>
-        </div>
-        </p>
+            </p>
         </div>
     </center>
 </body>
