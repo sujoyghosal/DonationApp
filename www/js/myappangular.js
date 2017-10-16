@@ -196,6 +196,7 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
                 // when the response is available
                 console.log("Create Donation Response:" + JSON.stringify(response));
                 $scope.loginResult = "Success";
+                alert("Successufully Published Your Offer. Thank You!")
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 /*              notifyUsersInGroup(
@@ -212,7 +213,7 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
                 //   var MS_PER_MINUTE = 60000;
                 //   var myStartDate = new Date(offerDate.valueOf() - 15 * MS_PER_MINUTE);
                 //send notification to creator 15 min b4 donation starts
-                schedulePush(new Date());
+                //               schedulePush(new Date());
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -371,6 +372,76 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
             }
         );
     };
+    $scope.PopulateDefaultAddress = function() {
+        var obj = UserService.getLoggedIn();
+        $scope.address = JSON.stringify(obj.address);
+    }
+    $scope.OrchestrateGetNearbyDonations = function(data) {
+        if (!data.searchAddress || data.searchAddress.length < 5) {
+            alert("Please provide a valid address");
+            return;
+        }
+        if (!data.distance) {
+            alert("Please provide a valid distance");
+            return;
+        }
+        $http({
+            method: "GET",
+            url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAJBIQdfnhuEcSi6qFDoXCszJpRZxlSFZ0&address=" +
+                data.searchAddress
+        }).then(
+            function mySucces(response) {
+                $scope.geoCodeResponse = response.data;
+                $scope.geocodesuccess = true;
+                data.lat = $scope.geoCodeResponse.results[0].geometry.location.lat;
+                data.lng = $scope.geoCodeResponse.results[0].geometry.location.lng;
+
+                console.log("Geocoding result: " + data.lat + "," + data.lng);
+                $scope.GetNearbyDonations(data);
+            },
+            function myError(response) {
+                $scope.geoCodeResponse = response.statusText;
+            }
+        );
+    };
+    $scope.GetNearbyDonations = function(data) {
+        $scope.spinner = true;
+        if (!data.distance) {
+            alert("Invalid Distance");
+            return;
+        }
+
+        var getURL =
+            "http://localhost:9000/vicinitydonations?radius=" +
+            data.distance * 1000 + "&latitude=" + data.lat + "&longitude=" + data.lng;
+
+        getURL = encodeURI(getURL);
+        console.log("Vicinity Query: " + getURL);
+        $http({
+            method: "GET",
+            url: getURL
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                console.log(JSON.stringify(response));
+                $scope.spinner = false;
+                $scope.citydonations = response.data;
+                if (angular.isObject($scope.citydonations))
+                    $scope.found = $scope.citydonations.length + " donations found";
+
+                $scope.alldonations = true;
+                $scope.cancel = false;
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                $scope.spinner = false;
+                //      $scope.result = "Could not submit acceptance. " + error;
+                $scope.alldonations = false;
+            }
+        );
+    };
 
     function adjustsettings(settingsObject) {
         if (!settingsObject) return true;
@@ -393,16 +464,13 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
         settingsObject.pushstoptime = stop;
         return settingsObject;
     }
-    $scope.HaveIAcceptedThisdonation = function(row, login_email) {
-        var passengers = [];
-        passengers = row.passengers;
-        if (!passengers || passengers.length < 1) return false;
-        for (var i = 0; i < passengers.length; i++) {
-            if (login_email === passengers[i].passenger_email) {
-                return true;
-            }
-        }
-        return false;
+    $scope.HaveIAcceptedThisdonation = function(row) {
+        if (!row.receiver || receiver.length < 1)
+            return false;
+        if (row.receiver.receiver_email == UserService.getLoggedIn().email)
+            return true;
+        else
+            return false;
     };
 
     $scope.Subscribe = function(data, type, user) {
@@ -1029,19 +1097,18 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
 
     $scope.CreateUser = function(user) {
         $scope.spinner = true;
+        alert(user.address.trim());
         var getURL =
             "http://localhost:9000/createuser?email=" +
             user.email.trim() +
             "&phone=" +
             user.phone.trim() +
-            "&dept=" +
-            user.dept.trim() +
             "&fullname=" +
             user.fullname.trim() +
-            "&password=" +
-            user.password;
+            "&address=" +
+            user.address.trim();
         getURL = encodeURI(getURL);
-
+        console.log("Create URL=" + getURL);
         $http({
             method: "GET",
             url: getURL

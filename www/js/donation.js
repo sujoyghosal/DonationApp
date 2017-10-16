@@ -718,6 +718,7 @@ app.get("/createuser", function(req, res) {
     var email = req.param("email");
     var dept = req.param("dept");
     var phone = req.param("phone");
+    var address = req.param("address");
 
     var options = {
         method: "POST",
@@ -729,7 +730,8 @@ app.get("/createuser", function(req, res) {
             fullname: fullname,
             password: password,
             phone: phone,
-            dept: dept
+            dept: dept,
+            address: address
         }
     };
 
