@@ -1033,7 +1033,7 @@ app.controller("LoginCtrl", function(
     // alert($scope.showNav + "," + $scope.login_email.length);
     $scope.Login = function(login) {
         $scope.spinner = true;
-        var getURL = "http://localhost:9000/getuser?email=" + login.email.trim();
+        var getURL = "http://localhost:9000/loginuser?email=" + login.email.trim() + "&pw=" + login.password.trim();
 
         getURL = encodeURI(getURL);
         $http({
@@ -1062,15 +1062,21 @@ app.controller("LoginCtrl", function(
                     }
                 } else {
                     //        alert("Id Found");
-                    var obj = response.data[0];
-                    UserService.setLoggedIn(obj);
-                    $scope.loginResult = obj.username;
-                    $scope.fullname = obj.fullname;
-                    $scope.showNav = true;
-                    $scope.login_email = obj.email;
-                    $location.path("/home");
-                    //                $scope.fullname = UserService.getLoggedIn().fullname;
-                    return;
+                    if (angular.isObject(response) &&
+                        response.data.toString() === "Authentication Error") {
+                        alert("Invalid Password");
+                        return;
+                    } else {
+                        var obj = response.data[0];
+                        UserService.setLoggedIn(obj);
+                        $scope.loginResult = obj.username;
+                        $scope.fullname = obj.fullname;
+                        $scope.showNav = true;
+                        $scope.login_email = obj.email;
+                        $location.path("/home");
+                        //                $scope.fullname = UserService.getLoggedIn().fullname;
+                        return;
+                    }
                 }
             },
             function errorCallback(error) {
@@ -1105,6 +1111,8 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
             user.phone.trim() +
             "&fullname=" +
             user.fullname.trim() +
+            "&password=" +
+            user.password.trim() +
             "&address=" +
             user.address.trim();
         getURL = encodeURI(getURL);
@@ -1141,4 +1149,5 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
             }
         );
     };
+
 });

@@ -1,12 +1,12 @@
 {
-  "name": "usergrid-node",
-  "version": "0.0.0",
-  "description": "Usergrid Proxy",
-  "main": "server-usergrid.js",
-  "dependencies": {
-    "angular-bootstrap-datetimepicker": "^1.1.4",
-    "argo": "x.x.x",
-    "express": "3.x.x",
-    "usergrid": "x.x.x"
-  }
+    "name": "donationapp",
+    "version": "0.0.0",
+    "description": "Donation App",
+    "main": "donation.js",
+    "dependencies": {
+        "argo": "x.x.x",
+        "express": "3.x.x",
+        "usergrid": "x.x.x",
+        "bcrypt": "x.x.x"
+    }
 }

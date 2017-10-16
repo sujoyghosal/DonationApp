@@ -24,7 +24,8 @@ app.use(allowCrossDomain);
 app.use(express.urlencoded());
 app.use(express.json());
 // Initialize Usergrid
-
+var bcrypt = require('bcrypt');
+var encryptedPw = 'null';
 var ug = new usergrid.client({
     orgName: "sujoyghosal",
     appName: "FREECYCLE",
@@ -716,7 +717,7 @@ app.get("/createuser", function(req, res) {
     var email = req.param("email");
     var phone = req.param("phone");
     var address = req.param("address");
-
+    encryptedPw = encryptPassword(password);
     var options = {
         method: "POST",
         endpoint: "users",
@@ -726,7 +727,7 @@ app.get("/createuser", function(req, res) {
             email: email,
             address: address,
             fullname: fullname,
-            password: password,
+            pw: encryptedPw,
             phone: phone
         }
     };
@@ -750,6 +751,20 @@ function createUser(e, req, res) {
     });
 }
 
+function encryptPassword(password) {
+    const saltRounds = 10;
+    const myPlaintextPassword = password;
+
+    var salt = bcrypt.genSaltSync(saltRounds);
+    var hash = bcrypt.hashSync(myPlaintextPassword, salt);
+    encryptedPw = hash;
+    console.log("Encrypted password=" + hash);
+    return hash;
+};
+
+function checkPassword(password, hash) {
+    return bcrypt.compareSync(password, hash);
+};
 app.get("/getuser", function(req, res) {
     var email = req.param("email");
     var options2 = {
@@ -785,7 +800,45 @@ function getuserbyemail(e, req, res) {
         else res.send("User Not Found");
     });
 }
+app.get("/loginuser", function(req, res) {
+    var email = req.param("email");
+    var options2 = {
+        type: "users",
+        qs: {
+            ql: "name='" + email + "'"
+        }
+    };
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            getuserafterauth(options2, req, res);
+        });
+    } else {
+        getuserafterauth(options2, req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
 
+function getuserafterauth(e, req, res) {
+    loggedIn.createCollection(e, function(err, users) {
+        if (err) {
+            res.jsonp(e);
+            return;
+        }
+
+        var allusers = [];
+        while (users.hasNextEntity()) {
+            auser = users.getNextEntity().get();
+            allusers.push(auser);
+        }
+
+        if (!allusers || allusers.length == 0)
+            res.send("User Not Found");
+        else
+        if (allusers && allusers.length > 0 && checkPassword(req.param('pw'), allusers[0].pw))
+            res.jsonp(allusers);
+        else
+            res.send("Authentication Error");
+    });
+}
 var login_query = "";
 
 // We need this for UserGrid authentication
