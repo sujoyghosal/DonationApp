@@ -18,7 +18,7 @@
                 <br>
                 <fieldset class="clearfix:after">
                     <p><span class="fontawesome-user"></span>
-                        <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder="Full Name" class="form-control input-md" ng-required="true">
+                        <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder={{login_fullname}} class="form-control input-md" ng-readonly="true">
                         <h2 ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</h2>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
@@ -28,7 +28,7 @@
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p><span class="fontawesome-phone"></span>
-                        <input id="phone" name="phone" ng-model="offer.phone" ng-minlength="8" type="tel" placeholder="Mobile Number" class="form-control input-md" ng-required="true">
+                        <input id="phone" name="phone" ng-model="offer.phone" placeholder={{login_phone}} ng-minlength="8" type="tel" class="form-control input-md" ng-readonly="true">
                         <h2 ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</h2>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
@@ -46,7 +46,8 @@
                         <h2 ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Vehicle Type</h2>
                     </p>
                     <p>
-                        <input type="button" name="submit" value="SUBMIT" ng-click="GeoCodeAddress(offer)" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid ||                   myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid">
+                        <input type="button" name="submit" value="SUBMIT" ng-click="GeoCodeAddress(offer, 'offer')" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
+                                          myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid">
                         <br>
                         <center/> {{loginResult}}
                     </p>

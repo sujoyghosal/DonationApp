@@ -20,9 +20,65 @@
     <link rel="stylesheet" href="css/navstyle.css">
 </head>
 
-
 <body>
-    <div id='cssmenu' ng-controller="LoginCtrl" ng-show="isVisible()">
+    <div ng-controller="LoginCtrl" ng-show="isVisible()">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Donate Something Today {{login_fullname}}</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#/home"><span class="glyphicon glyphicon-home"></span>Home<span class="caret"></span></a>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-eye-open"></span>View Donations Offered
+              <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#/getdonation">Current Available Donations</a></li>
+                                <li><a href="#/donationsaccepted">My Accepted Donations</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-leaf"></span>Create Donation Offer
+                  <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#/offerdonation">Create Donation Offer</a>
+                                </li>
+                                <li><a href="#/offershistory">My Offers</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-apple"></span>
+                            Current Needs<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#/createneed">Publish Donation Need</a>
+                                </li>
+                                <li><a href="#/needsnearby">View Needs</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-flag"></span>
+                                Events<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#/subscribe">Subscribe for Events</a>
+                                </li>
+                                <li><a href="#/unsubscribe">Unsubscribe for Events</a></li>
+                            </ul>
+                        </li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#/register"><span class="glyphicon glyphicon-user"></span>Update Profile</a></li>
+                    <li><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!--   <div id='cssmenu' ng-controller="LoginCtrl" ng-show="isVisible()">
         <ul>
             <li><a href='#/home'>Home</a></li>
             <li><a href='#'>Offer Donation</a>
@@ -37,27 +93,25 @@
                     <li><a href='#/donationsaccepted'>My Accepted Donations</a></li>
                 </ul>
             </li>
-            <!--            <li><a href='#'>Subscribe</a>
+                      <li><a href='#'>Subscribe</a>
                 <ul>
                     <li><a href='#/subscribe'>Alerts</a></li>
                     <li><a href='#/sendnotification'>Send a Notification</a></li>
                 </ul>
-            </li> -->
+            </li> 
             <li><a href='#'>Manage Account</a>
                 <ul>
                     <li><a href='#/register'>My Info</a></li>
-                    <!--                   <li><a href='#/settings'>Settings</a></li> -->
+                    <                 <li><a href='#/settings'>Settings</a></li>
                 </ul>
             </li>
             <li><a href='#/login'>Logout</a></li>
         </ul>
-    </div>
-    <br>
-    <br>
+    </div> -->
     <center>
         <br>
         <br>
-        <div ng-controller="LoginCtrl" class="container">
+        <div ng-controller="DonationCtrl" class="container">
             <div class="col-md-9">
                 <div ng-view></div>
             </div>

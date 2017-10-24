@@ -2,14 +2,13 @@
 <html>
 
 <head>
+    <title>View Donations Offered</title>
     <link rel="stylesheet" href="css/responsivetable.css">
 </head>
 
 <body>
     <center>
-        <br>
-        <br>
-        <p align=left>Welcome {{fullname}}</p>
+        <p align="left">Welcome {{login_fullname}}</p>
         <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="orderByField='time'">
             <div>
                 <input type="radio" ng-model="criteria" value="City" ng-click="alldonations=false; found=''"> City Based
@@ -43,7 +42,7 @@
                     <p> Of Address
                         <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>
                         <center/><textarea name="myAddress" rows="5" cols="40" ng-model="data.searchAddress" placeholder="Address"></textarea></p>
-                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearbyDonations(data)">Fetch Donations Within {{data.distance}} km of Address</button>
+                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data, 'offers')">Fetch Donations Within {{data.distance}} km of Address</button>
                     <br>
                 </div>
             </div>

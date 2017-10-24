@@ -20,6 +20,10 @@ app.config([
                 templateUrl: "Register.html",
                 controller: "RegisterCtrl"
             })
+            .when("/signup", {
+                templateUrl: "Register.html",
+                controller: "RegisterCtrl"
+            })
             .when("/getdonation", {
                 templateUrl: "ListDonations.html",
                 controller: "DonationCtrl"
@@ -36,6 +40,14 @@ app.config([
                 templateUrl: "MyOffers.html",
                 controller: "DonationCtrl"
             })
+            .when("/createneed", {
+                templateUrl: "CreateNeed.html",
+                controller: "DonationCtrl"
+            })
+            .when("/needsnearby", {
+                templateUrl: "NeedsNearby.html",
+                controller: "DonationCtrl"
+            })
             .when("/subscribe", {
                 templateUrl: "Subscribe.html",
                 controller: "DonationCtrl"
@@ -46,6 +58,10 @@ app.config([
             })
             .when("/subscribe", {
                 templateUrl: "Subscribe.html",
+                controller: "DonationCtrl"
+            })
+            .when("/unsubscribe", {
+                templateUrl: "Unsubscribe.html",
                 controller: "DonationCtrl"
             })
             .when("/sendnotification", {
@@ -88,9 +104,10 @@ app.controller("OfferdonationCtrl", function(
     $scope.login_email = UserService.getLoggedIn().email;
 });
 
-app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
+app.controller("DonationCtrl", function($scope, $http, $filter, $location, UserService) {
     $scope.spinner = false;
     $scope.alldonations = false;
+    $scope.allneeds = false;
     $scope.citydonations = "";
     $scope.cancel = false;
     $scope.uuid = UserService.getLoggedIn().uuid;
@@ -101,10 +118,12 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
     $scope.selectedfrom = undefined;
 
     $scope.login_email = UserService.getLoggedIn().email;
+    $scope.login_fullname = UserService.getLoggedIn().fullname;
+    $scope.login_phone = UserService.getLoggedIn().phone;
     $scope.found = "";
     $scope.result = "";
     $scope.groupusers = [];
-    $scope.fullname = UserService.getLoggedIn().fullname;
+
     var param_name = "";
     $scope.offererUUID = "";
 
@@ -116,12 +135,16 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
     $scope.maxDate = {
         value: new Date(2015, 12, 31, 14, 57)
     };
-
     $scope.OrchestrateCreateOffer = function(offer) {
-        $scope.GeoCodeAddress(offer.address);
+        $scope.GeoCodeAddress(offer.address, "offer");
         setTimeout($scope.SendOffer(offer), 3000);
     }
-    $scope.GeoCodeAddress = function(offer) {
+    $scope.OrchestrateCreateNeed = function(need) {
+        $scope.GeoCodeAddress(need.address, "need");
+        setTimeout($scope.CreateNeed(need), 3000);
+    }
+    $scope.GeoCodeAddress = function(offer, func) {
+
         $http({
             method: "GET",
             url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAJBIQdfnhuEcSi6qFDoXCszJpRZxlSFZ0&address=" +
@@ -133,7 +156,16 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
                 $scope.lat = $scope.geoCodeResponse.results[0].geometry.location.lat;
                 $scope.lng = $scope.geoCodeResponse.results[0].geometry.location.lng;
                 console.log("Geocoding result: " + $scope.lat + "," + $scope.lng);
-                $scope.SendOffer(offer);
+                if (func && func === 'need') {
+                    console.log("Creating Need...");
+                    $scope.CreateNeed(offer);
+                } else if (func && func === 'offer') {
+                    console.log("Creating Offer...");
+                    $scope.SendOffer(offer);
+                } else {
+                    console.log("No action after Geocoding");
+                    alert("Could Not Submit Request");
+                }
                 /* $scope.GetNearByATMs(
                            $scope.geoCodeResponse.results[0].geometry.location
                          );*/
@@ -162,14 +194,14 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
 
                         //   var filterdatetime = $filter('datetmUTC')( offerDate ); */
 
-        $scope.GeoCodeAddress(offer.address);
+        //        $scope.GeoCodeAddress(offer.address, "offer");
         var sendURL =
             "http://localhost:9000/createdonations?email=" +
             $scope.login_email +
             "&offeredby=" +
-            offer.name +
+            $scope.login_fullname +
             "&phone_number=" +
-            offer.phone +
+            $scope.login_phone +
             "&time=" +
             now +
             "&address=" +
@@ -177,8 +209,6 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
             "&city=" +
             offer.city +
             "&status=OFFERED" +
-            "&from_place=" +
-            offer.from +
             "&items=" +
             offer.items +
             "&latitude=" +
@@ -224,6 +254,73 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
             }
         );
     };
+
+    $scope.CreateNeed = function(need) {
+        $scope.loginResult = "";
+        var now = new Date();
+        var sendURL =
+            "http://localhost:9000/createneed?email=" +
+            $scope.login_email +
+            "&postedby=" +
+            $scope.login_fullname +
+            "&phone_number=" +
+            $scope.login_phone +
+            "&time=" +
+            now +
+            "&address=" +
+            need.address +
+            "&city=" +
+            need.city +
+            "&status=NEEDED" +
+            "&items=" +
+            need.items +
+            "&latitude=" +
+            $scope.lat +
+            "&longitude=" +
+            $scope.lng +
+            "&emergency=" + need.emergency;
+        console.log("Create Need Req URL=" + sendURL);
+        $scope.loginResult = "Need Request Sent";
+
+        $http({
+            method: "GET",
+            url: sendURL
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.loginResult = "Success";
+                alert("Successufully Published Your Need. Thank You!")
+                $scope.spinner = false;
+                $scope.status = response.statusText;
+                /*              notifyUsersInGroup(
+                                          "FROM-" +
+                                          offer.city.trim().toUpperCase() +
+                                          "-" +
+                                          offer.from.trim().toUpperCase(),
+                                          offer.from,
+                                          filteredtime,
+                                          offer.name,
+                                          offer.phone
+                                      );*/
+                //      alert("Offer " + response.statusText);
+                //   var MS_PER_MINUTE = 60000;
+                //   var myStartDate = new Date(offerDate.valueOf() - 15 * MS_PER_MINUTE);
+                //send notification to creator 15 min b4 donation starts
+                //               schedulePush(new Date());
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                $scope.loginResult = "Error Received from Server.." + error.toString();
+                $scope.spinner = false;
+                $scope.status = error.statusText;
+            }
+        );
+    };
+    $scope.Redirect = function(url) {
+        $location.path(url);
+    }
 
     function schedulePush(time) {
         window.plugin.notification.local.add({
@@ -372,11 +469,45 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
             }
         );
     };
+    $scope.GetNeeds = function(paramname, paramvalue) {
+        $scope.spinner = true;
+        if (!paramname || !paramvalue) return;
+        param_name = paramname.trim();
+        var getURL =
+            "http://localhost:9000/getneeds?paramname=" +
+            param_name +
+            "&paramvalue=" +
+            paramvalue.trim();
+        getURL = encodeURI(getURL);
+        $http({
+            method: "GET",
+            url: getURL
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.spinner = false;
+                $scope.cityneeds = response.data;
+                if (angular.isObject($scope.cityneeds))
+                    $scope.found = $scope.cityneeds.length + " needs found";
+
+                $scope.allneeds = true;
+                $scope.cancel = false;
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                $scope.spinner = false;
+                //      $scope.result = "Could not submit acceptance. " + error;
+                $scope.alldonations = false;
+            }
+        );
+    };
     $scope.PopulateDefaultAddress = function() {
         var obj = UserService.getLoggedIn();
         $scope.address = JSON.stringify(obj.address);
     }
-    $scope.OrchestrateGetNearbyDonations = function(data) {
+    $scope.OrchestrateGetNearby = function(data, type) {
         if (!data.searchAddress || data.searchAddress.length < 5) {
             alert("Please provide a valid address");
             return;
@@ -397,23 +528,26 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
                 data.lng = $scope.geoCodeResponse.results[0].geometry.location.lng;
 
                 console.log("Geocoding result: " + data.lat + "," + data.lng);
-                $scope.GetNearbyDonations(data);
+                $scope.GetNearby(data, type);
             },
             function myError(response) {
                 $scope.geoCodeResponse = response.statusText;
             }
         );
     };
-    $scope.GetNearbyDonations = function(data) {
+    $scope.GetNearby = function(data, type) {
         $scope.spinner = true;
         if (!data.distance) {
             alert("Invalid Distance");
             return;
         }
-
+        if (!type) {
+            alert("Invalid Type");
+            return;
+        }
         var getURL =
-            "http://localhost:9000/vicinitydonations?radius=" +
-            data.distance * 1000 + "&latitude=" + data.lat + "&longitude=" + data.lng;
+            "http://localhost:9000/vicinityquery?radius=" +
+            data.distance * 1000 + "&latitude=" + data.lat + "&longitude=" + data.lng + "&type=" + type;
 
         getURL = encodeURI(getURL);
         console.log("Vicinity Query: " + getURL);
@@ -424,13 +558,12 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
             function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
-                console.log(JSON.stringify(response));
                 $scope.spinner = false;
-                $scope.citydonations = response.data;
-                if (angular.isObject($scope.citydonations))
-                    $scope.found = $scope.citydonations.length + " donations found";
+                $scope.cityneeds = response.data;
+                if (angular.isObject($scope.cityneeds))
+                    $scope.found = $scope.cityneeds.length + " needs found";
 
-                $scope.alldonations = true;
+                $scope.allneeds = true;
                 $scope.cancel = false;
             },
             function errorCallback(error) {
@@ -438,7 +571,7 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
                 // or server returns response with an error status.
                 $scope.spinner = false;
                 //      $scope.result = "Could not submit acceptance. " + error;
-                $scope.alldonations = false;
+                $scope.allneeds = false;
             }
         );
     };
@@ -473,39 +606,31 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
             return false;
     };
 
-    $scope.Subscribe = function(data, type, user) {
+    $scope.Subscribe = function(data, user) {
         $scope.spinner = true;
+        if (!data || !data.city || !data.item) {
+            alert("Please enter City and Item name for alerts");
+            return;
+        }
         $scope.result = "Sending Request....";
         //first create group with id=<city>-<place>
         var getURL = "http://localhost:9000/creategroup?group=";
         var group = "";
-        if (type === "to") {
-            group =
-                "TO-" +
-                data.citySelect
-                .toString()
-                .trim()
-                .toUpperCase() +
-                "-" +
-                data.to
-                .toString()
-                .trim()
-                .toUpperCase();
-        } else if (type === "from") {
-            group =
-                "FROM-" +
-                data.citySelect
-                .toString()
-                .trim()
-                .toUpperCase() +
-                "-" +
-                data.from
-                .toString()
-                .trim()
-                .toUpperCase();
-        } else return;
+
+        group =
+            "EVENT-" +
+            data.city
+            .toString()
+            .trim()
+            .toUpperCase() +
+            "-" +
+            data.item
+            .toString()
+            .trim()
+            .toUpperCase();
 
         getURL = encodeURI(getURL + group);
+        console.log("Creating Group: " + getURL);
         $scope.result = getURL;
         $http({
             method: "GET",
@@ -533,9 +658,11 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
     var addUserToGroup = function(group, user) {
         $scope.spinner = true;
         //first create group with id=<city>-<place>
+
         var getURL =
             "http://localhost:9000/addusertogroup?group=" + group + "&user=" + user;
         getURL = encodeURI(getURL);
+        console.log("Adding User to Group: " + getURL);
         $http({
             method: "GET",
             url: getURL
@@ -545,7 +672,7 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
                 // when the response is available
                 $scope.spinner = false;
                 $scope.result =
-                    "SUCCESS ADDING SUBSCRIPTION TO PUSH MESSAGES FOR EVENT " + group;
+                    "SUCCESS ADDING SUBSCRIPTION TO PUSH MESSAGES FOR EVENT. YOU WILL RECEIVE A NOTIFICATION WHENEVER AN OFFER IS MADE FOR THIS ITEM AT THIS LOCATION" + group;
                 // $scope.found  = "Active donation offers for " + param_name;
             },
             function errorCallback(error) {
@@ -572,6 +699,63 @@ app.controller("DonationCtrl", function($scope, $http, $filter, UserService) {
                 // when the response is available
                 $scope.spinner = false;
                 $scope.groupusers = response;
+                // $scope.found  = "Active donation offers for " + param_name;
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                $scope.spinner = false;
+                $scope.groupusers = "ERROR GETTING GROUP USERS ";
+                $scope.alldonations = false;
+            }
+        );
+    };
+    $scope.GetGroupsForUser = function(user) {
+        $scope.spinner = true;
+        $scope.showmyevents = false;
+        //first create group with id=<city>-<place>
+        var uuid = UserService.getLoggedIn().uuid;
+        var getURL = "http://localhost:9000/getgroupsforuser?uuid=" + uuid;
+        getURL = encodeURI(getURL);
+        $http({
+            method: "GET",
+            url: getURL
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.spinner = false;
+                $scope.showmyevents = true;
+                $scope.usergroups = response.data;
+                // $scope.found  = "Active donation offers for " + param_name;
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                $scope.spinner = false;
+                $scope.groupusers = "ERROR GETTING GROUP USERS ";
+                $scope.alldonations = false;
+            }
+        );
+    };
+    $scope.DeleteGroupForUser = function(group) {
+        $scope.spinner = true;
+        $scope.showmyevents = false;
+        //first create group with id=<city>-<place>
+        var uuid = UserService.getLoggedIn().uuid;
+
+        var getURL = "http://localhost:9000/deletegroupforuser?uuid=" + uuid + "&group=" + group;
+        getURL = encodeURI(getURL);
+        $http({
+            method: "GET",
+            url: getURL
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.spinner = false;
+                $scope.showmyevents = true;
+                $scope.GetGroupsForUser();
                 // $scope.found  = "Active donation offers for " + param_name;
             },
             function errorCallback(error) {
@@ -1020,12 +1204,10 @@ app.controller("LoginCtrl", function(
 
     $scope.isCollapsed = true;
     $scope.isVisible = function() {
-        return "/login" !== $location.path();
+        return ("/login" !== $location.path() && "/signup" !== $location.path());
     };
 
     $scope.showNav = "/login" !== $location.path();
-
-    $scope.login_email = UserService.getLoggedIn().email;
 
     if (!angular.isObject($scope.login_email) || $scope.login_email.length == 0)
         $scope.showNav = false;
@@ -1070,9 +1252,10 @@ app.controller("LoginCtrl", function(
                         var obj = response.data[0];
                         UserService.setLoggedIn(obj);
                         $scope.loginResult = obj.username;
-                        $scope.fullname = obj.fullname;
+                        $scope.login_fullname = obj.fullname;
                         $scope.showNav = true;
                         $scope.login_email = obj.email;
+                        $scope.login_phone = obj.phone;
                         $location.path("/home");
                         //                $scope.fullname = UserService.getLoggedIn().fullname;
                         return;
@@ -1097,13 +1280,15 @@ app.controller("LoginCtrl", function(
 
         return;
     };
+    $scope.OpenRegsiterForm = function() {
+        $location.path("/register");
+    };
 });
 app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
     $scope.spinner = false;
 
     $scope.CreateUser = function(user) {
         $scope.spinner = true;
-        alert(user.address.trim());
         var getURL =
             "http://localhost:9000/createuser?email=" +
             user.email.trim() +
