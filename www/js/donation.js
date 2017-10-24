@@ -24,12 +24,14 @@ app.use(allowCrossDomain);
 app.use(express.urlencoded());
 app.use(express.json());
 // Initialize Usergrid
-
+var bcrypt = require('bcrypt');
+var encryptedPw = 'null';
 var ug = new usergrid.client({
     orgName: "sujoyghosal",
-    appName: "DONATEINDIA",
-    clientId: "YXA6dTv62KmMEeetMhIuBzeXfQ",
-    clientSecret: "YXA6KTLqcZ1HI981e5PuvWg4eWkAVdU",
+    appName: "FREECYCLE",
+    URI: "https://apibaas-trial.apigee.net",
+    clientId: "YXA6G1hmX-hzEea1pBIuBzeXfQ",
+    clientSecret: "YXA6c7dP5Vh70lI3N1VHoQfP1lvlstQ",
     logging: true
 });
 
@@ -125,6 +127,43 @@ function getdonations(req, res) {
         res.jsonp(alldonations);
     });
 }
+
+var needs_query = "";
+app.get("/getneeds", function(req, res) {
+    var paramname = req.param("paramname");
+    var paramvalue = req.param("paramvalue");
+    needs_query = {
+        type: "needs?limit=500", //Required - the type of collection to be retrieved
+        qs: { ql: paramname + "='" + paramvalue + "'" }
+    };
+    if (paramname === "uuid") {
+        donations_query = {
+            type: "needs", //Required - the type of collection to be retrieved
+            uuid: paramvalue
+        };
+    }
+    if (loggedIn === null) {
+        logIn(req, res, getneeds);
+    } else {
+        getneeds(req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+function getneeds(req, res) {
+    loggedIn.createCollection(needs_query, function(err, needs) {
+        if (err) {
+            res.jsonp(500, { error: JSON.stringify(err) });
+            return;
+        }
+        var allneeds = [];
+        while (needs.hasNextEntity()) {
+            var aneed = needs.getNextEntity().get();
+
+            allneeds.push(aneed);
+        }
+        res.jsonp(allneeds);
+    });
+}
 var group_query = "";
 app.get("/getusersingroup", function(req, res) {
     var group = req.param("group");
@@ -147,6 +186,54 @@ function getusersingroup(req, res) {
             res.send("ERROR - " + JSON.stringify(err));
         } else {
             res.send(users.entities);
+        }
+    });
+}
+
+app.get("/getgroupsforuser", function(req, res) {
+    var uuid = req.param("uuid");
+    group_query = {
+        method: "GET",
+        endpoint: "users/" + uuid + "/groups"
+    };
+
+    if (loggedIn === null) {
+        logIn(req, res, getgroupsforuser);
+    } else {
+        getgroupsforuser(req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+function getgroupsforuser(req, res) {
+    loggedIn.request(group_query, function(err, groups) {
+        if (err) {
+            res.send("ERROR - " + JSON.stringify(err));
+        } else {
+            res.send(groups.entities);
+        }
+    });
+}
+app.get("/deletegroupforuser", function(req, res) {
+    var uuid = req.param("uuid");
+    var group = req.param("group");
+    group_query = {
+        method: "DELETE",
+        endpoint: "groups/" + group + "/users/" + uuid
+    };
+
+    if (loggedIn === null) {
+        logIn(req, res, deletegroupforuser);
+    } else {
+        deletegroupforuser(req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+function deletegroupforuser(req, res) {
+    loggedIn.request(group_query, function(err, groups) {
+        if (err) {
+            res.send("ERROR - " + JSON.stringify(err));
+        } else {
+            res.send(groups.entities);
         }
     });
 }
@@ -556,10 +643,7 @@ app.get("/createdonations", function(req, res) {
         items: req.param("items"),
         status: "OFFERED",
         time: req.param("time"),
-        location: {
-            latitude: req.param("latitude"),
-            longitude: req.param("longitude")
-        }
+        location: { latitude: req.param("latitude"), longitude: req.param("longitude") }
     };
 
     if (loggedIn === null) {
@@ -593,8 +677,56 @@ function createdonations(e, req, res) {
     });
 }
 
+app.get("/createneed", function(req, res) {
+    var b = req.body;
+    var name = req.param("email") + "-" + req.param("time");
+    var e = {
+        name: name,
+        postedby: req.param("postedby"),
+        city: req.param("city"),
+        address: req.param("address"),
+        phone_number: req.param("phone_number"),
+        email: req.param("email"),
+        currentcount: "0",
+        items: req.param("items"),
+        status: "REQUIRED",
+        time: req.param("time"),
+        emergency: req.param('emergency'),
+        location: { latitude: req.param("latitude"), longitude: req.param("longitude") }
+    };
+    console.log("Create Need Body=" + JSON.stringify(e));
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            createneed(e, req, res);
+        });
+    } else {
+        createneed(e, req, res);
+    }
+});
+
+function createneed(e, req, res) {
+    var opts = {
+        type: "needs"
+            //        name: 'Dominos'
+    };
+    loggedIn.createEntity(opts, function(err, o) {
+        if (err) {
+            res.send(err);
+            return;
+        }
+        o.set(e);
+        o.save(function(err) {
+            if (err) {
+                res.send(err);
+                return;
+            }
+
+            res.send("NEED CREATED");
+        });
+    });
+}
 var geo_query = "";
-app.get("/vicinitydonations", function(req, res) {
+app.get("/vicinityquery", function(req, res) {
     var criteria =
         "location within " +
         req.param("radius") +
@@ -608,12 +740,26 @@ app.get("/vicinitydonations", function(req, res) {
     } else {
         count = req.param("nearest");
     }
-    geo_query = {
-        type: "donations?limit=" + count, //Required - the type of collection to be retrieved
-        //		qs:criteria
-        //        qs: {"ql": "location within 500 of 51.5183638, -0.1712939000000233"}
-        qs: { ql: criteria }
-    };
+    var type = req.param("type");
+
+    if (type && type === 'offers') {
+        geo_query = {
+            type: "donations?limit=" + count, //Required - the type of collection to be retrieved
+            //		qs:criteria
+            //        qs: {"ql": "location within 500 of 51.5183638, -0.1712939000000233"}
+            qs: { ql: criteria }
+        };
+    } else if (type && type === 'needs') {
+        geo_query = {
+            type: "needs?limit=" + count, //Required - the type of collection to be retrieved
+            //		qs:criteria
+            //        qs: {"ql": "location within 500 of 51.5183638, -0.1712939000000233"}
+            qs: { ql: criteria }
+        };
+    } else {
+        res.jsonp("Invalid Type - must be offers or needs");
+        return;
+    }
 
     if (loggedIn === null) {
         logIn(req, res, getdonationsbylocation);
@@ -656,7 +802,9 @@ function getdonationsbylocation(req, res) {
 }
 app.get("/creategroup", function(req, res) {
     var group = req.param("group");
-
+    if (group)
+        group = group.trim().toUpperCase().replace(/ /g, "-");
+    console.log("Creating Group: " + group);
     var options = {
         method: "POST",
         endpoint: "groups",
@@ -688,6 +836,8 @@ function createGroup(e, req, res) {
 app.get("/addusertogroup", function(req, res) {
     var group = req.param("group");
     var user = req.param("user");
+    if (group)
+        group = group.trim().toUpperCase().replace(/ /g, "-");
     var options = {
         method: "POST",
         endpoint: "groups/" + group + "/users/" + user
@@ -716,10 +866,9 @@ app.get("/createuser", function(req, res) {
     var fullname = req.param("fullname");
     var password = req.param("password");
     var email = req.param("email");
-    var dept = req.param("dept");
     var phone = req.param("phone");
     var address = req.param("address");
-
+    encryptedPw = encryptPassword(password);
     var options = {
         method: "POST",
         endpoint: "users",
@@ -727,11 +876,10 @@ app.get("/createuser", function(req, res) {
             username: email,
             name: email,
             email: email,
+            address: address,
             fullname: fullname,
-            password: password,
-            phone: phone,
-            dept: dept,
-            address: address
+            pw: encryptedPw,
+            phone: phone
         }
     };
 
@@ -754,6 +902,20 @@ function createUser(e, req, res) {
     });
 }
 
+function encryptPassword(password) {
+    const saltRounds = 10;
+    const myPlaintextPassword = password;
+
+    var salt = bcrypt.genSaltSync(saltRounds);
+    var hash = bcrypt.hashSync(myPlaintextPassword, salt);
+    encryptedPw = hash;
+    console.log("Encrypted password=" + hash);
+    return hash;
+};
+
+function checkPassword(password, hash) {
+    return bcrypt.compareSync(password, hash);
+};
 app.get("/getuser", function(req, res) {
     var email = req.param("email");
     var options2 = {
@@ -789,7 +951,45 @@ function getuserbyemail(e, req, res) {
         else res.send("User Not Found");
     });
 }
+app.get("/loginuser", function(req, res) {
+    var email = req.param("email");
+    var options2 = {
+        type: "users",
+        qs: {
+            ql: "name='" + email + "'"
+        }
+    };
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            getuserafterauth(options2, req, res);
+        });
+    } else {
+        getuserafterauth(options2, req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
 
+function getuserafterauth(e, req, res) {
+    loggedIn.createCollection(e, function(err, users) {
+        if (err) {
+            res.jsonp(e);
+            return;
+        }
+
+        var allusers = [];
+        while (users.hasNextEntity()) {
+            auser = users.getNextEntity().get();
+            allusers.push(auser);
+        }
+
+        if (!allusers || allusers.length == 0)
+            res.send("User Not Found");
+        else
+        if (allusers && allusers.length > 0 && checkPassword(req.param('pw'), allusers[0].pw))
+            res.jsonp(allusers);
+        else
+            res.send("Authentication Error");
+    });
+}
 var login_query = "";
 
 // We need this for UserGrid authentication
@@ -805,7 +1005,8 @@ function logIn(req, res, next) {
 
         loggedIn = new usergrid.client({
             orgName: "sujoyghosal",
-            appName: "donateindia",
+            appName: "FREECYCLE",
+            URI: "https://apibaas-trial.apigee.net",
             authType: usergrid.AUTH_APP_USER,
             token: ug.token,
             logging: true
