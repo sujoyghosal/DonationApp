@@ -18,15 +18,93 @@
     <script src="js/myappangular.js"></script>
     <script src="js/navscript.js"></script>
     <link rel="stylesheet" href="css/navstyle.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="css/landing-page.css" media="screen" type="text/css" />
+    <script>
+        // Script to open and close sidebar
+        function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+        }
+    </script>
+    <style>
+        header {
+            padding: 32px;
+        }
+        
+        .style-logo {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        
+        .style-nav ul {
+            list-style-type: none;
+        }
+        
+        .style-nav ul li a {
+            text-decoration: none;
+            color: #2F322A;
+            text-align: center;
+            display: block;
+            text-transform: uppercase;
+            padding: 8px;
+        }
+        /*Tablet View*/
+        
+        @media (min-width: 768px) {
+            .style-nav ul li {
+                display: inline-block;
+            }
+        }
+        /*Desktop View*/
+        
+        @media (min-width: 1024px) {
+            .style-logo {
+                float: left;
+            }
+            .style-nav {
+                float: right;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div ng-controller="LoginCtrl" ng-show="isVisible()">
-        <nav class="navbar navbar-inverse">
+
+    <div ng-controller="DonationCtrl" ng-show="isVisible()">
+        <header>
+            <nav class="style-nav">
+                <ul>
+                    <li><a href="#subscribe">Subscribe Events</a></li>
+                    <li><a href="#notifications">Notifications</a></li>
+                    <li><a href="#register">Profile</a></li>
+                    <li><a href="#settings">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+        <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+            <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button">Close Menu</a>
+            <a href="#/home" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
+            <a href="#/getdonation" onclick="w3_close()" class="w3-bar-item w3-button">View Offers</a>
+            <a href="#offerdonation" onclick="w3_close()" class="w3-bar-item w3-button">Create Offer</a>
+            <a href="#createneed" onclick="w3_close()" class="w3-bar-item w3-button">Publish Needs</a>
+            <a href="#needsnearby" onclick="w3_close()" class="w3-bar-item w3-button">View Needs</a>
+            <a href="#/login" onclick="w3_close()" class="w3-bar-item w3-button">Logout</a>
+        </nav>
+
+        <!-- Top menu -->
+        <div class="w3-top">
+            <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+                <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+            </div>
+        </div>
+
+        <!--       <nav class="navbar navbar-inverse">
             <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Donate Something Today {{login_fullname}}</a>
-                </div>
                 <ul class="nav navbar-nav">
                     <li class="active">
                         <a href="#/home"><span class="glyphicon glyphicon-home"></span>Home<span class="caret"></span></a>
@@ -53,32 +131,37 @@
                             Current Needs<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#/createneed">Publish Donation Need</a>
+                                    <a href="#/createneed">Publish Need</a>
                                 </li>
                                 <li><a href="#/needsnearby">View Needs</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-flag"></span>
-                                Events<span class="caret"></span></a>
+                                Events<span class="button__badge">{{eventsobject.count}}</span><span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#/notifications">My Notifications</a>
+                                </li>
+                                <li>
+                                    <a href="#/settings">My Notification Settings</a>
+                                </li>
                                 <li>
                                     <a href="#/subscribe">Subscribe for Events</a>
                                 </li>
                                 <li><a href="#/unsubscribe">Unsubscribe for Events</a></li>
                             </ul>
                         </li>
-
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#/register"><span class="glyphicon glyphicon-user"></span>Update Profile</a></li>
                     <li><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                 </ul>
             </div>
-        </nav>
-    </div>
+        </nav> 
+    </div>-->
 
-    <!--   <div id='cssmenu' ng-controller="LoginCtrl" ng-show="isVisible()">
+        <!--   <div id='cssmenu' ng-controller="LoginCtrl" ng-show="isVisible()">
         <ul>
             <li><a href='#/home'>Home</a></li>
             <li><a href='#'>Offer Donation</a>
@@ -106,8 +189,8 @@
                 </ul>
             </li>
             <li><a href='#/login'>Logout</a></li>
-        </ul>
-    </div> -->
+        </ul>-->
+    </div>
     <center>
         <br>
         <br>
@@ -117,7 +200,6 @@
             </div>
         </div>
     </center>
-
 </body>
 
 </html>

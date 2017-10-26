@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Donate India - Login</title>
     <link rel="stylesheet" href="css/login.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="css/landing-page.css" media="screen" type="text/css" />
 </head>
 
 <body ng-app="myApp" ng-controller="LoginCtrl">
@@ -12,6 +13,7 @@
     <br>
     <br>
     <br>
+
     <div class="container">
 
         <div id="login">
@@ -20,7 +22,7 @@
 
 
                 <fieldset class="clearfix">
-
+                    <h2>WELCOME TO THE FREECYCLE APP</h2><br><br>
                     <p><span class="fontawesome-user"></span>
                         <input type="text" name="username" ng-model="login.email" value="Username" onBlur="if(this.value == '') this.value = 'Username'" onFocus="if(this.value == 'Username') this.value = ''" required>
                         <h2 ng-show="myForm.username.$dirty && myForm.username.$invalid">Invalid Name</h2>
