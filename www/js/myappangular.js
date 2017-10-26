@@ -20,6 +20,10 @@ app.config([
                 templateUrl: "Register.html",
                 controller: "RegisterCtrl"
             })
+            .when("/updateuser", {
+                templateUrl: "UpdateProfile.html",
+                controller: "RegisterCtrl"
+            })
             .when("/signup", {
                 templateUrl: "Register.html",
                 controller: "RegisterCtrl"
@@ -1464,7 +1468,10 @@ app.controller("LoginCtrl", function(
 });
 app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
     $scope.spinner = false;
-
+    $scope.login_fullname = UserService.getLoggedIn().fullname;
+    $scope.login_email = UserService.getLoggedIn().email;
+    $scope.login_phone = UserService.getLoggedIn().phone;
+    $scope.login_address = UserService.getLoggedIn().address;
     $scope.CreateUser = function(user) {
         $scope.spinner = true;
         var getURL =
@@ -1512,5 +1519,46 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
             }
         );
     };
+    $scope.UpdateUser = function(user) {
+        $scope.spinner = true;
+        var getURL =
+            "http://localhost:9000/updateuser?uuid=" +
+            UserService.getLoggedIn().uuid + "&phone=" +
+            user.phone.trim() +
+            "&address=" +
+            user.address.trim() + "&password=" + user.password.trim();
+        getURL = encodeURI(getURL);
+        console.log("Update URL=" + getURL);
+        $http({
+            method: "GET",
+            url: getURL
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.spinner = false;
+                if (
+                    angular.isObject(response)
+                ) {
+                    alert("Account Update Successfully");
+                    $scope.result = "Success";
+                    //   $location.path("/login");
+                    return;
+                } else {
+                    $scope.result = response;
+                    alert("Could not update profile");
+
+                    //        $location.path("/login");
+                    return;
+                }
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                $scope.spinner = false;
+                $scope.loginResult = "Could not submit request.." + error;
+            }
+        );
+    }
 
 });

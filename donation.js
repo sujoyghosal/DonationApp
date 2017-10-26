@@ -312,6 +312,37 @@ function detachgcmidsfromuser(req, res) {
         }
     });
 }
+app.get("/updateuser", function(req, res) {
+    if (loggedIn === null) {
+        logIn(req, res, updateuser);
+    } else {
+        updateuser(req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+function updateuser(req, res) {
+    var option = {
+        type: "users",
+        uuid: req.param("uuid")
+    };
+    loggedIn.getEntity(option, function(err, entity) {
+        encryptedPw = encryptPassword(req.param('password'));
+        if (err) {
+            res.send("ERROR");
+        } else {
+            entity.set("phone", req.param("phone"));
+            entity.set("address", req.param("address"));
+            entity.set("pw", encryptedPw);
+            entity.save(function(err) {
+                if (err) {
+                    res.jsonp(500, "ERROR");
+                    return;
+                }
+                res.send(entity);
+            });
+        }
+    });
+}
 app.get("/updateusersettings", function(req, res) {
     if (loggedIn === null) {
         logIn(req, res, updateusersettings);
