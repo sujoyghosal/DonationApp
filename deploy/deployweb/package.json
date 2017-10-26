@@ -1,0 +1,10 @@
+{
+    "name": "donationapp",
+    "version": "0.0.0",
+    "description": "Donation App",
+    "main": "donation.js",
+    "dependencies": {
+        "argo": "x.x.x",
+        "express": "3.x.x"
+    }
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <center>
+        <p align=left>Welcome {{fullname}}!!</p>
+        <p align=left>If you are interested in picking up donations from specific locations or areas, add that place name here to your area of coverage.
+            <br>Whenever anyone creates a ride offer going to that place or starting from that place you will get a notification.</p>
+
+
+        <div ng-app="myApp" ng-controller="DonationCtrl">
+            <label for="citySelect">
+                <p/>Select City: </label>
+            <br>
+
+            <select name="citySelect" ng-model="data.citySelect">
+                <option value="GDC">Gurgaon</option>
+                <option value="GNDC">Greater Noida</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Pune">Pune</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Kochi">Kochi</option>
+            </select>
+            <br>
+            <br>
+            <button type="button" class="btn btn-primary btn-md" ng-click="GetDonations('city',data.citySelect)">Fetch Pickup Points in {{data.citySelect}}</button>
+            </t>
+            <br>{{found}}
+            <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+            <p>
+                <p/><b/>
+                <br>
+                <br>
+                <table class="table table-condensed" ng-show="found.length > 0">
+                    <div class='container-fluid'>
+                        <thead>
+                            <tr>
+                                <th>EVENT TYPE</th>
+                                <th>PLACE</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td nowrap>Notify Me For Donations Created At: </td>
+                            <td>
+                                <input type="text" ng-model="data.from" class="order_input" list="dataSourceFrom" placeholder="From Place" />
+                                <datalist id="dataSourceFrom">
+                                    <option ng-repeat="rest in citydonations | unique: 'from_place'">{{rest.from_place}}</option>
+                                </datalist>
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data,'from', login_user)">
+                                </button>
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+                {{result}}
+            </p>
+        </div>
+
+    </center>
+
+</body>
+
+</html>

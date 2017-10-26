@@ -1,6 +1,5 @@
 var express = require("express");
 var usergrid = require("usergrid");
-
 //var config = require('./config');
 // Set up Express environment and enable it to read and write JavaScript
 var allowCrossDomain = function(req, res, next) {
@@ -10,7 +9,6 @@ var allowCrossDomain = function(req, res, next) {
         "Access-Control-Allow-Headers",
         "Content-Type, Authorization, Content-Length, X-Requested-With"
     );
-
     // intercept OPTIONS method
     if ("OPTIONS" == req.method) {
         res.send(200);
@@ -34,17 +32,12 @@ var ug = new usergrid.client({
     clientSecret: "YXA6c7dP5Vh70lI3N1VHoQfP1lvlstQ",
     logging: true
 });
-
 var loggedIn = null;
-
 // The API starts here
-
 // GET /
-
 var rootTemplate = {
     donations: { href: "./donations" }
 };
-
 app.get("/", function(req, resp) {
     //    resp.jsonp(rootTemplate);
     out = "Hey, are you looking for something?";
@@ -52,7 +45,6 @@ app.get("/", function(req, resp) {
         "  Use /alldonations to get all donations or createdonations with name=value pairs to create a donations";
     resp.jsonp(out);
 });
-
 // GET
 var userid;
 app.get("/alldonations", function(req, res) {
@@ -63,13 +55,11 @@ app.get("/alldonations", function(req, res) {
         getalldonations(req, res);
     } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
 });
-
 var options = {
     type: "donations?limit=100",
     qs: { ql: "user_id='" + userid + "'" }
 };
 //Call request to initiate the API call
-
 function getalldonations(req, res) {
     loggedIn.createCollection({ type: "donations?limit=100" }, function(
         err,
@@ -81,7 +71,6 @@ function getalldonations(req, res) {
             res.jsonp(500, { error: JSON.stringify(err) });
             return;
         }
-
         var alldonations = [];
         while (donations.hasNextEntity()) {
             var adonations = donations.getNextEntity().get();
@@ -90,7 +79,6 @@ function getalldonations(req, res) {
         res.jsonp(alldonations);
     });
 }
-
 var donations_query = "";
 app.get("/getdonations", function(req, res) {
     var paramname = req.param("paramname");
@@ -121,21 +109,53 @@ function getdonations(req, res) {
         var alldonations = [];
         while (donations.hasNextEntity()) {
             var adonations = donations.getNextEntity().get();
-
             alldonations.push(adonations);
         }
         res.jsonp(alldonations);
     });
 }
+var needs_query = "";
+app.get("/getneeds", function(req, res) {
+    var paramname = req.param("paramname");
+    var paramvalue = req.param("paramvalue");
+    needs_query = {
+        type: "needs?limit=500", //Required - the type of collection to be retrieved
+        qs: { ql: paramname + "='" + paramvalue + "'" }
+    };
+    if (paramname === "uuid") {
+        donations_query = {
+            type: "needs", //Required - the type of collection to be retrieved
+            uuid: paramvalue
+        };
+    }
+    if (loggedIn === null) {
+        logIn(req, res, getneeds);
+    } else {
+        getneeds(req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+function getneeds(req, res) {
+    loggedIn.createCollection(needs_query, function(err, needs) {
+        if (err) {
+            res.jsonp(500, { error: JSON.stringify(err) });
+            return;
+        }
+        var allneeds = [];
+        while (needs.hasNextEntity()) {
+            var aneed = needs.getNextEntity().get();
+            allneeds.push(aneed);
+        }
+        res.jsonp(allneeds);
+    });
+}
 var group_query = "";
 app.get("/getusersingroup", function(req, res) {
     var group = req.param("group");
-
     group_query = {
         method: "GET",
         endpoint: "groups/" + group + "/users/"
     };
-
     if (loggedIn === null) {
         logIn(req, res, getusersingroup);
     } else {
@@ -152,18 +172,82 @@ function getusersingroup(req, res) {
         }
     });
 }
+app.get("/getgroupbyname", function(req, res) {
+    var group = req.param("group");
+    group_query = {
+        method: "GET",
+        endpoint: "groups/" + group
+    };
+    if (loggedIn === null) {
+        logIn(req, res, getgroupbyname);
+    } else {
+        getgroupbyname(req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
 
+function getgroupbyname(req, res) {
+    loggedIn.request(group_query, function(err, group) {
+        if (err) {
+            res.send("ERROR - " + JSON.stringify(err));
+        } else {
+            res.jsonp(group);
+        }
+    });
+}
+app.get("/getgroupsforuser", function(req, res) {
+    var uuid = req.param("uuid");
+    group_query = {
+        method: "GET",
+        endpoint: "users/" + uuid + "/groups"
+    };
+    if (loggedIn === null) {
+        logIn(req, res, getgroupsforuser);
+    } else {
+        getgroupsforuser(req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+function getgroupsforuser(req, res) {
+    loggedIn.request(group_query, function(err, groups) {
+        if (err) {
+            res.send("ERROR - " + JSON.stringify(err));
+        } else {
+            res.send(groups.entities);
+        }
+    });
+}
+app.get("/deletegroupforuser", function(req, res) {
+    var uuid = req.param("uuid");
+    var group = req.param("group");
+    group_query = {
+        method: "DELETE",
+        endpoint: "groups/" + group + "/users/" + uuid
+    };
+    if (loggedIn === null) {
+        logIn(req, res, deletegroupforuser);
+    } else {
+        deletegroupforuser(req, res);
+    } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
+});
+
+function deletegroupforuser(req, res) {
+    loggedIn.request(group_query, function(err, groups) {
+        if (err) {
+            res.send("ERROR - " + JSON.stringify(err));
+        } else {
+            res.send(groups.entities);
+        }
+    });
+}
 var gcmids_query = "";
 var gcmid = "";
 app.get("/attachgcmidtouser", function(req, res) {
     gcmid = req.param("gcmid");
     var uuid = req.param("uuid");
-
     gcmids_query = {
         type: "user",
         uuid: req.param("uuid")
     };
-
     if (loggedIn === null) {
         logIn(req, res, attachgcmidtouser);
     } else {
@@ -185,7 +269,6 @@ function attachgcmidtouser(req, res) {
                 res.send("SUCCESS");
                 return;
             }
-
             gcm_ids.push(gcmid);
             entity.set("gcm_ids", gcm_ids);
             entity.save(function(err) {
@@ -198,14 +281,12 @@ function attachgcmidtouser(req, res) {
         }
     });
 }
-
 var detach_query = "";
 app.get("/detachgcmidsfromuser", function(req, res) {
     detach_query = {
         type: "user",
         uuid: req.param("uuid")
     };
-
     if (loggedIn === null) {
         logIn(req, res, detachgcmidsfromuser);
     } else {
@@ -271,10 +352,8 @@ var uuid = "";
 var updateoptions = "";
 var receiver = {};
 var acceptoptions = "";
-
 app.get("/acceptdonation", function(req, res) {
     uuid = req.param("uuid");
-
     receiver = {
         receiver_name: req.param("receiver_name"),
         receiver_phone: req.param("receiver_phone"),
@@ -317,7 +396,6 @@ function acceptdonation(uuid, req, res) {
         type: "donations", //Required - the type of collection to be retrieved
         uuid: uuid
     };
-
     loggedIn.getEntity(opt, function(err, donations) {
         //    loggedIn.createCollection(options, function(err, ngccnotifications) {
         //  loggedIn.request({ options, function(err, ngccnotifications) {
@@ -325,12 +403,10 @@ function acceptdonation(uuid, req, res) {
             res.jsonp(500, { error: JSON.stringify(err) });
             return;
         }
-
         //        res.send(donations._data.passengers.length);
         //        return;
         donations.set("receiver", receiver);
         donations.set("status", req.param("status"));
-
         donations.save(function(err) {
             if (err) {
                 //error - user not updated
@@ -344,11 +420,9 @@ function acceptdonation(uuid, req, res) {
         });
     });
 }
-
 var adonations_query = "";
 app.get("/accepteddonations", function(req, res) {
     var email = req.param("email");
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             accepteddonations(email, req, res);
@@ -387,7 +461,6 @@ function accepteddonations(email, req, res) {
 var adonations_query = "";
 app.get("/getpassengersfordonation", function(req, res) {
     var uuid = req.param("uuid");
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             getpassengersfordonation(uuid, req, res);
@@ -411,11 +484,9 @@ function getpassengersfordonation(uuid, req, res) {
         }
     });
 }
-
 var adonations_query = "";
 app.get("/getgcmidsbyuser", function(req, res) {
     var uuid = req.param("uuid");
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             getgcmidsbyuser(uuid, req, res);
@@ -439,11 +510,9 @@ function getgcmidsbyuser(uuid, req, res) {
         }
     });
 }
-
 var adonations_query = "";
 app.get("/getuserbyuuid", function(req, res) {
     var uuid = req.param("uuid");
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             getuserbyuuid(uuid, req, res);
@@ -467,10 +536,8 @@ function getuserbyuuid(uuid, req, res) {
         }
     });
 }
-
 app.get("/canceloffer", function(req, res) {
     var uuid = req.param("uuid");
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             canceloffer(uuid, req, res);
@@ -501,16 +568,13 @@ function canceloffer(uuid, req, res) {
         });
     });
 }
-
 app.get("/cancelaccepteddonation", function(req, res) {
     var uuid = req.param("uuid");
     var receiver_email = req.param("receiver_email");
-
     updateoptions = {
         type: "donations", //Required - the type of collection to be retrieved
         uuid: uuid
     };
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             canceldonation(receiver_email, updateoptions, req, res);
@@ -530,7 +594,6 @@ function canceldonation(e, updateoptions, req, res) {
             o.set("receiver", "");
             o.set("status", "OFFERED");
         }
-
         o.save(function(err) {
             if (err) {
                 //             res.jsonp(500, err);
@@ -542,7 +605,6 @@ function canceldonation(e, updateoptions, req, res) {
         });
     });
 }
-
 app.get("/createdonations", function(req, res) {
     var b = req.body;
     var name = req.param("email") + "-" + req.param("time");
@@ -560,7 +622,6 @@ app.get("/createdonations", function(req, res) {
         time: req.param("time"),
         location: { latitude: req.param("latitude"), longitude: req.param("longitude") }
     };
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             createdonations(e, req, res);
@@ -586,14 +647,181 @@ function createdonations(e, req, res) {
                 res.send(err);
                 return;
             }
-
             res.send("OFFER CREATED");
         });
     });
 }
+app.get("/createneed", function(req, res) {
+    var b = req.body;
+    var name = req.param("email") + "-" + req.param("time");
+    var e = {
+        name: name,
+        postedby: req.param("postedby"),
+        city: req.param("city"),
+        address: req.param("address"),
+        phone_number: req.param("phone_number"),
+        email: req.param("email"),
+        currentcount: "0",
+        items: req.param("items"),
+        status: "REQUIRED",
+        time: req.param("time"),
+        emergency: req.param('emergency'),
+        location: { latitude: req.param("latitude"), longitude: req.param("longitude") }
+    };
+    console.log("Create Need Body=" + JSON.stringify(e));
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            createneed(e, req, res);
+        });
+    } else {
+        createneed(e, req, res);
+    }
+});
 
+function createneed(e, req, res) {
+    var opts = {
+        type: "needs"
+            //        name: 'Dominos'
+    };
+    loggedIn.createEntity(opts, function(err, o) {
+        if (err) {
+            res.send(err);
+            return;
+        }
+        o.set(e);
+        o.save(function(err) {
+            if (err) {
+                res.send(err);
+                return;
+            }
+            res.send("NEED CREATED");
+        });
+    });
+}
+app.get("/createevent", function(req, res) {
+    var b = req.body;
+    var name = req.param("email") + "-" + req.param("time");
+    var e = {
+        name: name,
+        postedby: req.param("postedby"),
+        city: req.param("city"),
+        address: req.param("address"),
+        phone_number: req.param("phone_number"),
+        email: req.param("email"),
+        items: req.param("items"),
+        status: req.param('status'),
+        timestamp: req.param("time"),
+        eventtype: req.param('type'),
+        location: { latitude: req.param("latitude"), longitude: req.param("longitude") }
+    };
+    console.log("Create Event Body=" + JSON.stringify(e));
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            createevent(e, req, res);
+        });
+    } else {
+        createevent(e, req, res);
+    }
+});
+
+function createevent(e, req, res) {
+    var opts = {
+        type: "donationevents"
+            // name: 'Dominos'
+    };
+    loggedIn.createEntity(opts, function(err, o) {
+        if (err) {
+            res.send(err);
+            return;
+        }
+        o.set(e);
+        o.save(function(err) {
+            if (err) {
+                res.send(err);
+                return;
+            }
+            res.jsonp(o);
+        });
+    });
+}
+app.get("/connectentities", function(req, res) {
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            connectentities(req, res);
+        });
+    } else {
+        connectentities(req, res);
+    }
+});
+
+function connectentities(req, res) {
+    var connecting_entity_options = {
+        client: loggedIn,
+        data: {
+            type: 'groups',
+            uuid: req.param('uuid1')
+        }
+    };
+    var connecting_entity = new usergrid.entity(connecting_entity_options);
+    // create an entity object that models the entity being connected to
+    var connected_entity_options = {
+        client: loggedIn,
+        data: {
+            type: 'donationevents',
+            uuid: req.param('uuid2')
+        }
+    };
+    var connected_entity = new usergrid.entity(connected_entity_options);
+    // the connection type
+    var relationship = 'matches';
+    // send the POST request
+    connecting_entity.connect(relationship, connected_entity, function(error, result) {
+        if (error) {
+            console.log("Error connecting entities - " + error);
+        } else {
+            // Success
+            console.log("Success connecting entities");
+            res.jsonp(result);
+        }
+    });
+}
+app.get("/getconnections", function(req, res) {
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            getconnections(req, res);
+        });
+    } else {
+        getconnections(req, res);
+    }
+});
+
+function getconnections(req, res) {
+
+    // create an Usergrid.Entity object that models the entity to retrieve connections for
+    var options = {
+        client: loggedIn,
+        data: {
+            type: 'groups',
+            uuid: req.param('uuid')
+        }
+    };
+    var entity = new usergrid.entity(options);
+    // the connection type you want to retrieve
+    var relationship = 'matches';
+    // initiate the GET request
+    entity.getConnections(relationship, function(error, result) {
+        if (error) {
+            // Error
+            console.log("Error fetching connections - " + JSON.stringify(error));
+        } else {
+            // Success
+            console.log("Success getting connected entities : " + JSON.stringify(result));
+            res.jsonp(result);
+        }
+    });
+}
 var geo_query = "";
-app.get("/vicinitydonations", function(req, res) {
+app.get("/vicinityquery", function(req, res) {
     var criteria =
         "location within " +
         req.param("radius") +
@@ -607,13 +835,25 @@ app.get("/vicinitydonations", function(req, res) {
     } else {
         count = req.param("nearest");
     }
-    geo_query = {
-        type: "donations?limit=" + count, //Required - the type of collection to be retrieved
-        //		qs:criteria
-        //        qs: {"ql": "location within 500 of 51.5183638, -0.1712939000000233"}
-        qs: { ql: criteria }
-    };
-
+    var type = req.param("type");
+    if (type && type === 'offers') {
+        geo_query = {
+            type: "donations?limit=" + count, //Required - the type of collection to be retrieved
+            //		qs:criteria
+            //        qs: {"ql": "location within 500 of 51.5183638, -0.1712939000000233"}
+            qs: { ql: criteria }
+        };
+    } else if (type && type === 'needs') {
+        geo_query = {
+            type: "needs?limit=" + count, //Required - the type of collection to be retrieved
+            //		qs:criteria
+            //        qs: {"ql": "location within 500 of 51.5183638, -0.1712939000000233"}
+            qs: { ql: criteria }
+        };
+    } else {
+        res.jsonp("Invalid Type - must be offers or needs");
+        return;
+    }
     if (loggedIn === null) {
         logIn(req, res, getdonationsbylocation);
     } else {
@@ -629,7 +869,6 @@ function getdonationsbylocation(req, res) {
             res.jsonp(500, { getdonationsbylocation_error: JSON.stringify(err) });
             return;
         }
-
         var alldonations = [];
         while (donations.hasNextEntity()) {
             var arow = donations.getNextEntity().get();
@@ -655,7 +894,9 @@ function getdonationsbylocation(req, res) {
 }
 app.get("/creategroup", function(req, res) {
     var group = req.param("group");
-
+    if (group)
+        group = group.trim().toUpperCase().replace(/ /g, "-");
+    console.log("Creating Group: " + group);
     var options = {
         method: "POST",
         endpoint: "groups",
@@ -664,7 +905,6 @@ app.get("/creategroup", function(req, res) {
             name: group
         }
     };
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             createGroup(options, req, res);
@@ -683,15 +923,15 @@ function createGroup(e, req, res) {
         }
     });
 }
-
 app.get("/addusertogroup", function(req, res) {
     var group = req.param("group");
     var user = req.param("user");
+    if (group)
+        group = group.trim().toUpperCase().replace(/ /g, "-");
     var options = {
         method: "POST",
         endpoint: "groups/" + group + "/users/" + user
     };
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             addUserToGroup(options, req, res);
@@ -710,7 +950,6 @@ function addUserToGroup(e, req, res) {
         }
     });
 }
-
 app.get("/createuser", function(req, res) {
     var fullname = req.param("fullname");
     var password = req.param("password");
@@ -731,7 +970,6 @@ app.get("/createuser", function(req, res) {
             phone: phone
         }
     };
-
     if (loggedIn === null) {
         logIn(req, res, function() {
             createUser(options, req, res);
@@ -754,7 +992,6 @@ function createUser(e, req, res) {
 function encryptPassword(password) {
     const saltRounds = 10;
     const myPlaintextPassword = password;
-
     var salt = bcrypt.genSaltSync(saltRounds);
     var hash = bcrypt.hashSync(myPlaintextPassword, salt);
     encryptedPw = hash;
@@ -781,16 +1018,13 @@ app.get("/getuser", function(req, res) {
         getuserbyemail(options2, req, res);
     } //qs:{ql:"name='bread' or uuid=b3aad0a4-f322-11e2-a9c1-999e12039f87"}
 });
-
 //Call request to initiate the API call
-
 function getuserbyemail(e, req, res) {
     loggedIn.createCollection(e, function(err, users) {
         if (err) {
             res.jsonp(e);
             return;
         }
-
         var allusers = [];
         while (users.hasNextEntity()) {
             var auser = users.getNextEntity().get();
@@ -823,13 +1057,11 @@ function getuserafterauth(e, req, res) {
             res.jsonp(e);
             return;
         }
-
         var allusers = [];
         while (users.hasNextEntity()) {
             auser = users.getNextEntity().get();
             allusers.push(auser);
         }
-
         if (!allusers || allusers.length == 0)
             res.send("User Not Found");
         else
@@ -840,9 +1072,7 @@ function getuserafterauth(e, req, res) {
     });
 }
 var login_query = "";
-
 // We need this for UserGrid authentication
-
 function logIn(req, res, next) {
     console.log("Logging in as %s", "sujoyghosal");
     ug.login("sujoyghosal", "Kolkata1", function(err) {
@@ -851,7 +1081,6 @@ function logIn(req, res, next) {
             res.jsonp(500, { error: err });
             return;
         }
-
         loggedIn = new usergrid.client({
             orgName: "sujoyghosal",
             appName: "FREECYCLE",
@@ -860,12 +1089,9 @@ function logIn(req, res, next) {
             token: ug.token,
             logging: true
         });
-
         console.log("Got a token. I wonder when it expires? Let's guess.");
-
         // Go on to do what we were trying to do in the first place
         setTimeout(expireToken, 6000);
-
         next(req, res);
     });
 }
@@ -877,8 +1103,6 @@ function expireToken() {
         loggedIn = null;
     }
 }
-
 // Listen for requests until the server is stopped
-
 app.listen(9000);
 console.log("Listening on port 9000");
