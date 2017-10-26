@@ -31,16 +31,16 @@
                         <h2 ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</h2>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
-                    <p><span class="fa fa-map-marker"></span>
+                    <p>
                         <input id="city" name="city" ng-model="offer.city" ng-minlength="2" type="text" placeholder="City" class="form-control input-md" ng-required="true">
                         <h2 ng-show="myForm.city.$dirty && myForm.city.$invalid">Invalid City</h2>
                     </p>
-                    <p><span class="fa fa-map-marker"></span>
+                    <p>
                         <textarea rows="4" cols="50" id="address" name="address" ng-model="offer.address" ng-minlength="2" placeholder="Address" class="form-control input-md" ng-required="true">
                         <h2 ng-show="myForm.address.$dirty && myForm.address.$invalid">Invalid Address</h2>
                         </textarea>
                     </p>
-                    <p><span class="fa fa-car"></span>
+                    <p>
                         <input id="items" name="items" ng-model="offer.items" ng-minlength="2" type="text" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
                         <h2 ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Vehicle Type</h2>
                     </p>
