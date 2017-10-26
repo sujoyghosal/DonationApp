@@ -1,1 +1,0 @@
-apigeetool deploynodeapp -n DonationsAPI -d ./deploynode -m donation.js -o sujoyghosal -e test -b /donations -u gsujoy@yahoo.com -p Kolkata41
