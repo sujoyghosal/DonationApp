@@ -326,13 +326,13 @@ function updateuser(req, res) {
         uuid: req.param("uuid")
     };
     loggedIn.getEntity(option, function(err, entity) {
-        encryptedPw = encryptPassword(req.param('password'));
+        // encryptedPw = encryptPassword(req.param('password'));
         if (err) {
             res.send("ERROR");
         } else {
             entity.set("phone", req.param("phone"));
             entity.set("address", req.param("address"));
-            entity.set("pw", encryptedPw);
+            entity.set("pw", req.param('password'));
             entity.save(function(err) {
                 if (err) {
                     res.jsonp(500, "ERROR");
@@ -987,7 +987,7 @@ app.get("/createuser", function(req, res) {
     var email = req.param("email");
     var phone = req.param("phone");
     var address = req.param("address");
-    encryptedPw = encryptPassword(password);
+    //encryptedPw = encryptPassword(password);
     var options = {
         method: "POST",
         endpoint: "users",
@@ -997,7 +997,7 @@ app.get("/createuser", function(req, res) {
             email: email,
             address: address,
             fullname: fullname,
-            pw: encryptedPw,
+            pw: password,
             phone: phone
         }
     };

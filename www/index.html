@@ -51,7 +51,7 @@
             text-align: center;
             display: block;
             text-transform: uppercase;
-            padding: 8px;
+            padding: 20px;
         }
         /*Tablet View*/
         
@@ -70,6 +70,29 @@
                 float: right;
             }
         }
+        /*notifications badge*/
+        
+        .buttonnotification {
+            display: inline-block;
+            text-decoration: none;
+            padding: 0px 0px;
+        }
+        
+        [data-notifications] {
+            position: relative;
+        }
+        
+        [data-notifications]:after {
+            content: attr(data-notifications);
+            position: relative;
+            background: red;
+            border-radius: 50%;
+            display: inline-block;
+            padding: 0.3em;
+            color: #f2f2f2;
+            right: -15px;
+            top: -15px;
+        }
     </style>
 </head>
 
@@ -77,12 +100,24 @@
 
     <div ng-controller="DonationCtrl" ng-show="isVisible()">
         <header>
+            <!-- Top menu -->
+            <div class="w3-top">
+                <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+                    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+                </div>
+            </div>
             <nav class="style-nav">
                 <ul>
-                    <li><a href="#subscribe">Subscribe Events</a></li>
-                    <li><a href="#notifications">Notifications</a></li>
-                    <li><a href="#updateuser">Profile</a></li>
-                    <li><a href="#login">Logout</a></li>
+                    <li><a href="#subscribe"><i class="fa fa-calendar fa-3x"></i></a></li>
+                    <li>
+                        <p>
+                            <a href="#notifications" data-notifications={{events.length}} class="buttonnotification"><i class="fa fa-envelope fa-3x"></i></a>
+                        </p>
+                    </li>
+                    <li>
+                        <a href="#updateuser"><i class="fa fa-user fa-3x"></i></a>
+                    </li>
+                    <li><a href="#login"><i class="fa fa-sign-out fa-3x"></i></a></li>
                 </ul>
             </nav>
         </header>
@@ -96,12 +131,7 @@
             <a href="#login" onclick="w3_close()" class="w3-bar-item w3-button">Logout</a>
         </nav>
 
-        <!-- Top menu -->
-        <div class="w3-top">
-            <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-                <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
-            </div>
-        </div>
+
         <!--       <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <ul class="nav navbar-nav">

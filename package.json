@@ -3,9 +3,10 @@
     "version": "0.0.0",
     "description": "Donation App",
     "main": "donation.js",
-    "scripts": { "start": "node donation.js" },
+    "scripts": {
+        "start": "node donation.js"
+    },
     "dependencies": {
-        "argo": "x.x.x",
         "express": "3.x.x",
         "usergrid": "x.x.x",
         "bcrypt": "x.x.x"
