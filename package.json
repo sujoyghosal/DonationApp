@@ -9,6 +9,7 @@
     "dependencies": {
         "express": "3.x.x",
         "usergrid": "x.x.x",
-        "bcrypt": "x.x.x"
+        "bcrypt": "x.x.x",
+        "promise": "x.x.x"
     }
 }

@@ -18,10 +18,29 @@
         <br>
         <input type="text" name="city" ng-model="data.city" />
         <br>
-        <label for="item">
+        <!--        <label for="item">
                     <p/>Enter Item: </label>
         <br>
-        <input type="text" name="item" ng-model="data.item" />
+        <input type="text" name="item" ng-model="data.item" /> -->
+        <br>
+        <p>
+            <label for="sel1">Select Type:</label>
+            <select class="form-control" id="sel1" name="itemtype" ng-model="data.itemtype">
+                        <option value="Electronics">Electronics</option>
+                        <option value="Fashion">Utilities</option>
+                        <option value="Household">Educational</option>
+                        <option value="Household">Medical</option>
+                        <option value="Food">Food</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Clothes">Clothes</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Household">Household</option>
+                        <option value="Furniture">Sports</option>
+                        <option value="Clothes">Shoes</option>                               
+                        <option value="Other">Other</option>
+                    </select>
+        </p>
+
         <br>
         <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data, login_user)"></button>
         <br>{{result}}

@@ -48,7 +48,7 @@ app.config([
                 templateUrl: "CreateNeed.html",
                 controller: "DonationCtrl"
             })
-            .when("/needsnearby", {
+            .when("/viewneeds", {
                 templateUrl: "NeedsNearby.html",
                 controller: "DonationCtrl"
             })
@@ -93,6 +93,7 @@ app.service("UserService", function() {
         getLoggedIn: getLoggedIn,
     };
 });
+
 app.controller("LogoutCtrl", function($scope, UserService) {
     UserService.setLoggedIn("");
 });
@@ -128,9 +129,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     var param_name = "";
     $scope.offererUUID = "";
     $scope.reverseSort = false;
-    //    $rootScope.eventsCount = 0;
-    var allgroupevents = [];
-    var tempEventsCount = 0;
+    $scope.eventsCount = 0;
     $scope.events = [];
     var today = new Date().toISOString().slice(0, 10);
     $scope.today = {
@@ -144,12 +143,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         return ("/login" !== $location.path() && "/signup" !== $location.path());
     };
     $rootScope.$on("CallGetEventsMethod", function() {
-        //  $scope.GetGroupsAndEventsForUser();
+        //$scope.GetEventsForUser();
     });
 
-    setInterval(function() {
-        $scope.GetGroupsAndEventsForUser();
-    }, 300000);
+    /*   setInterval(function() {
+           $scope.GetEventsForUser();
+       }, 30000);*/
 
     $scope.OrchestrateCreateOffer = function(offer) {
         $scope.GeoCodeAddress(offer.address, "offer");
@@ -224,6 +223,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&city=" +
             offer.city +
             "&status=OFFERED" +
+            "&itemtype=" +
+            offer.itemtype +
             "&items=" +
             offer.items +
             "&latitude=" +
@@ -272,7 +273,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         );
     };
     $scope.CheckIfGroupExists = function(event) {
-        var group = "EVENT-" + event.city.trim().toUpperCase().replace(/ /g, "-") + "-" + event.items.trim().toUpperCase().replace(/ /g, "-");
+        var group = "EVENT-" + event.city.trim().toUpperCase().replace(/ /g, "-") + "-" + event.itemtype.trim().toUpperCase().replace(/ /g, "-");
 
         var sendURL =
             "http://localhost:9000/getgroupbyname?group=" + group;
@@ -287,11 +288,17 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.loginResult = "Success";
-                alert("This Offer Has inetersted Users, notifying them now.");
-                console.log("CheckIfGroupExists: Groups exists for event " + group);
-                $scope.spinner = false;
-                // Connect event uuid with group name
-                $scope.CreateEvent(event, response.data.entities[0].uuid);
+                if (response && response.data && response.data.entities && response.data.entities.length > 0) {
+                    $scope.loginResult = "Success";
+                    alert("This Offer Has inetersted Users, notifying them now.");
+                    console.log("CheckIfGroupExists: Groups exists for event " + group);
+                    $scope.spinner = false;
+                    // Connect event uuid with group name
+                    $scope.CreateEvent(event, response.data.entities[0].uuid);
+                } else {
+                    console.log("CheckIfGroupExists: Group does not exists: " + group);
+                    $scope.spinner = false;
+                }
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -320,6 +327,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&city=" +
             need.city +
             "&status=NEEDED" +
+            "&itemtype=" +
+            need.itemtype +
             "&items=" +
             need.items +
             "&latitude=" +
@@ -429,7 +438,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.lat +
                 "&longitude=" +
                 $scope.lng +
-                "&type=" + event.type);
+                "&type=" + event.type) + "&group=" + group;
 
         $http({
             method: "GET",
@@ -439,7 +448,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.loginResult = "Success";
-                alert("Created Event For This Request")
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 // Connect event uuid with group name
@@ -746,7 +754,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             .trim()
             .toUpperCase() +
             "-" +
-            data.item
+            data.itemtype
             .toString()
             .trim()
             .toUpperCase();
@@ -832,13 +840,13 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
-    $scope.GetGroupsAndEventsForUser = function() {
+    $scope.GetEventsForUser = function() {
         $scope.spinner = true;
         $scope.showevents = false;
-        //first create group with id=<city>-<place>
         var uuid = UserService.getLoggedIn().uuid;
-        var getURL = "http://localhost:9000/getgroupsforuser?uuid=" + uuid;
+        var getURL = "http://localhost:9000/getconnectionsforuser?uuid=" + uuid;
         getURL = encodeURI(getURL);
+        console.log("GetEventsForUser " + JSON.stringify(getURL));
         $http({
             method: "GET",
             url: getURL
@@ -847,18 +855,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.spinner = false;
-                $scope.showmyevents = true;
-                $scope.usergroups = response.data;
-                allgroupevents = [];
-
-                $rootScope.eventsCount = 0;
-                console.log("Before GetEventsForGroup loop");
-                for (var i = 0; i < $scope.usergroups.length; i++) {
-                    $scope.GetEventsForGroup($scope.usergroups[i].uuid);
-                }
-                console.log("After GetEventsForGroup loop");
-                $scope.events = allgroupevents;
-                $scope.result = "Found " + allgroupevents.length + " events."
+                $scope.showevents = true;
+                $scope.result = "Found " + response.data.length + " events matching your criteria."
+                console.log("GetEventsForUser Response= " + JSON.stringify(response));
+                console.log("Events Count= " + response.data.length);
+                $scope.events = response.data;
+                $scope.eventsCount = $scope.events.length;
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -869,13 +871,14 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
+
     $scope.GetEventsForGroup = function(uuid) {
         if (!uuid) {
             console.log("Invalid UUID");
             return;
         }
         console.log("Inside GetEventsForGroup");
-        var getURL = "http://localhost:9000/getconnections?uuid=" + uuid;
+        var getURL = "http://localhost:9000/getconnectionsforgroup?uuid=" + uuid;
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -893,8 +896,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         if ($scope.login_email === aevent.email)
                             continue;
                         else {
-                            allgroupevents.push(aevent);
-                            $rootScope.eventsCount += 1;
+                            $scope.events.push(aevent);
+                            $scope.eventsCount++;
                         }
                     }
                 }
@@ -908,7 +911,36 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
+    $scope.GetGroupsForUser = function(group) {
+        $scope.spinner = true;
+        $scope.showmyevents = false;
+        //first create group with id=<city>-<place>
+        var uuid = UserService.getLoggedIn().uuid;
 
+        var getURL = "http://localhost:9000/getgroupsforuser?uuid=" + uuid;
+        getURL = encodeURI(getURL);
+        $http({
+            method: "GET",
+            url: getURL
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.spinner = false;
+                $scope.showmyevents = true;
+                console.log("GetGroupsForUser response=" + JSON.stringify(response));
+                $scope.usergroups = response.data;
+                // $scope.found  = "Active donation offers for " + param_name;
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                $scope.spinner = false;
+                $scope.groupusers = "ERROR GETTING GROUP USERS ";
+                $scope.alldonations = false;
+            }
+        );
+    };
     $scope.DeleteGroupForUser = function(group) {
         $scope.spinner = true;
         $scope.showmyevents = false;

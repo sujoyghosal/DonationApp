@@ -1,5 +1,6 @@
 var express = require("express");
 var usergrid = require("usergrid");
+var promise = require('promise');
 //var config = require('./config');
 // Set up Express environment and enable it to read and write JavaScript
 var allowCrossDomain = function(req, res, next) {
@@ -17,6 +18,7 @@ var allowCrossDomain = function(req, res, next) {
     }
 };
 var app = express();
+var allentities = [];
 app.use(allowCrossDomain);
 //app.use(express.bodyParser());
 app.use(express.urlencoded());
@@ -213,6 +215,17 @@ function getgroupsforuser(req, res) {
             res.send("ERROR - " + JSON.stringify(err));
         } else {
             res.send(groups.entities);
+        }
+    });
+}
+
+function getgroupsforuser2(req, res) {
+    loggedIn.request(group_query, function(err, groups) {
+        if (err) {
+            console.log("ERROR - " + JSON.stringify(err));
+        } else {
+            console.log(groups.entities);
+            allgroups = groups;
         }
     });
 }
@@ -648,6 +661,7 @@ app.get("/createdonations", function(req, res) {
         phone_number: req.param("phone_number"),
         email: req.param("email"),
         currentcount: "0",
+        itemtype: req.param("itemtype"),
         items: req.param("items"),
         status: "OFFERED",
         time: req.param("time"),
@@ -693,6 +707,7 @@ app.get("/createneed", function(req, res) {
         phone_number: req.param("phone_number"),
         email: req.param("email"),
         currentcount: "0",
+        itemtype: req.param("itemtype"),
         items: req.param("items"),
         status: "REQUIRED",
         time: req.param("time"),
@@ -743,6 +758,7 @@ app.get("/createevent", function(req, res) {
         status: req.param('status'),
         timestamp: req.param("time"),
         eventtype: req.param('type'),
+        group_uuid: req.param('group'),
         location: { latitude: req.param("latitude"), longitude: req.param("longitude") }
     };
     console.log("Create Event Body=" + JSON.stringify(e));
@@ -816,17 +832,17 @@ function connectentities(req, res) {
         }
     });
 }
-app.get("/getconnections", function(req, res) {
+app.get("/getconnectionsforgroup", function(req, res) {
     if (loggedIn === null) {
         logIn(req, res, function() {
-            getconnections(req, res);
+            getconnectionsforgroup(req, res);
         });
     } else {
-        getconnections(req, res);
+        getconnectionsforgroup(req, res);
     }
 });
 
-function getconnections(req, res) {
+function getconnectionsforgroup(req, res) {
 
     // create an Usergrid.Entity object that models the entity to retrieve connections for
     var options = {
@@ -836,7 +852,12 @@ function getconnections(req, res) {
             uuid: req.param('uuid')
         }
     };
-    var entity = new usergrid.entity(options);
+    try {
+        var entity = new usergrid.entity(options);
+    } catch (error) {
+        console.log("Error fetching connections - " + JSON.stringify(error));
+        return;
+    }
     // the connection type you want to retrieve
     var relationship = 'matches';
     // initiate the GET request
@@ -848,6 +869,89 @@ function getconnections(req, res) {
             // Success
             console.log("Success getting connected entities : " + JSON.stringify(result));
             res.jsonp(result);
+        }
+    });
+}
+var allconnections = [];
+var index = 0;
+var entity = {};
+
+function getconnectionsforgroup2(req, res, uuid, last) {
+
+    if (!uuid) {
+        console.log("getconnectionsforgroup2: No group uuid received");
+        return;
+    }
+
+    var options = {
+        client: loggedIn,
+        data: {
+            type: 'groups',
+            uuid: uuid
+        }
+    };
+    entity = new usergrid.entity(options);
+
+    // the connection type you want to retrieve
+    var relationship = 'matches';
+    // initiate the GET request
+    entity.getConnections(relationship, function(error, result) {
+        if (error) {
+            // Error
+            console.log("Error fetching connections - " + JSON.stringify(error));
+        } else {
+            // Success
+            console.log("Success getting connected entity for group id " + uuid);
+
+            //console.log(JSON.stringify(result));
+            if (result.entities && result.entities.length > 0)
+                allconnections = allconnections.concat(result.entities);
+        }
+    });
+    if (last) {
+        setTimeout(function() {
+            console.log("All Events: " + JSON.stringify(allconnections));
+            res.jsonp(allconnections);
+        }, 5000)
+    }
+}
+
+app.get("/getconnectionsforuser", function(req, res) {
+    if (loggedIn === null) {
+        logIn(req, res, function() {
+            getconnectionsforuser(req, res);
+        });
+    } else {
+        getconnectionsforuser(req, res);
+    }
+});
+
+function getconnectionsforuser(req, res) {
+
+    // create an Usergrid.Entity object that models the entity to retrieve connections for
+    var uuid = req.param("uuid");
+    allconnections = [];
+    allgroups = [];
+    index = 0;
+    group_query = {
+        method: "GET",
+        endpoint: "users/" + uuid + "/groups"
+    };
+    loggedIn.request(group_query, function(err, groups) {
+
+        if (err) {
+            console.log("ERROR - " + JSON.stringify(err));
+        } else {
+            var uuids = [];
+            if (!groups || !groups.entities || groups.entities.length == 0) {
+                console.log("No subscribed event groups found");
+                res.jsonp("No Groups Found");
+            }
+            console.log("Found " + groups.entities.length + " subscriptions.");
+            for (var i = 0; i < groups.entities.length; i++) {
+                uuids.push(groups.entities[i].uuid);
+            }
+            geteventsforgroups(req, res, uuids);
         }
     });
 }
@@ -1063,6 +1167,40 @@ function getuserbyemail(e, req, res) {
         }
         if (allusers.length > 0) res.jsonp(allusers);
         else res.send("User Not Found");
+    });
+}
+
+//Call request to initiate the API call
+function geteventsforgroups(req, res, groups) {
+    if (!groups || groups.length == 0) {
+        console.log('Invalid Groups uuids');
+        return;
+    }
+    var query = '';
+    for (var i = 0; i < groups.length; i++) {
+        query += "group_uuid = '" + groups[i] + "'";
+        if (i < (groups.length - 1))
+            query += " or ";
+    }
+    console.log("geteventsforgroups query = " + query)
+    var options2 = {
+        type: "donationevents",
+        qs: {
+            ql: query
+        }
+    };
+    loggedIn.createCollection(options2, function(err, events) {
+        if (err) {
+            res.jsonp(e);
+            return;
+        }
+        var allevents = [];
+        while (events.hasNextEntity()) {
+            var aevent = events.getNextEntity().get();
+            allevents.push(aevent);
+        }
+        if (allevents.length > 0) res.jsonp(allevents);
+        else res.send("Events Not Found");
     });
 }
 app.get("/loginuser", function(req, res) {
