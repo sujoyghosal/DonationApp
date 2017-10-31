@@ -3,13 +3,12 @@
 
 <head>
     <title>My Notifications</title>
-    <link rel="stylesheet" href="css/responsivetable.css">
 </head>
 
 <body>
     <center/>
     <h5>MY NOTIFICATIONS</h5>
-    <div ng-app="myApp" ng-controller="DonationCtrl">
+    <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="showevents=false;">
 
         <br>
         <center/><button type="button" class="btn btn-primary btn-md" ng-click="GetEventsForUser()">View Notifications</button>
@@ -29,7 +28,7 @@
                 <label ng-show="showevents">Search Items, Address, Phone Number etc in events:
                                 <input ng-model="searchText">
                             </label>
-                <br><b>{{result}}{{}}</b>
+                <br><b>{{resultEvents}}{{}}</b>
                 <table class="table table-bordered" id="eventstable" id="searchResults2">
                     <thead>
                         <tr>

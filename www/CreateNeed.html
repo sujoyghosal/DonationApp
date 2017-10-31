@@ -41,20 +41,20 @@
                         </textarea>
                     </p>
                     <p>
-                        <label for="sel1">Select Type:</label>
                         <select class="form-control" id="sel1" name="itemtype" ng-model="need.itemtype">
-                                    <option value="Electronics">Electronics</option>
-                                    <option value="Fashion">Utilities</option>
-                                    <option value="Household">Educational</option>
-                                    <option value="Household">Medical</option>
-                                    <option value="Food">Food</option>
-                                    <option value="Furniture">Furniture</option>
-                                    <option value="Clothes">Clothes</option>
-                                    <option value="Fashion">Fashion</option>
-                                    <option value="Household">Household</option>
-                                    <option value="Furniture">Sports</option>
-                                    <option value="Clothes">Shoes</option>                               
-                                    <option value="Other">Other</option>
+                                <option value="" selected disabled>Select Type</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Fashion">Utilities</option>
+                                <option value="Educational">Educational</option>
+                                <option value="Medical">Medical</option>
+                                <option value="Food">Food</option>
+                                <option value="Furniture">Furniture</option>
+                                <option value="Clothes">Clothes</option>
+                                <option value="Fashion">Fashion</option>
+                                <option value="Household">Household</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Shoes">Shoes</option>                               
+                                <option value="Other">Other</option>
                                 </select>
                         <h2 ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Invalid Item Type</h2>
                     </p>
@@ -62,7 +62,7 @@
                         <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
                         <h2 ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Need Type</h2>
                     </p>
-                    <p><input type="checkbox" name="checkboxG1" id="checkboxG1" class="css-checkbox" ng-model="need.emergency" ng-true-value="'YES'" ng-false-value="'NO'" /><label for="checkboxG1" class="css-label"> Emergency</label> </p>
+                    <p><input type="checkbox" name="checkboxG1" id="checkboxG1" class="css-checkbox" ng-model="need.emergency" default="NO" ng-true-value="'YES'" ng-false-value="'NO'" /><label for="checkboxG1" class="css-label"> Emergency</label> </p>
                     <p>
                         <input type="button" name="submit" value="SUBMIT" ng-click="GeoCodeAddress(need, 'need')" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
                                           myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid">

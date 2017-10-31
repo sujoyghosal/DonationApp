@@ -3,7 +3,6 @@
 
 <head>
     <title>View Needs Nearby</title>
-    <link rel="stylesheet" href="css/responsivetable.css">
 </head>
 
 <body>
@@ -73,11 +72,6 @@
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
                                 </th>
-                                <th ng-click="orderByField='email'; reverse = !reverse" nowrap>Posted By
-                                    <span ng-show="orderByField == 'email'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                                </th>
                                 <th ng-click="orderByField='time'; reverse = !reverse" nowrap>Posted On
                                     <span ng-show="orderByField == 'time'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
@@ -85,11 +79,6 @@
                                 </th>
                                 <th ng-click="orderByField='address'; reverse = !reverse" nowrap>Address
                                     <span ng-show="orderByField == 'address'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                                </th>
-                                <th ng-click="orderByField='status'; reverse = !reverse" nowrap>Status
-                                    <span ng-show="orderByField == 'status'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
                                 </th>
@@ -102,13 +91,11 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="row in cityneeds | orderBy : orderByField : !reverse| filter:searchText">
-                            <td>{{$index + 1}} : {{row.items}} in {{row.city}} posted by {{row.postedby}}</td>
-                            <td>Email: {{row.email}} Phone: {{row.phone_number}}</td>
+                            <td>{{row.items}} in {{row.city}} posted by {{row.postedby}} Email: {{row.email}} Phone: {{row.phone_number}}</td>
                             <td>{{row.time | date: 'short'}}</td>
                             <td>{{row.address}}</td>
-                            <td>{{row.status}} </td>
                             <td>{{row.emergency}} </td>
-                            <td ng-show="row.status!='ACCEPTED'">
+                            <td>
                                 <button class="btn btn-primary btn-md" ng-click="Redirect('/offerdonation')">OFFER A DONATION</button>
                             </td>
                         </tr>

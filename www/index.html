@@ -5,19 +5,17 @@
     <title>Donate India</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.5.0.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
     <script src="js/myappangular.js"></script>
     <script src="js/navscript.js"></script>
-    <link rel="stylesheet" href="css/navstyle.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="css/landing-page.css" media="screen" type="text/css" />
     <script>
@@ -40,7 +38,7 @@
             margin-right: auto;
             display: block;
         }
-        /*       
+        
         .style-nav ul {
             list-style-type: none;
         }
@@ -54,13 +52,17 @@
             padding: 20px;
         }
         
+        @media screen and (max-width: 767px) {
+            ul li {
+                display: none;
+            }
+        }
         
         @media (min-width: 768px) {
             ul li {
                 display: inline-block;
             }
         }
-        
         
         @media (min-width: 1024px) {
             .style-logo {
@@ -69,7 +71,7 @@
             .style-nav {
                 float: right;
             }
-        } */
+        }
         /*notifications badge*/
         
         .buttonnotification {
@@ -90,8 +92,8 @@
             display: inline-block;
             padding: 0.3em;
             color: #f2f2f2;
-            right: -15px;
-            top: -15px;
+            right: -10px;
+            top: -10px;
         }
         
         .topnav {
@@ -106,7 +108,7 @@
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
-            font-size: 17px;
+            font-size: 14px;
         }
         
         .topnav a:hover {
@@ -160,41 +162,23 @@
 
     <div ng-controller="DonationCtrl" ng-show="isVisible()">
         <header>
-            <!-- Top menu -->
-            <!--<div class="w3-top">
-                <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-                    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
-                </div>
 
-                <nav class="style-nav">
-                    <ul>
-                        <li><a href="#/offershistory"><i class="fa fa-gift fa-3x"></i>My Offers</a></li>
-                        <li><a href="#/subscribe"><i class="fa fa-calendar fa-3x"></i>Events</a></li>
-                        <li>
-                            <p>
-                                <a href="#/notifications" data-notifications={{eventsCount}} class="buttonnotification"><i class="fa fa-envelope fa-3x"></i>Notifications</a>
-                            </p>
-                        </li>
-                        <li>
-                            <a href="#/updateuser"><i class="fa fa-user fa-3x"></i>Profile</a>
-                        </li>
-                        <li><a href="#/login"><i class="fa fa-sign-out fa-3x"></i>Logout</a></li>
-                    </ul>
-                </nav>
-            </div> -->
+            <!-- Top menu -->
+            <!--
+            
             <div class="topnav" id="myTopnav">
                 <a href="#/home">Home</a>
                 <a href="#/offerdonation">Create Offer</a>
                 <a href="#/getdonation">View Offers</a>
                 <a href="#/createneed">Create Need</a>
                 <a href="#/viewneeds">View Needs</a>
-                <a href="#/notifications">Events</a>
+                <a href="#/notifications">Notifications</a>
                 <a href="#/subscribe">Subscribe</a>
                 <a href="#/updateuser">Profile</a>
                 <a href="#/login">Logout</a>
                 <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
-            </div>
-            <!--  <nav class="navbar navbar-inverse topnav" id="myTopnav">
+            </div></div> 
+            <nav class="navbar navbar-inverse topnav" id="myTopnav">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <a class="navbar-brand" href="#">WebSiteName</a>
@@ -223,22 +207,42 @@
                         <l1><a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a></l1>
                     </ul>
                 </div>
-            </nav>
-
-
-
-
-            <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
-                <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button">x</a>
-                <a href="#/home" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
-                <a href="#offerdonation" onclick="w3_close()" class="w3-bar-item w3-button">Create Offer</a>
-                <a href="#/getdonation" onclick="w3_close()" class="w3-bar-item w3-button">View Offers</a>
-                <a href="#createneed" onclick="w3_close()" class="w3-bar-item w3-button">Publish Needs</a>
-                <a href="#needsnearby" onclick="w3_close()" class="w3-bar-item w3-button">View Needs</a>
-                <a href="#notifications" onclick="w3_close()" class="w3-bar-item w3-button">View Notifications</a>
-                <a href="#subscribe" onclick="w3_close()" class="w3-bar-item w3-button">Subscribe Events</a>
-                <a href="#login" onclick="w3_close()" class="w3-bar-item w3-button">Logout</a>
             </nav>-->
+
+
+
+            <div class="w3-top">
+                <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+                    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+                </div>
+                <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+                    <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button">x</a>
+                    <a href="#/home" onclick="w3_close()" class="w3-bar-item w3-button">Home</a>
+                    <a href="#offerdonation" onclick="w3_close()" class="w3-bar-item w3-button">Create Offer</a>
+                    <a href="#/getdonation" onclick="w3_close()" class="w3-bar-item w3-button">View Offers</a>
+                    <a href="#createneed" onclick="w3_close()" class="w3-bar-item w3-button">Publish Needs</a>
+                    <a href="#viewneeds" onclick="w3_close()" class="w3-bar-item w3-button">View Needs</a>
+                    <a href="#notifications" onclick="w3_close()" class="w3-bar-item w3-button">View Notifications</a>
+                    <a href="#subscribe" onclick="w3_close()" class="w3-bar-item w3-button">Subscribe Events</a>
+                    <a href="#login" onclick="w3_close()" class="w3-bar-item w3-button">Logout</a>
+                </nav>
+
+            </div>
+            <nav class="style-nav">
+                <ul>
+                    <li><a href="#/offershistory"><i class="fa fa-gift fa-3x"></i>My Offers</a></li>
+                    <li><a href="#/subscribe"><i class="fa fa-calendar fa-3x"></i>Events</a></li>
+                    <li>
+                        <p>
+                            <a href="#/notifications" data-notifications={{eventsCount}} class="buttonnotification"><i class="fa fa-envelope fa-3x"></i>Notifications</a>
+                        </p>
+                    </li>
+                    <li>
+                        <a href="#/updateuser"><i class="fa fa-user fa-3x"></i>Profile</a>
+                    </li>
+                    <li><a href="#/login"><i class="fa fa-sign-out fa-3x"></i>Logout</a></li>
+                </ul>
+            </nav>
         </header>
 
         <!--       <nav class="navbar navbar-inverse">
@@ -271,7 +275,7 @@
                                 <li>
                                     <a href="#/createneed">Publish Need</a>
                                 </li>
-                                <li><a href="#/needsnearby">View Needs</a></li>
+                                <li><a href="#/viewneeds">View Needs</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -328,6 +332,7 @@
             </li>
             <li><a href='#/login'>Logout</a></li>
         </ul>-->
+
     </div>
     <center>
         <br>

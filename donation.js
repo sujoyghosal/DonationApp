@@ -916,17 +916,17 @@ function getconnectionsforgroup2(req, res, uuid, last) {
     }
 }
 
-app.get("/getconnectionsforuser", function(req, res) {
+app.get("/geteventsforuser", function(req, res) {
     if (loggedIn === null) {
         logIn(req, res, function() {
-            getconnectionsforuser(req, res);
+            geteventsforuser(req, res);
         });
     } else {
-        getconnectionsforuser(req, res);
+        geteventsforuser(req, res);
     }
 });
 
-function getconnectionsforuser(req, res) {
+function geteventsforuser(req, res) {
 
     // create an Usergrid.Entity object that models the entity to retrieve connections for
     var uuid = req.param("uuid");
@@ -948,10 +948,39 @@ function getconnectionsforuser(req, res) {
                 res.jsonp("No Groups Found");
             }
             console.log("Found " + groups.entities.length + " subscriptions.");
+            var query = '';
             for (var i = 0; i < groups.entities.length; i++) {
                 uuids.push(groups.entities[i].uuid);
+                query += "group_uuid = '" + groups.entities[i].uuid + "'";
+                if (i < (groups.entities.length - 1))
+                    query += " or ";
             }
-            geteventsforgroups(req, res, uuids);
+            // geteventsforgroups(req, res, uuids);
+            console.log("geteventsforuser query = " + query);
+            var options2 = {
+                type: "donationevents",
+                qs: {
+                    ql: query
+                }
+            };
+            if (loggedIn === null) {
+                logIn(req, res, function() {
+                    geteventsforuser(req, res);
+                });
+            } else {
+                loggedIn.createCollection(options2, function(err, events) {
+                    if (err) {
+                        res.jsonp(e);
+                        return;
+                    }
+                    var allevents = [];
+                    while (events.hasNextEntity()) {
+                        var aevent = events.getNextEntity().get();
+                        allevents.push(aevent);
+                    }
+                    res.jsonp(allevents);
+                });
+            }
         }
     });
 }

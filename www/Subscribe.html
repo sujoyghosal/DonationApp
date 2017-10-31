@@ -26,24 +26,25 @@
         <p>
             <label for="sel1">Select Type:</label>
             <select class="form-control" id="sel1" name="itemtype" ng-model="data.itemtype">
+                    <option value="" selected disabled>Select Type</option>
                         <option value="Electronics">Electronics</option>
                         <option value="Fashion">Utilities</option>
-                        <option value="Household">Educational</option>
-                        <option value="Household">Medical</option>
+                        <option value="Educational">Educational</option>
+                        <option value="Medical">Medical</option>
                         <option value="Food">Food</option>
                         <option value="Furniture">Furniture</option>
                         <option value="Clothes">Clothes</option>
                         <option value="Fashion">Fashion</option>
                         <option value="Household">Household</option>
-                        <option value="Furniture">Sports</option>
-                        <option value="Clothes">Shoes</option>                               
+                        <option value="Sports">Sports</option>
+                        <option value="Shoes">Shoes</option>                               
                         <option value="Other">Other</option>
                     </select>
         </p>
 
         <br>
         <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data, login_user)"></button>
-        <br>{{result}}
+        <br>
     </div>
     <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>{{result}}
 

@@ -41,19 +41,19 @@
                         </textarea>
                     </p>
                     <p>
-                        <label for="sel1">Select Type:</label>
                         <select class="form-control" id="sel1" name="itemtype" ng-model="offer.itemtype">
+                                <option value="" selected disabled>Select Type</option>
                                 <option value="Electronics">Electronics</option>
                                 <option value="Fashion">Utilities</option>
-                                <option value="Household">Educational</option>
-                                <option value="Household">Medical</option>
+                                <option value="Educational">Educational</option>
+                                <option value="Medical">Medical</option>
                                 <option value="Food">Food</option>
                                 <option value="Furniture">Furniture</option>
                                 <option value="Clothes">Clothes</option>
                                 <option value="Fashion">Fashion</option>
                                 <option value="Household">Household</option>
-                                <option value="Furniture">Sports</option>
-                                <option value="Clothes">Shoes</option>                               
+                                <option value="Sports">Sports</option>
+                                <option value="Shoes">Shoes</option>                               
                                 <option value="Other">Other</option>
                             </select>
                         <h2 ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Invalid Item Type</h2>

@@ -143,12 +143,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         return ("/login" !== $location.path() && "/signup" !== $location.path());
     };
     $rootScope.$on("CallGetEventsMethod", function() {
-        //$scope.GetEventsForUser();
+        $scope.GetEventsForUser();
     });
 
-    /*   setInterval(function() {
-           $scope.GetEventsForUser();
-       }, 30000);*/
+    setInterval(function() {
+        $scope.GetEventsForUser();
+    }, 30000);
 
     $scope.OrchestrateCreateOffer = function(offer) {
         $scope.GeoCodeAddress(offer.address, "offer");
@@ -738,7 +738,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
     $scope.Subscribe = function(data, user) {
         $scope.spinner = true;
-        if (!data || !data.city || !data.item) {
+        if (!data || !data.city || !data.itemtype) {
             alert("Please enter City and Item name for alerts");
             return;
         }
@@ -844,7 +844,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         $scope.spinner = true;
         $scope.showevents = false;
         var uuid = UserService.getLoggedIn().uuid;
-        var getURL = "http://localhost:9000/getconnectionsforuser?uuid=" + uuid;
+        var getURL = "http://localhost:9000/geteventsforuser?uuid=" + uuid;
         getURL = encodeURI(getURL);
         console.log("GetEventsForUser " + JSON.stringify(getURL));
         $http({
@@ -856,7 +856,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 $scope.showevents = true;
-                $scope.result = "Found " + response.data.length + " events matching your criteria."
+                $scope.resultEvents = "Found " + response.data.length + " events matching your criteria."
                 console.log("GetEventsForUser Response= " + JSON.stringify(response));
                 console.log("Events Count= " + response.data.length);
                 $scope.events = response.data;
