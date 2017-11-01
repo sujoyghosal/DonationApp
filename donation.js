@@ -120,9 +120,10 @@ var needs_query = "";
 app.get("/getneeds", function(req, res) {
     var paramname = req.param("paramname");
     var paramvalue = req.param("paramvalue");
+    var emergency = req.param('emergency');
     needs_query = {
         type: "needs?limit=500", //Required - the type of collection to be retrieved
-        qs: { ql: paramname + "='" + paramvalue + "'" }
+        qs: { ql: paramname + "='" + paramvalue + "'" + " and emergency='" + emergency + "'" }
     };
     if (paramname === "uuid") {
         donations_query = {
@@ -1012,7 +1013,14 @@ app.get("/vicinityquery", function(req, res) {
             type: "needs?limit=" + count, //Required - the type of collection to be retrieved
             //		qs:criteria
             //        qs: {"ql": "location within 500 of 51.5183638, -0.1712939000000233"}
-            qs: { ql: criteria }
+            qs: { ql: criteria + " and not emergency = 'YES'" }
+        };
+    } else if (type && type === 'emergency') {
+        geo_query = {
+            type: "needs?limit=" + count, //Required - the type of collection to be retrieved
+            //		qs:criteria
+            //        qs: {"ql": "location within 500 of 51.5183638, -0.1712939000000233"}
+            qs: { ql: criteria + " and emergency = 'YES'" }
         };
     } else {
         res.jsonp("Invalid Type - must be offers or needs");

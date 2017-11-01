@@ -3,6 +3,7 @@
 
 <head>
     <title>View Donations Offered</title>
+    <link rel="stylesheet" href="css/slider.css" type="text/css" />
 </head>
 
 <body>
@@ -25,21 +26,15 @@
                     <br>
                 </div>
                 <div ng-switch-when="Near Me">
-                    <label for="distance">
-                            <p/>Select Radius (km): </label>
-                    <select name="distance" ng-model="data.distance">
-                            <option value="1">1</option>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="50">50</option>
-                        </select>
-                    <p> Of Address
+                    <br>
+                    <div id="slidecontainer">
+                        <p>Select Distance: </p><input type="range" ng-model="data.distance" min="1" max="50" value="25" class="slider" id="myRange">
+                        <p>{{'Within ' + data.distance + 'Km'}} Of Address</p>
+                    </div>
+                    <p>
                         <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>
-                        <center/><textarea name="myAddress" rows="4" cols="25" ng-model="data.searchAddress" placeholder="Address"></textarea></p>
-                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data, 'offers')">Fetch Donations Within {{data.distance}} km of Address</button>
+                        <center/><textarea name="myAddress" rows="4" cols="25" ng-model="data.searchAddress" placeholder="Enter Address"></textarea></p>
+                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'offers')">Fetch Offers Within {{data.distance}} km of Address</button>
                     <br>
                 </div>
             </div>
@@ -68,29 +63,29 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th ng-click="orderByField='offeredby' ; reverse=! reverse ">Contact
-                                        <span ng-show="orderByField=='offeredby' ">
-                                        <i class="fa fa-sort-asc " ng-show="reverse "> </i>
-                                        <i class="fa fa-sort-desc " ng-show="!reverse "></i></span>
+                                    <th ng-click="orderByField='items' ; reverse=! reverse ">Items
+                                        <span ng-show="orderByField=='items' ">
+                                                <i class="fa fa-sort-asc " ng-show="reverse "> </i>
+                                                <i class="fa fa-sort-desc " ng-show="!reverse "></i></span>
                                     </th>
                                     <th ng-click="orderByField='address' ; reverse=! reverse ">Address
                                         <span ng-show="orderByField=='address' ">
                                         <i class="fa fa-sort-asc " ng-show="reverse "> </i>
                                         <i class="fa fa-sort-desc " ng-show="!reverse "></i></span>
                                     </th>
-                                    <th ng-click="orderByField='items' ; reverse=! reverse ">Items
-                                        <span ng-show="orderByField=='items' ">
-                                        <i class="fa fa-sort-asc " ng-show="reverse "> </i>
-                                        <i class="fa fa-sort-desc " ng-show="!reverse "></i></span>
+                                    <th ng-click="orderByField='offeredby' ; reverse=! reverse ">Offered By
+                                        <span ng-show="orderByField=='offeredby' ">
+                                            <i class="fa fa-sort-asc " ng-show="reverse "> </i>
+                                            <i class="fa fa-sort-desc " ng-show="!reverse "></i></span>
                                     </th>
                                 </tr>
                             </thead>
                             <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse| filter:searchText ">
+                                <td>{{row.items}}</td>
+                                <td>{{row.address}}</td>
                                 <td>{{row.offeredby}} on {{row.time | date: 'short'}} Email: {{row.email}} Phone:
                                     <a href={{row.phone_number}}>{{row.phone_number}}</a>
                                 </td>
-                                <td>{{row.address}}</td>
-                                <td>{{row.items}}</td>
                                 <!--                           <td ng-show="row.status!='ACCEPTED' ">
                                 <button class="btn btn-primary btn-md " ng-click="AcceptDonation(row, 'ACCEPTED') ">ACCEPT DONATION</button>
                             </td>

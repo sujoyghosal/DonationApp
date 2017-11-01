@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Donate India - Publish Need</title>
+</head>
+
+<body ng-app="myApp">
+    <div class="container">
+        <!--              -->
+        <div id="login">
+            <form class="form-horizontal" ng-controller="DonationCtrl" name="myForm" autocomplete="on" novalidate>
+                <center/>
+                <legend>PUBLISH AN EMERGENCY NEED</legend>
+                <center/>
+                <br>
+                <fieldset class="clearfix:after">
+                    <p><span class="fontawesome-user"></span>
+                        <input id="name" name="name" ng-model="need.name" ng-minlength="2" type="text" placeholder={{login_fullname}} class="form-control input-md" ng-readonly="true">
+                        <h2 ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</h2>
+                    </p>
+                    <!-- JS because of IE support; better: placeholder="Username" -->
+                    <p><span class="fontawesome-envelope"></span>
+                        <input id="email" name="email" ng-model="need.email" ng-minlength="2" type="email" placeholder={{login_email}} class="form-control input-md" ng-readonly="true">
+                        <h2 ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</h2>
+                    </p>
+                    <!-- JS because of IE support; better: placeholder="Username" -->
+                    <p><span class="fontawesome-phone"></span>
+                        <input id="phone" name="phone" ng-model="need.phone" ng-minlength="8" type="tel" placeholder={{login_phone}} class="form-control input-md" ng-readonly="true">
+                        <h2 ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</h2>
+                    </p>
+                    <!-- JS because of IE support; better: placeholder="Username" -->
+                    <p>
+                        <input id="city" name="city" ng-model="need.city" ng-minlength="2" type="text" placeholder="City" class="form-control input-md" ng-required="true">
+                        <h2 ng-show="myForm.city.$dirty && myForm.city.$invalid">Invalid City</h2>
+                    </p>
+                    <p>
+                        <textarea rows="4" cols="50" id="address" name="address" ng-model="need.address" ng-minlength="2" placeholder="Address" class="form-control input-md" ng-required="true">
+                        <h2 ng-show="myForm.address.$dirty && myForm.address.$invalid">Invalid Address</h2>
+                        </textarea>
+                    </p>
+                    <p>
+                        <select class="form-control" id="sel1" name="itemtype" ng-model="need.itemtype">
+                                <option value="" selected disabled>Select Emergency</option>
+                                <option value="Medical">Medical</option>
+                                <option value="Natural Disaster">Natural Disaster</option>
+                                <option value="Terrorism">Terrorism</option>
+                                <option value="Accident">Accident</option>
+                                <option value="Hoolaganism">Hoolaganism</option>
+                                <option value="Women's Safety">Women's Safety</option>
+                                <option value="Children's Safety">Children's Safety</option>
+                                 </select>
+                        <h2 ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Invalid Item Type</h2>
+                    </p>
+                    <p>
+                        <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
+                        <h2 ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Need Type</h2>
+                    </p>
+                    <p>
+                        <input type="button" name="submit" value="SUBMIT" ng-click="GeoCodeAddress(need, 'emergency')" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
+                                          myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid">
+                        <br>
+                        <center/> {{loginResult}}
+                    </p>
+                    <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
+                </fieldset>
+            </form>
+        </div>
+        <!-- end login -->
+    </div>
+</body>
+
+</html>

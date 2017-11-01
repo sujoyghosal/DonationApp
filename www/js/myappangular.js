@@ -48,8 +48,16 @@ app.config([
                 templateUrl: "CreateNeed.html",
                 controller: "DonationCtrl"
             })
+            .when("/createemergency", {
+                templateUrl: "CreateEmergency.html",
+                controller: "DonationCtrl"
+            })
             .when("/viewneeds", {
                 templateUrl: "NeedsNearby.html",
+                controller: "DonationCtrl"
+            })
+            .when("/viewemergencies", {
+                templateUrl: "ViewEmergencies.html",
                 controller: "DonationCtrl"
             })
             .when("/settings", {
@@ -143,11 +151,11 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         return ("/login" !== $location.path() && "/signup" !== $location.path());
     };
     $rootScope.$on("CallGetEventsMethod", function() {
-        $scope.GetEventsForUser();
+        $scope.GetEventsForUser(true);
     });
 
     setInterval(function() {
-        $scope.GetEventsForUser();
+        $scope.GetEventsForUser(true);
     }, 30000);
 
     $scope.OrchestrateCreateOffer = function(offer) {
@@ -172,7 +180,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.lng = $scope.geoCodeResponse.results[0].geometry.location.lng;
                 if (func && func === 'need') {
                     console.log("Creating Need...");
-                    $scope.CreateNeed(offer);
+                    $scope.CreateNeed(offer, 'NO');
+                } else if (func && func === 'emergency') {
+                    console.log("Creating Need...");
+                    $scope.CreateNeed(offer, 'YES');
                 } else if (func && func === 'offer') {
                     console.log("Creating Offer...");
                     $scope.SendOffer(offer);
@@ -310,7 +321,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         );
     };
 
-    $scope.CreateNeed = function(need) {
+    $scope.CreateNeed = function(need, emergency) {
         $scope.loginResult = "";
         var now = new Date();
         var sendURL =
@@ -335,7 +346,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             $scope.lat +
             "&longitude=" +
             $scope.lng +
-            "&emergency=" + need.emergency;
+            "&emergency=" + emergency;
         console.log("Create Need Req URL=" + sendURL);
         $scope.loginResult = "Need Request Sent";
 
@@ -597,7 +608,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
-    $scope.GetNeeds = function(paramname, paramvalue) {
+    $scope.GetNeeds = function(paramname, paramvalue, emergency) {
         $scope.spinner = true;
         if (!paramname || !paramvalue) return;
         param_name = paramname.trim();
@@ -605,7 +616,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "http://localhost:9000/getneeds?paramname=" +
             param_name +
             "&paramvalue=" +
-            paramvalue.trim();
+            paramvalue.trim() + "&emergency=" + emergency;
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -840,9 +851,15 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
-    $scope.GetEventsForUser = function() {
-        $scope.spinner = true;
-        $scope.showevents = false;
+    $scope.GetEventsForUser = function(executeInBg) {
+        console.log("GetEventsForUser executeInBg=" + executeInBg);
+        if (!executeInBg) {
+            $scope.spinner = true;
+            $scope.showevents = false;
+        } else {
+            $scope.spinner = false;
+            $scope.showevents = false;
+        }
         var uuid = UserService.getLoggedIn().uuid;
         var getURL = "http://localhost:9000/geteventsforuser?uuid=" + uuid;
         getURL = encodeURI(getURL);
@@ -854,8 +871,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
-                $scope.spinner = false;
-                $scope.showevents = true;
+                if (!executeInBg) {
+                    $scope.spinner = false;
+                    $scope.showevents = true;
+                }
                 $scope.resultEvents = "Found " + response.data.length + " events matching your criteria."
                 console.log("GetEventsForUser Response= " + JSON.stringify(response));
                 console.log("Events Count= " + response.data.length);
