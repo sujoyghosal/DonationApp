@@ -155,8 +155,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     });
 
     setInterval(function() {
+        console.log("Calling GetEventsForUser from setTimeout at " + new Date());
         $scope.GetEventsForUser(true);
-    }, 30000);
+    }, 60000);
 
     $scope.OrchestrateCreateOffer = function(offer) {
         $scope.GeoCodeAddress(offer.address, "offer");
@@ -628,7 +629,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.spinner = false;
                 $scope.cityneeds = response.data;
                 if (angular.isObject($scope.cityneeds))
-                    $scope.found = $scope.cityneeds.length + " needs found";
+                    $scope.found = $scope.cityneeds.length + " found";
 
                 $scope.allneeds = true;
                 $scope.cancel = false;
@@ -753,6 +754,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             alert("Please enter City and Item name for alerts");
             return;
         }
+        console.log("Creating subscription for city " + data.city + "and item type " + data.itemtype);
         $scope.result = "Sending Request....";
         //first create group with id=<city>-<place>
         var getURL = "http://localhost:9000/creategroup?group=";
@@ -772,7 +774,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
         getURL = encodeURI(getURL + group);
         console.log("Creating Group: " + getURL);
-        $scope.result = getURL;
         $http({
             method: "GET",
             url: getURL
@@ -781,7 +782,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.spinner = false;
-                //     $scope.result = "SUCCESS ADDING GROUP " + group;
                 var u = $scope.login_email;
                 addUserToGroup(group, u);
                 //$scope.found  = "Active donation offers for " + param_name;
@@ -812,9 +812,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.spinner = false;
-                $scope.result =
-                    "SUCCESS ADDING SUBSCRIPTION TO PUSH MESSAGES FOR EVENT. YOU WILL RECEIVE A NOTIFICATION WHENEVER AN OFFER IS MADE FOR THIS ITEM AT THIS LOCATION" + group;
-                // $scope.found  = "Active donation offers for " + param_name;
+                console.log("SUCCESS ADDING SUBSCRIPTION TO GROUP " + group);
+                $scope.result = "SUCCESS ADDING SUBSCRIPTION. YOU WILL NOW RECEIVE NOTIFICTAIONS FOR OFFERS OR NEEDS MATCHING THIS CRITERIA ";
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -852,13 +851,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         );
     };
     $scope.GetEventsForUser = function(executeInBg) {
-        console.log("GetEventsForUser executeInBg=" + executeInBg);
+
         if (!executeInBg) {
             $scope.spinner = true;
             $scope.showevents = false;
         } else {
             $scope.spinner = false;
-            $scope.showevents = false;
         }
         var uuid = UserService.getLoggedIn().uuid;
         var getURL = "http://localhost:9000/geteventsforuser?uuid=" + uuid;
@@ -876,7 +874,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     $scope.showevents = true;
                 }
                 $scope.resultEvents = "Found " + response.data.length + " events matching your criteria."
-                console.log("GetEventsForUser Response= " + JSON.stringify(response));
+                    //console.log("GetEventsForUser Response= " + JSON.stringify(response));
                 console.log("Events Count= " + response.data.length);
                 $scope.events = response.data;
                 $scope.eventsCount = $scope.events.length;

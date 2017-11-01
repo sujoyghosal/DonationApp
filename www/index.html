@@ -52,19 +52,25 @@
             padding-top: 20px;
             padding-right: 40px;
         }
-        /*@media screen and (max-width: 767px) {
+        /*       @media screen and (max-width: 767px) {
             ul li {
                 display: none;
             }
-        }*/
-        
-        @media (min-width: 768px) {
             ul li {
                 display: inline-block;
             }
         }
         
-        @media (min-width: 1024px) {
+        @media (min-width: 768px) {
+            ul li {
+                display: inline-block;
+            }
+        }*/
+        
+        @media (min-width: 100px) {
+            ul li {
+                display: inline-block;
+            }
             .style-logo {
                 float: left;
             }
@@ -121,9 +127,9 @@
                 </div>
                 <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
                     <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button">X</a>
-                    <a href="#/home" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-home fa-3x"></i>Home</a>
+                    <a href="#/home" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-home fa-2x"></i>Home</a>
                     <a onclick="w3_close()" class="w3-bar-item w3-button">
-                        <div class="dropdown"><i class="fa fa-gift fa-3x"></i>Offers
+                        <div class="dropdown"><i class="fa fa-gift fa-2x"></i>Offers
                             <div class="dropdown-content">
                                 <a href="#offerdonation" onclick="w3_close()">Create Offers</a>
                                 <a href="#getdonation" onclick="w3_close()">View Offers</a>
@@ -132,15 +138,15 @@
                         </div>
                     </a>
                     <a onclick="w3_close()" class="w3-bar-item w3-button">
-                        <div class="dropdown"><i class="fa fa-heartbeat fa-3x"></i>Emergencies
+                        <div class="dropdown"><i class="fa fa-heartbeat fa-2x"></i>Emergencies
                             <div class="dropdown-content">
-                                <a href="#createemergency" onclick="w3_close()">Publish Need</a>
-                                <a href="#viewemergencies" onclick="w3_close()">View Needs</a>
+                                <a href="#createemergency" onclick="w3_close()">Publish Emergency</a>
+                                <a href="#viewemergencies" onclick="w3_close()">View Emergencies</a>
                             </div>
                         </div>
                     </a>
                     <a onclick="w3_close()" class="w3-bar-item w3-button">
-                        <div class="dropdown"><i class="fa fa-cart-arrow-down fa-3x"></i>Needs
+                        <div class="dropdown"><i class="fa fa-cart-arrow-down fa-2x"></i>Needs
                             <div class="dropdown-content">
                                 <a href="#createneed" onclick="w3_close()">Create Needs</a>
                                 <a href="#viewneeds" onclick="w3_close()">View Needs</a>
@@ -148,7 +154,7 @@
                         </div>
                     </a>
                     <a onclick="w3_close()" class="w3-bar-item w3-button">
-                        <div class="dropdown"><i class="fa fa-envelope fa-3x"></i>Notifications
+                        <div class="dropdown"><i class="fa fa-envelope fa-2x"></i>Notifications
                             <div class="dropdown-content">
                                 <a href="#notifications" onclick="w3_close()">View Notifications</a>
                                 <a href="#subscribe" onclick="w3_close()">Subscribe Events</a>
@@ -156,21 +162,21 @@
                         </div>
                     </a>
                     <a onclick="w3_close()" class="w3-bar-item w3-button">
-                        <div class="dropdown"><i class="fa fa-user fa-3x"></i>My Account
+                        <div class="dropdown"><i class="fa fa-user fa-2x"></i>My Account
                             <div class="dropdown-content">
                                 <a href="#updateuser" onclick="w3_close()">Update Profile</a>
                                 <a href="#settings" onclick="w3_close()">My Preferences</a>
                             </div>
                         </div>
                     </a>
-                    <a href="#login" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-sign-out fa-3x"></i>Logout</a>
+                    <a href="#login" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-sign-out fa-2x"></i>Logout</a>
                 </nav>
                 <nav class="style-nav">
                     <ul>
                         <div class="dropdown">
                             <li>
 
-                                <a><i class="fa fa-heartbeat fa-3x"></i></a>
+                                <a><i class="fa fa-ambulance fa-2x"></i></a>
                                 <div class="dropdown-content">
                                     <a href="#createemergency">Create Emergency</a>
                                     <a href="#viewemergencies">View Emergencies</a>
@@ -180,7 +186,7 @@
                         </div>
                         <!--<div class="dropdown">
                             <li>
-                                <a>OFFERS<i class="fa fa-gift fa-3x"></i></a>
+                                <a>OFFERS<i class="fa fa-gift fa-2x"></i></a>
                                 <div class="dropdown-content">
                                     <a href="#createneed">Create</a>
                                     <a href="#viewneeds">View</a>
@@ -189,23 +195,23 @@
                         </div>-->
                         <div class="dropdown">
                             <li>
-                                <a data-notifications={{eventsCount}} class="buttonnotification"><i class="fa fa-envelope fa-3x"></i></a>
+                                <a data-notifications={{eventsCount}} class="buttonnotification"><i class="fa fa-envelope fa-2x"></i></a>
                                 <div class="dropdown-content">
                                     <a href="#notifications">View Notifications</a>
                                     <a href="#subscribe">Subscribe Events</a>
                                 </div>
                             </li>
                         </div>
-                        <!--<div class="dropdown">
+                        <div class="dropdown">
                             <li>
-                                <a>PROFILE<i class="fa fa-user fa-3x"></i></a>
+                                <a><i class="fa fa-user fa-2x"></i></a>
                                 <div class="dropdown-content">
                                     <a href="#updateuser">Update Profile</a>
                                     <a href="#settings">Settings</a>
                                 </div>
                             </li>
                         </div>
-                        <li><a href="#/login"><i class="fa fa-sign-out fa-3x"></i></a></li>-->
+                        <li><a href="#/login"><i class="fa fa-sign-out fa-2x"></i></a></li>
                     </ul>
                 </nav>
             </div>
@@ -213,25 +219,23 @@
             <!--<nav class="style-nav">
                 <ul>
                     <li>
-                        <a href="#/offershistory"><i class="fa fa-gift fa-3x"></i>My Offers</a></li>
-                    <li><a href="#/subscribe"><i class="fa fa-calendar fa-3x"></i>Events</a></li>
+                        <a href="#/offershistory"><i class="fa fa-gift fa-2x"></i>My Offers</a></li>
+                    <li><a href="#/subscribe"><i class="fa fa-calendar fa-2x"></i>Events</a></li>
                     <li>
                         <p>
-                            <a href="#/notifications" data-notifications={{eventsCount}} class="buttonnotification"><i class="fa fa-envelope fa-3x"></i>Notifications</a>
+                            <a href="#/notifications" data-notifications={{eventsCount}} class="buttonnotification"><i class="fa fa-envelope fa-2x"></i>Notifications</a>
                         </p>
                     </li>
                     <li>
-                        <a href="#/updateuser"><i class="fa fa-user fa-3x"></i>Profile</a>
+                        <a href="#/updateuser"><i class="fa fa-user fa-2x"></i>Profile</a>
                     </li>
-                    <li><a href="#/login"><i class="fa fa-sign-out fa-3x"></i>Logout</a></li>
+                    <li><a href="#/login"><i class="fa fa-sign-out fa-2x"></i>Logout</a></li>
                 </ul>
             </nav>-->
 
         </header>
     </div>
     <center>
-        <br>
-        <br>
         <div ng-controller="DonationCtrl" class="container">
             <div class="col-md-9">
                 <div ng-view></div>

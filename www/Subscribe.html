@@ -6,7 +6,6 @@
 </head>
 
 <body>
-    <p align="left">Welcome {{login_fullname}}</p>
     <p align="right"><input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Manage Subscriptions" ng-click="Redirect('/unsubscribe')"></button>
     </p>
     <p align="left">If you are interested in specific types of donations for a specific locations or areas, add that place name and item here. Whenever anyone creates a donation offer at that place matching this item, you will get a notification.</p>
@@ -25,7 +24,7 @@
         <br>
         <p>
             <label for="sel1">Select Type:</label>
-            <select class="form-control" id="sel1" name="itemtype" ng-model="data.itemtype">
+            <select class="form-control" id="sel1" name="itemtype" ng-model="data.itemtype" style="width:200px">
                     <option value="" selected disabled>Select Type</option>
                         <option value="Electronics">Electronics</option>
                         <option value="Fashion">Utilities</option>
@@ -43,10 +42,14 @@
         </p>
 
         <br>
-        <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data, login_user)"></button>
+        <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data, login_user)">
         <br>
+        <div ng-show="spinner">
+            <i class="fa fa-circle-o-notch fa-spin "></i>
+        </div>
+        {{result}}
     </div>
-    <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>{{result}}
+
 
 </body>
 

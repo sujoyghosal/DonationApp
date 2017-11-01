@@ -20,8 +20,6 @@
                             <p/>Enter City: </label>
                     <br>
                     <input type="text" name="citySelect" ng-model="data.citySelect" />
-                    <br>
-                    <br>
                     <button type="button" class="btn btn-primary btn-md" ng-click="GetDonations('city',data.citySelect)">Fetch Donations in {{data.citySelect}}</button>
                     <br>
                 </div>
@@ -55,14 +53,16 @@
                                 </select>
                                 <br>
                             </label>
-                    <label ng-show="alldonations">Search Places, Names, Items, Phone Number etc in donations:
-                                <input ng-model="searchText">
-                            </label>
-                    <br><b>{{result}}{{}}</b>
-                    <div class="container">
+
+                    <div class="container" style="width: 70%">
+                        <label ng-show="alldonations">Search Items, Places etc in results:
+                                    <input ng-model="searchText">
+                                </label>
+                        <br><b>{{result}}{{}}</b>
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th ng-click="orderByField='items' ; reverse=! reverse ">Items
                                         <span ng-show="orderByField=='items' ">
                                                 <i class="fa fa-sort-asc " ng-show="reverse "> </i>
@@ -81,6 +81,7 @@
                                 </tr>
                             </thead>
                             <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse| filter:searchText ">
+                                <td><i class="fa fa-book fa-2x"></i></td>
                                 <td>{{row.items}}</td>
                                 <td>{{row.address}}</td>
                                 <td>{{row.offeredby}} on {{row.time | date: 'short'}} Email: {{row.email}} Phone:

@@ -20,8 +20,6 @@
                             <p/>Enter City: </label>
                     <br>
                     <input type="text" name="citySelect" ng-model="data.citySelect" />
-                    <br>
-                    <br>
                     <button type="button" class="btn btn-primary btn-md" ng-click="GetNeeds('city',data.citySelect,'YES')">Fetch Emergencies in {{data.citySelect}}</button>
                     <br>
                 </div>
@@ -45,7 +43,7 @@
                 <br>
             </center>
             <p>
-                <div class="container" ng-show="allneeds">
+                <div class="container" ng-show="allneeds" style="width:70%">
                     <label ng-show="false">Sort By:
                                 <select name="sort" ng-model="offeredby">
                                     <option value="offeredby">Name</option>
@@ -55,13 +53,14 @@
                                 </select>
                                 <br>
                             </label>
-                    <label ng-show="allneeds">Search Places, Names, Items, Phone Number etc in needs:
+                    <label ng-show="allneeds">Search Places, Items etc in Emergencies:
                                 <input ng-model="searchText">
                             </label>
                     <br><b>{{result}}{{}}</b>
-                    <table class="table table-bordered" id="needstable" id="searchResults2">
+                    <table class="table table-condensed" id="needstable" id="searchResults2">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th ng-click="orderByField='items'; reverse = !reverse" nowrap>Need
                                     <span ng-show="orderByField == 'items'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
@@ -77,22 +76,13 @@
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
                                 </th>
-                                <th ng-click="orderByField='emergency'; reverse = !reverse" nowrap>Emergency
-                                    <span ng-show="orderByField == 'emergency'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                                </th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tr ng-repeat="row in cityneeds | orderBy : orderByField : !reverse| filter:searchText">
+                            <td><i class="fa fa-heartbeat fa-2x"></i></td>
                             <td>{{row.items}} in {{row.city}} posted by {{row.postedby}} Email: {{row.email}} Phone: {{row.phone_number}}</td>
                             <td>{{row.time | date: 'short'}}</td>
                             <td>{{row.address}}</td>
-                            <td>{{row.emergency}} </td>
-                            <td>
-                                <button class="btn btn-primary btn-md" ng-click="Redirect('/offerdonation')">OFFER A DONATION</button>
-                            </td>
                         </tr>
                     </table>
                 </div>

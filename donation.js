@@ -1,6 +1,6 @@
 var express = require("express");
 var usergrid = require("usergrid");
-var promise = require('promise');
+
 //var config = require('./config');
 // Set up Express environment and enable it to read and write JavaScript
 var allowCrossDomain = function(req, res, next) {
@@ -24,7 +24,7 @@ app.use(allowCrossDomain);
 app.use(express.urlencoded());
 app.use(express.json());
 // Initialize Usergrid
-var bcrypt = require('bcrypt');
+//var bcrypt = require('bcrypt');
 var encryptedPw = 'null';
 var ug = new usergrid.client({
     orgName: "sujoyghosal",
@@ -121,10 +121,17 @@ app.get("/getneeds", function(req, res) {
     var paramname = req.param("paramname");
     var paramvalue = req.param("paramvalue");
     var emergency = req.param('emergency');
-    needs_query = {
-        type: "needs?limit=500", //Required - the type of collection to be retrieved
-        qs: { ql: paramname + "='" + paramvalue + "'" + " and emergency='" + emergency + "'" }
-    };
+    if (emergency === 'YES') {
+        needs_query = {
+            type: "needs?limit=500", //Required - the type of collection to be retrieved
+            qs: { ql: paramname + "='" + paramvalue + "'" + " and emergency='YES'" }
+        };
+    } else {
+        needs_query = {
+            type: "needs?limit=500", //Required - the type of collection to be retrieved
+            qs: { ql: paramname + "='" + paramvalue + "'" + " and not emergency='YES'" }
+        };
+    }
     if (paramname === "uuid") {
         donations_query = {
             type: "needs", //Required - the type of collection to be retrieved
@@ -1160,7 +1167,7 @@ function createUser(e, req, res) {
         }
     });
 }
-
+/*
 function encryptPassword(password) {
     const saltRounds = 10;
     const myPlaintextPassword = password;
@@ -1169,10 +1176,11 @@ function encryptPassword(password) {
     encryptedPw = hash;
     console.log("Encrypted password=" + hash);
     return hash;
-};
+};*/
 
 function checkPassword(password, hash) {
-    return bcrypt.compareSync(password, hash);
+    //return bcrypt.compareSync(password, hash);
+    return true;
 };
 app.get("/getuser", function(req, res) {
     var email = req.param("email");

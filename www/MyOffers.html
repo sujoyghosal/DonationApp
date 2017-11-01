@@ -5,10 +5,7 @@
 </head>
 
 <body>
-    <br>
-    <br>
-    <br>
-    <br>
+
     <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="orderByField='time'">
         <button class="btn btn-primary btn-md" ng-click="GetDonations('email',login_email)">VIEW DONATIONS I OFFERED</button>
         <br>
@@ -16,12 +13,11 @@
         <p>
             <p/><b/>{{found}}
             <br>
-            <br>
-            <label ng-show="alldonations">Search in Donations:
-                <input ng-model="searchText">
-            </label>
-            <div class="container">
-                <table class="table table-bordered" ng-show="alldonations">
+            <div class="container" style="width: 70%">
+                <label ng-show="alldonations">Search in Donations:
+                            <input ng-model="searchText">
+                        </label>
+                <table class="table table-condensed" ng-show="alldonations">
                     <thead>
                         <tr>
                             <th>Offer</th>
@@ -44,9 +40,9 @@
                         </tr>
                     </thead>
                     <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse | filter:searchText">
-                        <td>{{$index + 1}} : {{row.items}} in {{row.city}} offered by {{row.offeredby}}</td>
+                        <td>{{row.items}} in {{row.city}} offered by {{row.offeredby}}</td>
                         <td>Email: {{row.email}} Phone: {{row.phone_number}}</td>
-                        <td>{{row.status}} at {{row.time | date: 'short'}}</td>
+                        <td>{{row.status}} on {{row.time | date: 'short'}}</td>
                         <td>{{row.address}}</td>
                         <td>
                             <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
