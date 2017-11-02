@@ -102,6 +102,9 @@ app.service("UserService", function() {
     };
 });
 
+var BASEURL = "https://freecycleapissujoy.mybluemix.net";
+//var BASEURL = "http://localhost:9000";
+
 app.controller("LogoutCtrl", function($scope, UserService) {
     UserService.setLoggedIn("");
 });
@@ -284,7 +287,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
         //        $scope.GeoCodeAddress(offer.address, "offer");
         var sendURL =
-            "http://localhost:9000/createdonations?email=" +
+            BASEURL + "/createdonations?email=" +
             $scope.login_email +
             "&offeredby=" +
             $scope.login_fullname +
@@ -351,7 +354,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         var group = "EVENT-" + event.city.trim().toUpperCase().replace(/ /g, "-") + "-" + event.itemtype.trim().toUpperCase().replace(/ /g, "-");
 
         var sendURL =
-            "http://localhost:9000/getgroupbyname?group=" + group;
+            BASEURL + "/getgroupbyname?group=" + group;
 
         console.log("CheckIfGroupExists URL=" + sendURL);
 
@@ -389,7 +392,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         $scope.loginResult = "";
         var now = new Date();
         var sendURL =
-            "http://localhost:9000/createneed?email=" +
+            BASEURL + "/createneed?email=" +
             $scope.login_email +
             "&postedby=" +
             $scope.login_fullname +
@@ -471,7 +474,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         $scope.spinner = true;
 
         var notifyURL = encodeURI(
-            "http://localhost:9000/sendpush/devicespush?regids=" +
+            BASEURL + "/sendpush/devicespush?regids=" +
             gcmids +
             "&text=" +
             text
@@ -496,7 +499,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         $scope.loginResult = "";
         var now = new Date();
         var sendURL =
-            encodeURI("http://localhost:9000/createevent?email=" +
+            encodeURI(BASEURL + "/createevent?email=" +
                 $scope.login_email +
                 "&postedby=" +
                 $scope.login_fullname +
@@ -548,7 +551,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             return;
         }
         var getURL =
-            "http://localhost:9000/connectentities?uuid1=" + uuid1 + "&uuid2=" + uuid2;
+            BASEURL + "/connectentities?uuid1=" + uuid1 + "&uuid2=" + uuid2;
         getURL = encodeURI(getURL);
         console.log("Connect Entities URL=" + getURL);
         $http({
@@ -570,7 +573,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     var notifyUsersInGroup = function(group, from, time, by, phone) {
         $scope.spinner = true;
         //first create group with id=<city>-<place>
-        var getURL = "http://localhost:9000/getusersingroup?group=" + group;
+        var getURL = BASEURL + "/getusersingroup?group=" + group;
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -648,7 +651,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         if (!paramname || !paramvalue) return;
         param_name = paramname.trim();
         var getURL =
-            "http://localhost:9000/getdonations?paramname=" +
+            BASEURL + "/getdonations?paramname=" +
             param_name +
             "&paramvalue=" +
             paramvalue.trim();
@@ -697,7 +700,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         if (!paramname || !paramvalue) return;
         param_name = paramname.trim();
         var getURL =
-            "http://localhost:9000/getneeds?paramname=" +
+            BASEURL + "/getneeds?paramname=" +
             param_name +
             "&paramvalue=" +
             paramvalue.trim() + "&emergency=" + emergency;
@@ -786,7 +789,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             return;
         }
         var getURL =
-            "http://localhost:9000/vicinityquery?radius=" +
+            BASEURL + "/vicinityquery?radius=" +
             data.distance * 1000 + "&latitude=" + data.lat + "&longitude=" + data.lng + "&type=" + type;
 
         getURL = encodeURI(getURL);
@@ -881,7 +884,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         console.log("Creating subscription for city " + data.city + "and item type " + data.itemtype);
         $scope.result = "Sending Request....";
         //first create group with id=<city>-<place>
-        var getURL = "http://localhost:9000/creategroup?group=";
+        var getURL = BASEURL + "/creategroup?group=";
         var group = "";
 
         group =
@@ -925,7 +928,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         //first create group with id=<city>-<place>
 
         var getURL =
-            "http://localhost:9000/addusertogroup?group=" + group + "&user=" + user;
+            BASEURL + "/addusertogroup?group=" + group + "&user=" + user;
         getURL = encodeURI(getURL);
         console.log("Adding User to Group: " + getURL);
         $http({
@@ -952,7 +955,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     var getUsersInGroup = function(group) {
         $scope.spinner = true;
         //first create group with id=<city>-<place>
-        var getURL = "http://localhost:9000/getusersingroup?group=" + group;
+        var getURL = BASEURL + "/getusersingroup?group=" + group;
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -983,7 +986,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             $scope.spinner = false;
         }
         var uuid = UserService.getLoggedIn().uuid;
-        var getURL = "http://localhost:9000/geteventsforuser?uuid=" + uuid;
+        var getURL = BASEURL + "/geteventsforuser?uuid=" + uuid;
         getURL = encodeURI(getURL);
         console.log("GetEventsForUser " + JSON.stringify(getURL));
         $http({
@@ -1035,7 +1038,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             return;
         }
         console.log("Inside GetEventsForGroup");
-        var getURL = "http://localhost:9000/getconnectionsforgroup?uuid=" + uuid;
+        var getURL = BASEURL + "/getconnectionsforgroup?uuid=" + uuid;
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -1074,7 +1077,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         //first create group with id=<city>-<place>
         var uuid = UserService.getLoggedIn().uuid;
 
-        var getURL = "http://localhost:9000/getgroupsforuser?uuid=" + uuid;
+        var getURL = BASEURL + "/getgroupsforuser?uuid=" + uuid;
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -1104,7 +1107,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         //first create group with id=<city>-<place>
         var uuid = UserService.getLoggedIn().uuid;
 
-        var getURL = "http://localhost:9000/deletegroupforuser?uuid=" + uuid + "&group=" + group;
+        var getURL = BASEURL + "/deletegroupforuser?uuid=" + uuid + "&group=" + group;
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -1130,7 +1133,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
     function SendPushToUserByEmail(email, text) {
         $scope.spinner = true;
-        var getURL = "http://localhost:9000/getuser?email=" + email.trim();
+        var getURL = BASEURL + "/getuser?email=" + email.trim();
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -1181,7 +1184,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         }
         $scope.spinner = true;
         //first create group with id=<city>-<place>
-        var getURL = "http://localhost:9000/getuser?email=" + email.trim();
+        var getURL = BASEURL + "/getuser?email=" + email.trim();
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -1221,7 +1224,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "Attempting to send push to uuid: " + uuid + " with text: " + text
         );
         //first create group with id=<city>-<place>
-        var getURL = "http://localhost:9000/getuserbyuuid?uuid=" + uuid.trim();
+        var getURL = BASEURL + "/getuserbyuuid?uuid=" + uuid.trim();
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -1277,7 +1280,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
         $scope.spinner = true;
         var getURL =
-            "http://localhost:9000/updateusersettings?uuid=" +
+            BASEURL + "/updateusersettings?uuid=" +
             $scope.uuid +
             "&starttimehrs=" +
             starttimehrs +
@@ -1319,7 +1322,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         var receiveTime = new Date();
         var filteredtime = $filter("date")(receiveTime, "medium");
         var updateURL =
-            "http://localhost:9000/acceptdonation?uuid=" +
+            BASEURL + "/acceptdonation?uuid=" +
             row.uuid +
             "&receiver_name=" +
             loggedinUser.fullname +
@@ -1376,7 +1379,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.GetdonationAcceptances = function(row, cancel) {
         $scope.spinner = true;
         var acceptsURL =
-            "http://localhost:9000/getdonationacceptances?uuid=" + row.uuid;
+            BASEURL + "/getdonationacceptances?uuid=" + row.uuid;
         $http({
             method: "GET",
             url: acceptsURL
@@ -1401,7 +1404,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.GetAcceptedDonations = function(email) {
         $scope.spinner = true;
         var getURL =
-            "http://localhost:9000/accepteddonations?email=" + email.trim();
+            BASEURL + "/accepteddonations?email=" + email.trim();
         getURL = encodeURI(getURL);
         $http({
             method: "GET",
@@ -1434,7 +1437,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     };
     $scope.CancelOffer = function(row) {
         $scope.spinner = true;
-        var cancelURL = "http://localhost:9000/canceloffer?uuid=" + row.uuid;
+        var cancelURL = BASEURL + "/canceloffer?uuid=" + row.uuid;
 
         $http({
             method: "GET",
@@ -1471,7 +1474,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         //    $scope.GetdonationAcceptances(row);
         $scope.spinner = true;
         var cancelURL =
-            "http://localhost:9000/cancelaccepteddonation?uuid=" +
+            BASEURL + "/cancelaccepteddonation?uuid=" +
             row.uuid +
             "&receiver_email=" +
             UserService.getLoggedIn().email;
@@ -1575,7 +1578,7 @@ app.controller("LoginCtrl", function(
     // alert($scope.showNav + "," + $scope.login_email.length);
     $scope.Login = function(login) {
         $scope.spinner = true;
-        var getURL = "http://localhost:9000/loginuser?email=" + login.email.trim() + "&pw=" + login.password.trim();
+        var getURL = BASEURL + "/loginuser?email=" + login.email.trim() + "&pw=" + login.password.trim();
 
         getURL = encodeURI(getURL);
         $http({
@@ -1655,7 +1658,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
     $scope.CreateUser = function(user) {
         $scope.spinner = true;
         var getURL =
-            "http://localhost:9000/createuser?email=" +
+            BASEURL + "/createuser?email=" +
             user.email.trim() +
             "&phone=" +
             user.phone.trim() +
@@ -1702,7 +1705,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
     $scope.UpdateUser = function(user) {
         $scope.spinner = true;
         var getURL =
-            "http://localhost:9000/updateuser?uuid=" +
+            BASEURL + "/updateuser?uuid=" +
             UserService.getLoggedIn().uuid + "&phone=" +
             user.phone.trim() +
             "&address=" +
