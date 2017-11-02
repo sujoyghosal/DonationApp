@@ -90,10 +90,10 @@
                                 </tr>
                             </thead>
                             <tr ng-repeat="row in cityneeds | orderBy : orderByField : !reverse| filter:searchText">
-                                <td><i class="fa fa-book fa-2x"></i><br>{{row.items}}<br>Urgent: {{row.emergency}}</td>
-                                <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i> {{row.phone_number}}</a></td>
+                                <td><i class={{row.fa_icon}}></i><br>{{row.items}}<br>Urgent: {{row.emergency}}</td>
+                                <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i> {{row.phone_number}}</a></td>
                                 <td>{{row.time | date: 'short'}}</td>
-                                <td>{{row.address}}</td>
+                                <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>
                             </tr>
                         </table>
                     </fieldset>

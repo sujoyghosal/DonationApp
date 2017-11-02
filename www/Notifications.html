@@ -3,6 +3,11 @@
 
 <head>
     <title>My Notifications</title>
+    <style type="text/css">
+        .fieldset-auto-width {
+            display: inline-block;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,8 +20,9 @@
         <br>
         <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
         <p>
-            <div class="container" ng-show="showevents" style="width:70%">
-                <label ng-show="false">Sort By:
+            <div class="container" ng-show="showevents" style="width:100%">
+                <fieldset class="fieldset-auto-width">
+                    <label ng-show="false">Sort By:
                                 <select name="sort" ng-model="offeredby">
                                     <option value="offeredby">Name</option>
                                     <option value="phone_number">Phone</option>
@@ -25,44 +31,47 @@
                                 </select>
                                 <br>
                             </label>
-                <label ng-show="showevents">Search Items, Address, Phone Number etc in events:
+                    <label ng-show="showevents">Search Items, Address, Phone Number etc in events:
                                 <input ng-model="searchText">
                             </label>
-                <br><b>{{resultEvents}}{{}}</b>
-                <table class="table table-bordered" id="eventstable" id="searchResults2">
-                    <thead>
-                        <tr>
-                            <th ng-click="orderByField='postedby'; reverse = !reverse" nowrap>Contact
-                                <span ng-show="orderByField == 'postedby'">
+                    <br><b>{{resultEvents}}{{}}</b>
+                    <table class="table table-condensed" id="eventstable" id="searchResults2">
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th ng-click="orderByField='postedby'; reverse = !reverse" nowrap>Posted By
+                                    <span ng-show="orderByField == 'postedby'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                            </th>
-                            <th ng-click="orderByField='address'; reverse = !reverse" nowrap>Address
-                                <span ng-show="orderByField == 'address'">
+                                </th>
+                                <th ng-click="orderByField='timestamp'; reverse = !reverse" nowrap>Date
+                                    <span ng-show="orderByField == 'timestamp'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                            </th>
-                            <th ng-click="orderByField='items'; reverse = !reverse" nowrap>Items
-                                <span ng-show="orderByField == 'items'">
+                                </th>
+                                <th ng-click="orderByField='address'; reverse = !reverse" nowrap>Address
+                                    <span ng-show="orderByField == 'address'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tr ng-repeat="row in events | orderBy : orderByField : !reverse| filter:searchText">
-                        <td>{{row.eventtype + ' posted by ' + row.postedby}} on {{row.timestamp | date: 'short'}} Email: {{row.email}} Phone:
-                            <a href={{row.phone_number}}>{{row.phone_number}}</a>
-                        </td>
-                        <td>{{row.address}}</td>
-                        <td>{{row.items}}</td>
-                        <!--                           <td ng-show="row.status!='ACCEPTED'">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="row in events | orderBy : orderByField : !reverse| filter:searchText">
+
+                            <td><i class={{row.fa_icon}}></i><br>{{row.eventtype + ' ' + row.items}}</td>
+                            <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i>{{row.phone_number}}</a>
+                            </td>
+                            <td>{{row.timestamp | date: 'medium'}}</td>
+                            <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>
+                            <!--                           <td ng-show="row.status!='ACCEPTED'">
                                 <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'ACCEPTED')">ACCEPT DONATION</button>
                             </td>
                             <td ng-show="row.status=='ACCEPTED' && row.receiver.receiver_email==login_email">
                                 <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'OFFERED')">CANCEL ACCEPTANCE</button>
                             </td> -->
-                    </tr>
-                </table>
+                        </tr>
+                    </table>
+                </fieldset>
             </div>
         </p>
     </div>

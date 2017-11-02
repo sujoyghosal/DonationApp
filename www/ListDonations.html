@@ -92,11 +92,11 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse| filter:searchText ">
-                            <td><i class="fa fa-book fa-2x"></i><br>{{row.items}}</td>
+                            <td><i class={{row.fa_icon}}></i><br>{{row.items}}</td>
                             <td>{{row.time | date:'MM/dd/yyyy @ h:mma'}}</td>
-                            <td>{{row.offeredby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i>{{row.phone_number}}</a>
+                            <td>{{row.offeredby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i>{{row.phone_number}}</a>
                             </td>
-                            <td>{{row.address}}</td>
+                            <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>
                             <!--                           <td ng-show="row.status!='ACCEPTED' ">
                                 <button class="btn btn-primary btn-md " ng-click="AcceptDonation(row, 'ACCEPTED') ">ACCEPT DONATION</button>
                             </td>

@@ -116,7 +116,7 @@ app.controller("OfferdonationCtrl", function(
     $scope.login_email = UserService.getLoggedIn().email;
 });
 
-app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $location, $timeout, UserService) {
+app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $location, $timeout, $window, UserService) {
     $scope.spinner = false;
     $scope.alldonations = false;
     $scope.allneeds = false;
@@ -203,6 +203,68 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
+
+    $scope.ShowDirections = function(address) {
+        $window.open("https://www.google.com/maps?saddr=My+Location&daddr=" + address + "/", "_blank");
+    };
+
+    $scope.GetFontAwesomeIconsForCategory = function(category) {
+        var icon = '';
+
+        switch (category) {
+            case "Electronics":
+                icon = "fa fa-mobile fa-2x";
+                break;
+            case "Fashion":
+                icon = "fa fa-female fa-2x";
+                break;
+            case "Educational":
+                icon = "fa fa-university fa-2x";
+                break;
+            case "Medical":
+                icon = "fa fa-stethoscope fa-2x";
+                break;
+            case "Food":
+                icon = "fa fa-food fa-2x";
+                break;
+            case "Furniture":
+                icon = "fa fa-bed fa-2x";
+                break;
+            case "Clothes":
+                icon = "fa fa-shirtsinbulk fa-2x";
+                break;
+            case "Sports":
+                icon = "fa fa-futbol-o fa-2x";
+                break;
+            case "Household":
+                icon = "fa fa-home fa-2x";
+                break;
+            case "Shoes":
+                icon = "fa fa-tags fa-2x";
+                break;
+            case "Other":
+                icon = "fa fa-star fa-2x";
+            case "Natural Disaster":
+                icon = "fa fa-fire fa-2x";
+                break;
+            case "Terrorism":
+                icon = "fa fa-bomb fa-2x";
+                break;
+            case "Accident":
+                icon = "fa fa-ambulance fa-2x";
+                break;
+            case "Women's Safety":
+                icon = "fa fa-life-ring fa-2x";
+                break;
+            case "Children's Safety":
+                icon = "fa fa-child fa-2x";
+                break;
+            default:
+                icon = "fa fa-star fa-2x";
+        }
+        console.log("GetFontAwesomeIconsForCategory: Category=" + category + ", Icon=>" + icon);
+        return icon;
+    };
     $scope.SendOffer = function(offer) {
         $scope.loginResult = "";
         var now = new Date();
@@ -237,6 +299,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&status=OFFERED" +
             "&itemtype=" +
             offer.itemtype +
+            "&fa_icon=" + $scope.GetFontAwesomeIconsForCategory(offer.itemtype) +
             "&items=" +
             offer.items +
             "&latitude=" +
@@ -341,6 +404,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&status=NEEDED" +
             "&itemtype=" +
             need.itemtype +
+            "&fa_icon=" + $scope.GetFontAwesomeIconsForCategory(need.itemtype) +
             "&items=" +
             need.items +
             "&latitude=" +
@@ -450,7 +514,11 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.lat +
                 "&longitude=" +
                 $scope.lng +
-                "&type=" + event.type) + "&group=" + group;
+                "&itemtype=" +
+                event.itemtype +
+                "&fa_icon=" +
+                $scope.GetFontAwesomeIconsForCategory(event.itemtype) +
+                "&group=" + group);
 
         $http({
             method: "GET",
@@ -597,6 +665,21 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 if (angular.isObject($scope.citydonations))
                     $scope.found = $scope.citydonations.length + " donations found";
 
+                //Show only newer offers
+                var ONE_DAY = 24 * 60 * 60 * 1000; //ms
+                var filteredDonations = [];
+                if ($scope.citydonations && $scope.citydonations.length > 0) {
+                    for (var i = 0; i < $scope.citydonations.length; i++) {
+                        var d = new Date();
+                        var o = new Date($scope.citydonations[i].modified);
+                        if ((d - o) > 2 * ONE_DAY)
+                            continue;
+                        else
+                            filteredDonations.push($scope.citydonations[i]);
+                    }
+                    console.log("Filtered " + ($scope.citydonations.length - filteredDonations.length) + " old records");
+                    $scope.citydonations = filteredDonations;
+                }
                 $scope.alldonations = true;
                 $scope.cancel = false;
             },
@@ -628,9 +711,26 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 $scope.cityneeds = response.data;
-                if (angular.isObject($scope.cityneeds))
+                //    if (angular.isObject($scope.cityneeds))
+                //       $scope.found = $scope.cityneeds.length + " found";
+                var ONE_DAY = 24 * 60 * 60 * 1000; //ms
+                var filteredNeeds = [];
+                if ($scope.cityneeds && $scope.cityneeds.length > 0) {
+                    for (var i = 0; i < $scope.cityneeds.length; i++) {
+                        var d = new Date();
+                        var o = new Date($scope.cityneeds[i].modified);
+                        if ((d - o) > 2 * ONE_DAY)
+                            continue;
+                        else
+                            filteredNeeds.push($scope.cityneeds[i]);
+                    }
+                    console.log("Filtered " + ($scope.cityneeds.length - filteredNeeds.length) + " old records");
+                    $scope.cityneeds = filteredNeeds;
                     $scope.found = $scope.cityneeds.length + " found";
-
+                } else {
+                    $scope.cityneeds = [];
+                    $scope.found = "None found";
+                }
                 $scope.allneeds = true;
                 $scope.cancel = false;
             },
@@ -701,11 +801,35 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.spinner = false;
                 $scope.citydonations = response.data;
                 $scope.cityneeds = response.data;
-                if (angular.isObject($scope.citydonations))
-                    $scope.found = $scope.citydonations.length + " found";
-                $scope.cancel = false;
-                $scope.allneeds = true;
-                $scope.alldonations = true;
+                //    if (angular.isObject($scope.citydonations))
+                //       $scope.found = $scope.citydonations.length + " found";
+                //show last 2 days only
+                var ONE_DAY = 24 * 60 * 60 * 1000; //ms
+                var filteredNeeds = [];
+                if ($scope.cityneeds && $scope.cityneeds.length > 0) {
+                    for (var i = 0; i < $scope.cityneeds.length; i++) {
+                        var d = new Date();
+                        var o = new Date($scope.cityneeds[i].modified);
+                        if ((d - o) > 2 * ONE_DAY)
+                            continue;
+                        else
+                            filteredNeeds.push($scope.cityneeds[i]);
+                    }
+                    console.log("Filtered " + ($scope.cityneeds.length - filteredNeeds.length) + " old records");
+                    $scope.cityneeds = filteredNeeds;
+                    $scope.citydonations = filteredNeeds;
+                    $scope.found = $scope.cityneeds.length + " found";
+                    $scope.cancel = false;
+                    $scope.allneeds = true;
+                    $scope.alldonations = true;
+                } else {
+                    $scope.cityneeds = [];
+                    $scope.citydonations = [];
+                    $scope.found = "None found";
+                    $scope.allneeds = true;
+                    $scope.alldonations = true;
+                }
+
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -873,10 +997,26 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     $scope.spinner = false;
                     $scope.showevents = true;
                 }
-                $scope.resultEvents = "Found " + response.data.length + " events matching your criteria."
-                    //console.log("GetEventsForUser Response= " + JSON.stringify(response));
+                //console.log("GetEventsForUser Response= " + JSON.stringify(response));
                 console.log("Events Count= " + response.data.length);
                 $scope.events = response.data;
+
+                //Show only newer events
+                var ONE_DAY = 24 * 60 * 60 * 1000; //ms
+                var filteredEvents = [];
+                if ($scope.events && $scope.events.length > 0) {
+                    for (var i = 0; i < $scope.events.length; i++) {
+                        var d = new Date();
+                        var o = new Date($scope.events[i].modified);
+                        if ((d - o) > 2 * ONE_DAY)
+                            continue;
+                        else
+                            filteredEvents.push($scope.events[i]);
+                    }
+                    console.log("Filtered " + ($scope.events.length - filteredEvents.length) + " old records");
+                    $scope.events = filteredEvents;
+                    $scope.resultEvents = "Found " + $scope.events.length + " events matching your criteria.";
+                }
                 $scope.eventsCount = $scope.events.length;
             },
             function errorCallback(error) {

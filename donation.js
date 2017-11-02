@@ -663,6 +663,7 @@ app.get("/createdonations", function(req, res) {
         email: req.param("email"),
         currentcount: "0",
         itemtype: req.param("itemtype"),
+        fa_icon: req.param('fa_icon'),
         items: req.param("items"),
         status: "OFFERED",
         time: req.param("time"),
@@ -709,6 +710,7 @@ app.get("/createneed", function(req, res) {
         email: req.param("email"),
         currentcount: "0",
         itemtype: req.param("itemtype"),
+        fa_icon: req.param("fa_icon"),
         items: req.param("items"),
         status: "REQUIRED",
         time: req.param("time"),
@@ -758,7 +760,8 @@ app.get("/createevent", function(req, res) {
         items: req.param("items"),
         status: req.param('status'),
         timestamp: req.param("time"),
-        eventtype: req.param('type'),
+        eventtype: req.param('itemtype'),
+        fa_icon: req.param('fa_icon'),
         group_uuid: req.param('group'),
         location: { latitude: req.param("latitude"), longitude: req.param("longitude") }
     };
