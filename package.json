@@ -1,9 +1,9 @@
 {
-    "name": "donationapp",
+    "name": "donationwebapp",
     "version": "0.0.2",
-    "description": "Donation App",
+    "description": "Donation Web",
     "scripts": {
-        "start": "node donation.js"
+        "start": "node DonationWeb.js"
     },
     "dependencies": {
         "express": "3.x.x",
