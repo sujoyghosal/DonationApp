@@ -1,9 +1,8 @@
 var express = require("express");
 var usergrid = require("usergrid");
-var cfenv = require("cfenv")
-var appEnv = cfenv.getAppEnv()
-    //var config = require('./config');
-    // Set up Express environment and enable it to read and write JavaScript
+
+//var config = require('./config');
+// Set up Express environment and enable it to read and write JavaScript
 var allowCrossDomain = function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
