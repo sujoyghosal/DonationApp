@@ -4,46 +4,52 @@
 <head>
     <title>View Needs Nearby</title>
     <link rel="stylesheet" href="css/slider.css" type="text/css" />
+    <style type="text/css">
+        .fieldset-auto-width {
+            display: inline-block;
+        }
+    </style>
 </head>
 
 <body>
     <center>
         <p align="left">Welcome {{login_fullname}}</p>
         <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="orderByField='time'">
-            <div>
-                <input type="radio" ng-model="criteria" value="City" ng-click="allneeds=false; found=''"> City Based
-                <input type="radio" ng-model="criteria" value="Near Me" ng-click="allneeds=false; found=''"> Emergency Needs Near Me
-            </div>
-            <div ng-switch="criteria">
-                <div ng-switch-when="City">
-                    <label for="citySelect">
+            <fieldset class="fieldset-auto-width">
+                <div>
+                    <input type="radio" ng-model="criteria" value="City" ng-click="allneeds=false; found=''"> City Based
+                    <input type="radio" ng-model="criteria" value="Near Me" ng-click="allneeds=false; found=''"> Emergency Needs Near Me
+                </div>
+                <div ng-switch="criteria">
+                    <div ng-switch-when="City">
+                        <label for="citySelect">
                             <p/>Enter City: </label>
-                    <br>
-                    <input type="text" name="citySelect" ng-model="data.citySelect" />
-                    <button type="button" class="btn btn-primary btn-md" ng-click="GetNeeds('city',data.citySelect,'YES')">Fetch Emergencies in {{data.citySelect}}</button>
-                    <br>
-                </div>
-                <div ng-switch-when="Near Me">
-                    <br>
-                    <div id="slidecontainer">
-                        <p>Select Distance: </p><input type="range" ng-model="data.distance" min="1" max="50" value="25" class="slider" id="myRange">
-                        <p>{{'Within ' + data.distance + 'Km'}} Of Address</p>
+                        <br>
+                        <input type="text" name="citySelect" ng-model="data.citySelect" />
+                        <button type="button" class="btn btn-primary btn-md" ng-click="GetNeeds('city',data.citySelect,'YES')">Fetch Emergencies in {{data.citySelect}}</button>
+                        <br>
                     </div>
-                    <p>
-                        <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>
-                        <center/><textarea name="myAddress" rows="4" cols="25" ng-model="data.searchAddress" placeholder="Enter Address"></textarea></p>
-                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'emergency')">Fetch Emergencies Within {{data.distance}} km of Address</button>
-                    <br>
+                    <div ng-switch-when="Near Me">
+                        <br>
+                        <div id="slidecontainer">
+                            <p>Select Distance: </p><input type="range" ng-model="data.distance" min="1" max="50" value="25" class="slider" id="myRange">
+                            <p>{{'Within ' + data.distance + 'Km'}} Of Address</p>
+                        </div>
+                        <p>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>
+                            <center/><textarea name="myAddress" rows="4" cols="25" ng-model="data.searchAddress" placeholder="Enter Address"></textarea></p>
+                        <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'emergency')">Fetch Emergencies Within {{data.distance}} km of Address</button>
+                        <br>
+                    </div>
                 </div>
-            </div>
-
+            </fieldset>
             <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
             <center>
                 {{found}}
                 <br>
             </center>
-            <p>
-                <div class="container" ng-show="allneeds" style="width:70%">
+            <div class="container" ng-show="allneeds" style="width:100%">
+                <fieldset class="fieldset-auto-width">
                     <label ng-show="false">Sort By:
                                 <select name="sort" ng-model="offeredby">
                                     <option value="offeredby">Name</option>
@@ -60,14 +66,18 @@
                     <table class="table table-condensed" id="needstable" id="searchResults2">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th ng-click="orderByField='items'; reverse = !reverse" nowrap>Need
                                     <span ng-show="orderByField == 'items'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
                                 </th>
-                                <th ng-click="orderByField='time'; reverse = !reverse" nowrap>Posted On
+                                <th ng-click="orderByField='time'; reverse = !reverse" nowrap>Date
                                     <span ng-show="orderByField == 'time'">
+                                                <i class="fa fa-sort-asc" ng-show="reverse"> </i>
+                                                <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
+                                </th>
+                                <th ng-click="orderByField='postedby'; reverse = !reverse" nowrap>Posted By
+                                    <span ng-show="orderByField == 'postedby'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
                                 </th>
@@ -79,14 +89,14 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="row in cityneeds | orderBy : orderByField : !reverse| filter:searchText">
-                            <td><i class="fa fa-heartbeat fa-2x"></i></td>
-                            <td>{{row.items}} in {{row.city}} posted by {{row.postedby}} Email: {{row.email}} Phone: {{row.phone_number}}</td>
+                            <td><i class="fa fa-heartbeat fa-2x"></i><br>{{row.items}}</td>
                             <td>{{row.time | date: 'short'}}</td>
+                            <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i>{{row.phone_number}}</a></td>
                             <td>{{row.address}}</td>
                         </tr>
                     </table>
-                </div>
-            </p>
+                </fieldset>
+            </div>
         </div>
     </center>
 </body>
