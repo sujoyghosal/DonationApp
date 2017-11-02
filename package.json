@@ -1,12 +1,12 @@
 {
-    "name": "donationwebapp",
-    "version": "0.0.2",
-    "description": "Donation Web",
+    "name": "SujoyFreeCycleWeb",
+    "version": "0.0.0",
+    "description": "Sujoy Donation Web App",
+    "main": "DonationWeb.js",
     "scripts": {
         "start": "node DonationWeb.js"
     },
     "dependencies": {
-        "express": "3.x.x",
-        "usergrid": "x.x.x"
+        "express": "3.x.x"
     }
 }

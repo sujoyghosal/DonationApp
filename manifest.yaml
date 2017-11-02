@@ -1,0 +1,4 @@
+applications:
+- name: SujoyFreeCycleWeb
+  random-route: true
+  memory: 128M
