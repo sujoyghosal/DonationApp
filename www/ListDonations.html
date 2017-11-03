@@ -26,7 +26,7 @@
                             <p/>Enter City: </label>
                     <br>
                     <input type="text" name="citySelect" ng-model="data.citySelect" />
-                    <button type="button" class="btn btn-primary btn-md" ng-click="GetDonations('city',data.citySelect)">Fetch Donations in {{data.citySelect}}</button>
+                    <button type="button" class="btn btn-primary btn-md" ng-click="GetDonations('city',data.citySelect, false)">Fetch Donations in {{data.citySelect}}</button>
                     <br>
                 </div>
                 <div ng-switch-when="Near Me">
@@ -93,7 +93,7 @@
                         </thead>
                         <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse| filter:searchText ">
                             <td><i class={{row.fa_icon}}></i><br>{{row.items}}</td>
-                            <td>{{row.time | date:'MM/dd/yyyy @ h:mma'}}</td>
+                            <td>{{row.modified | date:'MM/dd/yyyy @ h:mma'}}</td>
                             <td>{{row.offeredby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i>{{row.phone_number}}</a>
                             </td>
                             <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>

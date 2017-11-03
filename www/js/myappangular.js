@@ -102,8 +102,8 @@ app.service("UserService", function() {
     };
 });
 
-var BASEURL = "https://freecycleapissujoy.mybluemix.net";
-//var BASEURL = "http://localhost:9000";
+//var BASEURL = "https://freecycleapissujoy.mybluemix.net";
+var BASEURL = "http://localhost:9000";
 
 app.controller("LogoutCtrl", function($scope, UserService) {
     UserService.setLoggedIn("");
@@ -184,10 +184,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.lng = $scope.geoCodeResponse.results[0].geometry.location.lng;
                 if (func && func === 'need') {
                     console.log("Creating Need...");
-                    $scope.CreateNeed(offer, 'NO');
+                    $scope.CreateNeed(offer, false);
                 } else if (func && func === 'emergency') {
-                    console.log("Creating Need...");
-                    $scope.CreateNeed(offer, 'YES');
+                    console.log("Creating Emergency...");
+                    $scope.CreateNeed(offer, true);
                 } else if (func && func === 'offer') {
                     console.log("Creating Offer...");
                     $scope.SendOffer(offer);
@@ -271,21 +271,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.SendOffer = function(offer) {
         $scope.loginResult = "";
         var now = new Date();
-        /*
-                        var offerDate = new Date(offer.time);
-                        alert("OfferDate=" + offerDate);
-                        var now = new Date();
-                        if (offerDate < now) {
-                            $scope.loginResult = "donation date " + offerDate + " is in past. Please correct offer date.";
-                            $scope.spinner = false;
-                            return;
-                        }
-                        $scope.spinner = true;
-                        var filteredtime = $filter('date')(offerDate, 'medium');
-
-                        //   var filterdatetime = $filter('datetmUTC')( offerDate ); */
-
-        //        $scope.GeoCodeAddress(offer.address, "offer");
         var sendURL =
             BASEURL + "/createdonations?email=" +
             $scope.login_email +
@@ -444,6 +429,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 //   var myStartDate = new Date(offerDate.valueOf() - 15 * MS_PER_MINUTE);
                 //send notification to creator 15 min b4 donation starts
                 //               schedulePush(new Date());
+                if (emergency) {
+                    $scope.CheckIfGroupExists(need);
+                }
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -522,7 +510,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 "&fa_icon=" +
                 $scope.GetFontAwesomeIconsForCategory(event.itemtype) +
                 "&group=" + group);
-
+        console.log("Create Event Reques = " + sendURL);
         $http({
             method: "GET",
             url: sendURL
@@ -646,7 +634,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         } else return false;
     }
 
-    $scope.GetDonations = function(paramname, paramvalue) {
+    $scope.GetDonations = function(paramname, paramvalue, myoffers) {
         $scope.spinner = true;
         if (!paramname || !paramvalue) return;
         param_name = paramname.trim();
@@ -665,24 +653,31 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 $scope.citydonations = response.data;
-                if (angular.isObject($scope.citydonations))
-                    $scope.found = $scope.citydonations.length + " donations found";
 
                 //Show only newer offers
                 var ONE_DAY = 24 * 60 * 60 * 1000; //ms
                 var filteredDonations = [];
+
                 if ($scope.citydonations && $scope.citydonations.length > 0) {
                     for (var i = 0; i < $scope.citydonations.length; i++) {
                         var d = new Date();
                         var o = new Date($scope.citydonations[i].modified);
-                        if ((d - o) > 2 * ONE_DAY)
-                            continue;
-                        else
+                        if (!myoffers) {
+                            if (((d - o) > 2 * ONE_DAY) || $scope.citydonations[i].email === $scope.login_email)
+                                continue;
+                            else
+                                filteredDonations.push($scope.citydonations[i]);
+                        } else {
                             filteredDonations.push($scope.citydonations[i]);
+                        }
                     }
                     console.log("Filtered " + ($scope.citydonations.length - filteredDonations.length) + " old records");
                     $scope.citydonations = filteredDonations;
+                    $scope.found = "Found " + $scope.citydonations.length + " offers";
+                } else {
+                    $scope.found = "No Offers Found";
                 }
+
                 $scope.alldonations = true;
                 $scope.cancel = false;
             },
@@ -813,7 +808,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     for (var i = 0; i < $scope.cityneeds.length; i++) {
                         var d = new Date();
                         var o = new Date($scope.cityneeds[i].modified);
-                        if ((d - o) > 2 * ONE_DAY)
+                        if (((d - o) > 2 * ONE_DAY))
                             continue;
                         else
                             filteredNeeds.push($scope.cityneeds[i]);
@@ -1088,7 +1083,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 $scope.showmyevents = true;
-                console.log("GetGroupsForUser response=" + JSON.stringify(response));
+                console.log("GetGroupsForUser success" + JSON.stringify(response));
                 $scope.usergroups = response.data;
                 // $scope.found  = "Active donation offers for " + param_name;
             },
@@ -1355,7 +1350,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     return;
                 } else {
                     $scope.result = ("successfully " + status).toUpperCase();
-                    $scope.GetDonations("city", row.city);
+                    $scope.GetDonations("city", row.city, false);
                     $scope.uuid = row.uuid;
                     $scope.alldonations = true;
                     $scope.cancel = true;
@@ -1449,7 +1444,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.spinner = false;
                 alert("Successfully Cancelled.");
                 $scope.cancel = true;
-                $scope.GetDonations("email", $scope.login_email);
+                $scope.GetDonations("email", $scope.login_email, true);
                 $scope.result = "Successfully Cancelled This Offer";
                 SendPushToUser(
                     row.receiver.receiver_uuid,
@@ -1493,7 +1488,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 }
                 $scope.uuid = row.uuid;
                 $scope.cancel = true;
-                $scope.Getdonations("city", row.city);
+                $scope.Getdonations("city", row.city, false);
                 $scope.result = "Cancelled donation";
                 SendPushToUserByEmail(row.email, "donation cancelled by a passenger");
             },
@@ -1683,7 +1678,6 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
                     response.data.toString() === "CREATED"
                 ) {
                     alert("Account Created with id " + user.email);
-
                     $location.path("/login");
                     return;
                 } else {

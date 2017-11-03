@@ -53,7 +53,7 @@
                         <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse| filter:searchText">
                             <td>{{$index + 1}}: {{row._data.items}} in {{row._data.city}} offered by {{row._data.offeredby}} - Email: {{row._data.email}} Ph: {{row._data.phone_number}}
                             </td>
-                            <td>{{row._data.status}} at {{row._data.time | date: 'short'}}</td>
+                            <td>{{row._data.status}} at {{row._data.modified | date: 'short'}}</td>
                             <td>{{row._data.address}}</td>
                             <td ng-hide="HaveIAcceptedThisDonation(row, login_email)">
                                 <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'RECEIVED')">RECEIVE DONATION</button>
