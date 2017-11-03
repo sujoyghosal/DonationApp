@@ -158,7 +158,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     });
 
     setInterval(function() {
-        console.log("Calling GetEventsForUser from setTimeout at " + new Date());
         $scope.GetEventsForUser(true);
     }, 60000);
 
@@ -341,8 +340,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         var sendURL =
             BASEURL + "/getgroupbyname?group=" + group;
 
-        console.log("CheckIfGroupExists URL=" + sendURL);
-
         $http({
             method: "GET",
             url: sendURL
@@ -400,7 +397,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&longitude=" +
             $scope.lng +
             "&emergency=" + emergency;
-        console.log("Create Need Req URL=" + sendURL);
         $scope.loginResult = "Need Request Sent";
 
         $http({
@@ -510,7 +506,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 "&fa_icon=" +
                 $scope.GetFontAwesomeIconsForCategory(event.itemtype) +
                 "&group=" + group);
-        console.log("Create Event Reques = " + sendURL);
         $http({
             method: "GET",
             url: sendURL
@@ -541,7 +536,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         var getURL =
             BASEURL + "/connectentities?uuid1=" + uuid1 + "&uuid2=" + uuid2;
         getURL = encodeURI(getURL);
-        console.log("Connect Entities URL=" + getURL);
         $http({
             method: "GET",
             url: getURL
@@ -983,7 +977,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         var uuid = UserService.getLoggedIn().uuid;
         var getURL = BASEURL + "/geteventsforuser?uuid=" + uuid;
         getURL = encodeURI(getURL);
-        console.log("GetEventsForUser " + JSON.stringify(getURL));
         $http({
             method: "GET",
             url: getURL
