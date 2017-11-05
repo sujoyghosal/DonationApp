@@ -657,7 +657,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         var d = new Date();
                         var o = new Date($scope.citydonations[i].modified);
                         if (!myoffers) {
-                            if (((d - o) > 2 * ONE_DAY) || $scope.citydonations[i].email === $scope.login_email)
+                            if (((d - o) > 7 * ONE_DAY) || $scope.citydonations[i].email === $scope.login_email)
                                 continue;
                             else
                                 filteredDonations.push($scope.citydonations[i]);
