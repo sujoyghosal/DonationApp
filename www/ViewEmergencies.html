@@ -63,7 +63,7 @@
                                 <input ng-model="searchText">
                             </label>
                     <br><b>{{result}}{{}}</b>
-                    <table class="table table-condensed" id="needstable" id="searchResults2">
+                    <table class="table table-responsive" id="needstable" id="searchResults2">
                         <thead>
                             <tr>
                                 <th ng-click="orderByField='items'; reverse = !reverse" nowrap>Need
@@ -90,7 +90,7 @@
                         </thead>
                         <tr ng-repeat="row in cityneeds | orderBy : orderByField : !reverse| filter:searchText">
                             <td><i class={{row.fa_icon}}></i><br>{{row.items}}</td>
-                            <td>{{row.time | date: 'short'}}</td>
+                            <td>{{row.modified | date: 'medium'}}</td>
                             <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i>{{row.phone_number}}</a></td>
                             <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>
                         </tr>

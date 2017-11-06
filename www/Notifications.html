@@ -35,7 +35,7 @@
                                 <input ng-model="searchText">
                             </label>
                     <br><b>{{resultEvents}}{{}}</b>
-                    <table class="table table-condensed" id="eventstable" id="searchResults2">
+                    <table class="table table-responsive" id="eventstable" id="searchResults2">
                         <thead>
                             <tr>
                                 <th>Event</th>
@@ -61,7 +61,7 @@
                             <td><i class={{row.fa_icon}}></i><br>{{row.eventtype + ' ' + row.items}}</td>
                             <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i>{{row.phone_number}}</a>
                             </td>
-                            <td>{{row.timestamp | date: 'medium'}}</td>
+                            <td>{{row.modified | date: 'medium'}}</td>
                             <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>
                             <!--                           <td ng-show="row.status!='ACCEPTED'">
                                 <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'ACCEPTED')">ACCEPT DONATION</button>

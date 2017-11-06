@@ -27,6 +27,14 @@
         function w3_close() {
             document.getElementById("mySidebar").style.display = "none";
         }
+        $(function() {
+            var navMain = $(".navbar-collapse"); // avoid dependency on #id
+            // "a:not([data-toggle])" - to avoid issues caused
+            // when you have dropdown inside navbar
+            navMain.on("click", "a:not([data-toggle])", null, function() {
+                navMain.collapse('hide');
+            });
+        });
     </script>
     <style>
         header {
@@ -111,7 +119,7 @@
             } else {
                 x.className = "topnav";
             }
-        }
+        };
     </script>
 </head>
 
@@ -121,11 +129,12 @@
         <header>
 
             <!-- Top menu -->
+            <!--
             <div class="w3-top">
                 <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
                     <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
                 </div>
-                <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+               <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-animate-left" style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
                     <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button">X</a>
                     <a href="#/home" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-home fa-2x"></i>Home</a>
                     <a onclick="w3_close()" class="w3-bar-item w3-button">
@@ -171,7 +180,77 @@
                     </a>
                     <a href="#login" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-sign-out fa-2x"></i>Logout</a>
                 </nav>
-                <nav class="style-nav">
+          
+            </div> -->
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                          <span class="sr-only">Toggle navigation</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">FreeCycle</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#"><span class="sr-only">(current)</span></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gift fa-2x"></i>  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#offerdonation">Create Offer</a></li>
+                                    <li><a href="#getdonation">View Offers</a></li>
+                                    <li><a href="#offershistory">View Offers</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ambulance fa-2x"></i>  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#createemergency">Create Emergency</a></li>
+                                    <li><a href="#viewemergencies">View Emergencies</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cart-arrow-down fa-2x"></i>  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#createneed">Create Needs</a></li>
+                                    <li><a href="#viewneeds">View Needs</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-notifications={{eventsCount}} class="buttonnotification" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-envelope fa-2x"></i>  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#notifications">Notifications</a></li>
+                                    <li><a href="#subscribe">Subscribe</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#/login "><i class="fa fa-sign-out fa-2x "></i></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-2x "></i>  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#updateuser">Update User</a></li>
+                                    <li><a href="#settings">Settings</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+            <!--              <nav class="style-nav">
                     <ul>
                         <div class="dropdown">
                             <li>
@@ -185,50 +264,33 @@
                             </li>
                         </div>
                         <div class="dropdown">
-                            <li>
+                            <li data-toggle="collapse" data-target=".nav-collapse">
                                 <a data-notifications={{eventsCount}} class="buttonnotification"><i class="fa fa-envelope fa-2x"></i></a>
                                 <div class="dropdown-content">
                                     <a href="#notifications">View Notifications</a>
-                                    <a href="#subscribe">Subscribe Events</a>
+                                    <a href="#subscribe ">Subscribe Events</a>
                                 </div>
                             </li>
                         </div>
-                        <div class="dropdown">
-                            <li>
-                                <a><i class="fa fa-user fa-2x"></i></a>
-                                <div class="dropdown-content">
-                                    <a href="#updateuser">Update Profile</a>
-                                    <a href="#settings">Settings</a>
+                        <div class="dropdown ">
+                            <li data-toggle="collapse" data-target=".nav-collapse">
+                                <a><i class="fa fa-user fa-2x "></i></a>
+                                <div class="dropdown-content ">
+                                    <a href="#updateuser ">Update Profile</a>
+                                    <a href="#settings ">Settings</a>
                                 </div>
                             </li>
                         </div>
-                        <li><a href="#/login"><i class="fa fa-sign-out fa-2x"></i></a></li>
+                        <li><a href="#/login "><i class="fa fa-sign-out fa-2x "></i></a></li>
                     </ul>
-                </nav>
-            </div>
+                </nav> -->
 
-            <!--<nav class="style-nav">
-                <ul>
-                    <li>
-                        <a href="#/offershistory"><i class="fa fa-gift fa-2x"></i>My Offers</a></li>
-                    <li><a href="#/subscribe"><i class="fa fa-calendar fa-2x"></i>Events</a></li>
-                    <li>
-                        <p>
-                            <a href="#/notifications" data-notifications={{eventsCount}} class="buttonnotification"><i class="fa fa-envelope fa-2x"></i>Notifications</a>
-                        </p>
-                    </li>
-                    <li>
-                        <a href="#/updateuser"><i class="fa fa-user fa-2x"></i>Profile</a>
-                    </li>
-                    <li><a href="#/login"><i class="fa fa-sign-out fa-2x"></i>Logout</a></li>
-                </ul>
-            </nav>-->
 
         </header>
     </div>
     <center>
-        <div ng-controller="DonationCtrl" class="container">
-            <div class="col-md-9">
+        <div ng-controller="DonationCtrl " class="container ">
+            <div class="col-md-9 ">
                 <div ng-view></div>
             </div>
         </div>
