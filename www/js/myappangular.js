@@ -102,9 +102,8 @@ app.service("UserService", function() {
     };
 });
 
-//var BASEURL = "https://freecycleapissujoy.mybluemix.net";
-var BASEURL = process.env.BASEURL || "http://localhost:9000";
-console.log("BASE URL=" + BASEURL);
+var BASEURL = "https://freecycleapissujoy.mybluemix.net";
+//var BASEURL = "http://localhost:9000";
 
 app.controller("LogoutCtrl", function($scope, UserService) {
     UserService.setLoggedIn("");
@@ -712,7 +711,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     for (var i = 0; i < $scope.cityneeds.length; i++) {
                         var d = new Date();
                         var o = new Date($scope.cityneeds[i].modified);
-                        if ((d - o) > 2 * ONE_DAY)
+                        if ((d - o) > 7 * ONE_DAY)
                             continue;
                         else
                             filteredNeeds.push($scope.cityneeds[i]);
@@ -803,7 +802,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     for (var i = 0; i < $scope.cityneeds.length; i++) {
                         var d = new Date();
                         var o = new Date($scope.cityneeds[i].modified);
-                        if (((d - o) > 2 * ONE_DAY))
+                        if (((d - o) > 7 * ONE_DAY))
                             continue;
                         else
                             filteredNeeds.push($scope.cityneeds[i]);
@@ -1006,7 +1005,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     for (var i = 0; i < $scope.events.length; i++) {
                         var d = new Date();
                         var o = new Date($scope.events[i].modified);
-                        if ((d - o) > 2 * ONE_DAY)
+                        if ((d - o) > 7 * ONE_DAY)
                             continue;
                         else
                             filteredEvents.push($scope.events[i]);

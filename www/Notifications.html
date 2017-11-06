@@ -58,7 +58,7 @@
                         </thead>
                         <tr ng-repeat="row in events | orderBy : orderByField : !reverse| filter:searchText">
 
-                            <td><i class={{row.fa_icon}}></i><br>{{row.eventtype + ': ' + row.items}}</td>
+                            <td><i class={{row.fa_icon}}></i><br>{{row.eventtype + ' ' + row.items}}</td>
                             <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i>{{row.phone_number}}</a>
                             </td>
                             <td>{{row.timestamp | date: 'medium'}}</td>

@@ -75,7 +75,7 @@
                         <td>{{row.email}}</td>
                         <td>{{row.phone_number}}</td>
                         <td>{{row.items}}</td>
-                        <td>{{row.modified | date: 'short'}}</td>
+                        <td>{{row.time | date: 'short'}}</td>
                         <td>{{row.from_place}}</td>
                         <td ng-hide="HaveIAcceptedThisDonation(row, login_email)">
                             <input type=text name="push" ng-model="pushMessage" placeholder="I am starting now." ng-minlength="2" ng-required="true">
