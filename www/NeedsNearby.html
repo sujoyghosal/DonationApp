@@ -26,7 +26,7 @@
                             <p/>Enter City: </label>
                         <br>
                         <input type="text" name="citySelect" ng-model="data.citySelect" />
-                        <button type="button" class="btn btn-primary btn-md" ng-click="GetNeeds('city',data.citySelect,'NO')">Fetch Needs in {{data.citySelect}}</button>
+                        <button type="button" class="btn btn-primary btn-md" ng-click="GetNeeds('city',data.citySelect,false)">Fetch Needs in {{data.citySelect}}</button>
                         <br>
                     </div>
                     <div ng-switch-when="Near Me">
