@@ -102,8 +102,8 @@ app.service("UserService", function() {
     };
 });
 
-var BASEURL = "https://freecycleapissujoy.mybluemix.net";
-//var BASEURL = "http://localhost:9000";
+//var BASEURL = "https://freecycleapissujoy.mybluemix.net";
+var BASEURL = "http://localhost:9000";
 
 app.controller("LogoutCtrl", function($scope, UserService) {
     UserService.setLoggedIn("");
@@ -988,7 +988,13 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     $scope.spinner = false;
                     $scope.showevents = true;
                 }
-                //console.log("GetEventsForUser Response= " + JSON.stringify(response));
+                //               console.log("GetEventsForUser Response= " + JSON.stringify(response));
+                if (response && response.data && response.data === "No Groups Found") {
+                    console.log("No Groups Found");
+                    $scope.events = [];
+                    $scope.eventsCount = 0;
+                    return;
+                }
                 console.log("Events Count= " + response.data.length);
                 $scope.events = response.data;
 
