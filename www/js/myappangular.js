@@ -10,7 +10,8 @@ app.config([
         $routeProvider
             .when("/login", {
                 templateUrl: "Login.html",
-                controller: "LoginCtrl"
+                controller: "LoginCtrl",
+                isLogin: true
             })
             .when("/home", {
                 templateUrl: "bootstraphome.html",
@@ -86,7 +87,8 @@ app.config([
     }
 ]);
 app.service("UserService", function() {
-    var loggedinUser = "";
+    var loggedinUser = {};
+    var isLoggedIn = false;
     var setLoggedIn = function(newObj) {
         loggedinUser = newObj;
         //       console.log("New User = " + JSON.stringify(loggedinUser));
@@ -96,9 +98,17 @@ app.service("UserService", function() {
         return loggedinUser;
     };
 
+    var setLoggedInStatus = function(state) {
+        isLoggedIn = state;
+    }
+    var getLoggedInStatus = function() {
+        return isLoggedIn;
+    }
     return {
         setLoggedIn: setLoggedIn,
         getLoggedIn: getLoggedIn,
+        setLoggedInStatus: setLoggedInStatus,
+        getLoggedInStatus: getLoggedInStatus,
     };
 });
 
@@ -106,7 +116,7 @@ var BASEURL = "https://freecycleapissujoy.mybluemix.net";
 //var BASEURL = "http://localhost:9000";
 
 app.controller("LogoutCtrl", function($scope, UserService) {
-    UserService.setLoggedIn("");
+    UserService.setLoggedIn({});
 });
 //app.controller('NavBarCtrl', function () { });
 app.controller("OfferdonationCtrl", function(
@@ -156,7 +166,18 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $rootScope.$on("CallGetEventsMethod", function() {
         $scope.GetEventsForUser(true);
     });
+    $rootScope.$on('$routeChangeStart', function(event, next) {
 
+        if (!UserService.getLoggedInStatus() && "/signup" !== $location.path()) {
+            console.log("User not logged in")
+                /* You can save the user's location to take him back to the same page after he has logged-in */
+                //$rootScope.savedLocation = $location.url();
+
+            $location.path("/login");
+            return;
+        }
+
+    });
     setInterval(function() {
         $scope.GetEventsForUser(true);
     }, 60000);
@@ -1520,6 +1541,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
+    $scope.Logout = function() {
+        $scope.login_email = "";
+        UserService.setLoggedInStatus(false);
+        console.log("Logout: Set logged in status = " + UserService.getLoggedInStatus());
+        return;
+    };
 });
 
 app
@@ -1626,6 +1653,7 @@ app.controller("LoginCtrl", function(
                     } else {
                         var obj = response.data[0];
                         UserService.setLoggedIn(obj);
+                        UserService.setLoggedInStatus(true);
                         $scope.loginResult = obj.username;
                         $scope.login_fullname = obj.fullname;
                         $scope.showNav = true;
@@ -1653,8 +1681,8 @@ app.controller("LoginCtrl", function(
 
     $scope.Logout = function() {
         $scope.login_email = "";
-        UserService.setLoggedIn("");
-
+        UserService.setLoggedInStatus(false);
+        console.log("Logout: Set logged in status = " + UserService.getLoggedInStatus());
         return;
     };
     $scope.OpenRegsiterForm = function() {

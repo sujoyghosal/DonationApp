@@ -18,21 +18,20 @@
                 <br>
                 <fieldset class="clearfix">
                     <p><span class="fontawesome-user"></span>
-                        <input type="text" ng-model="login.fullname" placeholder={{login_fullname}} ng-readonly="true">
+                        <input type="text" size="30" ng-model="login.fullname" placeholder={{login_fullname}} ng-readonly="true">
                     </p>
                     <p><span class="fontawesome-envelope "></span>
-                        <input type="email " ng-model="login.email " placeholder={{login_email}} ng-readonly="true">
+                        <input type="email " size="30" ng-model="login.email " placeholder={{login_email}} ng-readonly="true">
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username " -->
                     <p>
-                        <input type="password " ng-model="login.password " placeholder="Password">
+                        <input type="password " size="30" ng-model="login.password " placeholder="Password">
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username " -->
-                    <p><input type="text " ng-model="login.phone " placeholder={{login_phone}}>
+                    <p><input type="text " size="30" ng-model="login.phone " placeholder={{login_phone}}>
                     </p>
                     <p>
-                        <textarea rows="5" cols="12" id="address " placeholder={{login_address}} name="address " ng-model="login.address " ng-minlength="2" class="form-control input-md ">
-                          </textarea>
+                        <input type="text" size="60" id="address " placeholder={{login_address}} name="address " ng-model="login.address ">
                     </p>
                     <!-- JS because of IE support; better: placeholder="Password " -->
                     <p>

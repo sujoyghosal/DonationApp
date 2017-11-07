@@ -54,7 +54,7 @@
                                 <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
                                     <option value="postedby">Name</option>
                                     <option value="modified">Date</option>
-                                    <option value="items">Item</option>
+                                    <option value="itemtype">Item Type</option>
                                     <option value="address">Address</option>
                                 </select>
                                 <br>
@@ -92,7 +92,10 @@
                         </thead>
                     -->
                         <tr ng-repeat="row in cityneeds | orderBy : sortfield : !reverse| filter:searchText">
-                            <td><i class={{row.fa_icon}}></i> {{row.items}} by {{row.postedby}} at {{row.address}} on {{row.modified | date:'medium'}}<br>
+                            <td><i class={{row.fa_icon}}></i>
+                                <h5> {{row.itemtype}} </h5>
+                                <h6>{{row.items}}</h6>
+                                {{ 'Required by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                                 <center>
                                     <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
                                     <span style="display:inline-block; width: 50px;"></span>
