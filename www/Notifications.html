@@ -22,24 +22,26 @@
         <p>
             <div class="container" ng-show="showevents" style="width:100%">
                 <fieldset class="fieldset-auto-width">
-                    <label ng-show="false">Sort By:
-                                <select name="sort" ng-model="offeredby">
-                                    <option value="offeredby">Name</option>
-                                    <option value="phone_number">Phone</option>
-                                    <option value="time">Start Time</option>
-                                    <option value="address">Area</option>
+                    <label>Sort By:
+                                <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
+                                    <option value="eventtype">Event Type</option>
+                                    <option value="modified">Date</option>
+                                    <option value="items">Item</option>
+                                    <option value="address">Address</option>
                                 </select>
                                 <br>
-                            </label>
+                            </label> <span></span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
+                    <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i></span>
+
                     <label ng-show="showevents">Search Items, Address, Phone Number etc in events:
                                 <input ng-model="searchText">
                             </label>
                     <br><b>{{resultEvents}}{{}}</b>
                     <table class="table table-responsive" id="eventstable" id="searchResults2">
-                        <thead>
+                        <!-- <thead>
                             <tr>
                                 <th>Event</th>
-                                <th ng-click="orderByField='postedby'; reverse = !reverse" nowrap>Posted By
+                                <th ng-click="sortfield='postedby'; reverse = !reverse" nowrap>Posted By
                                     <span ng-show="orderByField == 'postedby'">
                                         <i class="fa fa-sort-asc" ng-show="reverse"> </i>
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
@@ -56,14 +58,23 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tr ng-repeat="row in events | orderBy : orderByField : !reverse| filter:searchText">
-
-                            <td><i class={{row.fa_icon}}></i><br>{{row.eventtype + ' ' + row.items}}</td>
+                    -->
+                        <tr ng-repeat="row in events | orderBy : sortfield : !reverse| filter:searchText">
+                            <td><i class={{row.fa_icon}}></i> {{row.eventtype + ': ' + row.items}} by {{row.postedby}} at {{row.address}} on {{row.modified | date:'short'}}<br>
+                                <center>
+                                    <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
+                                    <span style="display:inline-block; width: 50px;"></span>
+                                    <a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i></a>
+                                    <span style="display:inline-block; width: 50px;"></span>
+                                    <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a>
+                                </center>
+                            </td>
+                            <!--  <td><i class={{row.fa_icon}}></i><br>{{row.eventtype + ': ' + row.items}}</td>
                             <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i>{{row.phone_number}}</a>
                             </td>
                             <td>{{row.modified | date: 'medium'}}</td>
                             <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>
-                            <!--                           <td ng-show="row.status!='ACCEPTED'">
+                                                      <td ng-show="row.status!='ACCEPTED'">
                                 <button class="btn btn-primary btn-md" ng-click="AcceptDonation(row, 'ACCEPTED')">ACCEPT DONATION</button>
                             </td>
                             <td ng-show="row.status=='ACCEPTED' && row.receiver.receiver_email==login_email">

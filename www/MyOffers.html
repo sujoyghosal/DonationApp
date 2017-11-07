@@ -6,19 +6,28 @@
 
 <body>
 
-    <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="orderByField='time'">
-        <button class="btn btn-primary btn-md" ng-click="GetDonations('email',login_email)">VIEW DONATIONS I OFFERED</button>
+    <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="sortfield='time'">
+        <button class="btn btn-primary btn-md" ng-click="GetDonations('email',login_email, true)">VIEW DONATIONS I OFFERED</button>
         <br>
-        <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
-        <p>
-            <p/><b/>{{found}}
-            <br>
-            <div class="container" style="width: 70%">
-                <label ng-show="alldonations">Search in Donations:
+        <i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i> {{found}}
+        <br>
+        <div class="container" ng-show="alldonations">
+            <label>Sort By:
+                            <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
+                                <option value="offeredby">Name</option>
+                                <option value="time">Date</option>
+                                <option value="items">Item</option>
+                                <option value="address">Address</option>
+                            </select>
+                            <br>
+                        </label> <span></span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
+            <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i></span>
+
+            <label ng-show="alldonations">Search in Donations:
                             <input ng-model="searchText">
                         </label>
-                <table class="table table-responsive" ng-show="alldonations">
-                    <thead>
+            <table class="table table-responsive">
+                <!--                   <thead>
                         <tr>
                             <th>Offer</th>
                             <th ng-click="orderByField='email'; reverse = !reverse" nowrap>Contacts
@@ -38,21 +47,28 @@
                             </th>
                             <th>Request</th>
                         </tr>
-                    </thead>
-                    <tr ng-repeat="row in citydonations | orderBy : orderByField : !reverse | filter:searchText">
-                        <td>{{row.items}} in {{row.city}} offered by {{row.offeredby}}</td>
+                    </thead>-->
+                <tr ng-repeat="row in citydonations | orderBy : sortfield : !reverse | filter:searchText">
+                    <td><i class={{row.fa_icon}}></i> {{row.items}} at {{row.address}} on {{row.modified | date:'medium'}}<br>
+                        <center>
+                            <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
+                            <span style="display:inline-block; width: 50px;"></span>
+                            <a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i></a>
+                            <span style="display:inline-block; width: 50px;"></span>
+                            <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a>
+                        </center>
+                    </td>
+                    <!--<td>{{row.items}} in {{row.city}} offered by {{row.offeredby}}</td>
                         <td>Email: {{row.email}} Phone: {{row.phone_number}}</td>
                         <td>{{row.status}} on {{row.time | date: 'short'}}</td>
                         <td>{{row.address}}</td>
                         <td>
                             <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </p>
+                        </td> -->
+                </tr>
+            </table>
+        </div>
     </div>
-    </center>
 </body>
 
 </html>

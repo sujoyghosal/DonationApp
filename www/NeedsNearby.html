@@ -51,21 +51,24 @@
             <p>
                 <div class="container" ng-show="allneeds" style="width: 100%">
                     <fieldset class="fieldset-auto-width">
-                        <label ng-show="false">Sort By:
-                                <select name="sort" ng-model="offeredby">
-                                    <option value="offeredby">Name</option>
-                                    <option value="phone_number">Phone</option>
-                                    <option value="time">Start Time</option>
-                                    <option value="address">Area</option>
-                                </select>
-                                <br>
-                            </label>
+                        <label>Sort By:
+                                    <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
+                                        <option value="postedby">Name</option>
+                                        <option value="time">Date</option>
+                                        <option value="items">Item</option>
+                                        <option value="address">Address</option>
+                                    </select>
+                                    <br>
+                                </label> <span></span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
+                        <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i></span>
+
+
                         <label ng-show="allneeds">Search Places, Items etc in needs:
                                 <input ng-model="searchText">
                             </label>
                         <br><b>{{result}}{{}}</b>
                         <table class="table table-responsive" id="needstable" id="searchResults2">
-                            <thead>
+                            <!-- <thead>
                                 <tr>
                                     <th ng-click="orderByField='items'; reverse = !reverse" nowrap>Need
                                         <span ng-show="orderByField == 'items'">
@@ -88,12 +91,22 @@
                                         <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
                                     </th>
                                 </tr>
-                            </thead>
-                            <tr ng-repeat="row in cityneeds | orderBy : orderByField : !reverse| filter:searchText">
-                                <td><i class={{row.fa_icon}}></i><br>{{row.items}}<br>Urgent: {{row.emergency}}</td>
+                            </thead> -->
+                            <tr ng-repeat="row in cityneeds | orderBy : sortfield : !reverse| filter:searchText">
+                                <td><i class={{row.fa_icon}}></i> {{row.items}} by {{row.postedby}} at {{row.address}} on {{row.modified | date:'medium'}}<br>
+                                    <center>
+                                        <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
+                                        <span style="display:inline-block; width: 50px;"></span>
+                                        <a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i></a>
+                                        <span style="display:inline-block; width: 50px;"></span>
+                                        <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a>
+                                    </center>
+                                </td>
+                                <!--<td><i class={{row.fa_icon}}></i><br>{{row.items}}<br>Urgent: {{row.emergency}}</td>
                                 <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i> {{row.phone_number}}</a></td>
                                 <td>{{row.modified | date: 'medium'}}</td>
                                 <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>
+                                -->
                             </tr>
                         </table>
                     </fieldset>

@@ -14,6 +14,7 @@
     <div ng-app="myApp" ng-controller="DonationCtrl">
         <label for="city">
                         <p/>Enter City: </label>
+
         <br>
         <input type="text" name="city" ng-model="data.city" />
         <br>
@@ -27,7 +28,8 @@
             <select class="form-control" id="sel1" name="itemtype" ng-model="data.itemtype" style="width:200px">
                     <option value="" selected disabled>Select Type</option>
                     <option value="" disabled>Emergencies</option>
-                    <option value="Medical">Medical</option>
+                    <option value="Blood">Blood Needed</option>
+                    <option value="Medical">Other Medical</option>
                     <option value="Natural Disaster">Natural Disaster</option>
                     <option value="Terrorism">Terrorism</option>
                     <option value="Accident">Accident</option>

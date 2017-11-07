@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Freecycle - Login</title>
-    <link rel="stylesheet" href="css/login.css" media="screen" type="text/css" />
     <link rel="stylesheet" href="css/landing-page.css" media="screen" type="text/css" />
 </head>
 
@@ -24,13 +23,13 @@
                 <fieldset class="clearfix">
                     <h2>WELCOME TO THE FREECYCLE APP</h2><br><br>
                     <p><span class="fontawesome-user"></span>
-                        <input type="text" name="username" ng-model="login.email" value="Username" onBlur="if(this.value == '') this.value = 'Username'" onFocus="if(this.value == 'Username') this.value = ''" required>
-                        <h2 ng-show="myForm.username.$dirty && myForm.username.$invalid">Invalid Name</h2>
+                        <input type="text" name="username" ng-model="login.email" placeholder="email" value="Username" onBlur="if(this.value == '') this.value = 'Username'" onFocus="if(this.value == 'Username') this.value = ''" required>
+                        <p class="isa_error" ng-show="myForm.username.$dirty && myForm.username.$invalid">Invalid Email</p>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p><span class="fontawesome-lock"></span>
-                        <input name="password" type="password" ng-model="login.password" value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required>
-                        <h2 ng-show="myForm.password.$dirty && myForm.password.$invalid">Invalid Password</h2>
+                        <input name="password" type="password" ng-model="login.password" placeholder="password" value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required>
+                        <p class="isa_error" ng-show="myForm.password.$dirty && myForm.password.$invalid">Invalid Password</p>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Password" -->
                     <p>

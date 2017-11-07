@@ -223,6 +223,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             case "Educational":
                 icon = "fa fa-university fa-2x";
                 break;
+            case "Blood":
+                icon = "fa fa-tint fa-2x";
+                break;
             case "Medical":
                 icon = "fa fa-stethoscope fa-2x";
                 break;
@@ -713,6 +716,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         var o = new Date($scope.cityneeds[i].modified);
                         if ((d - o) > 7 * ONE_DAY)
                             continue;
+                        else if (!emergency && $scope.cityneeds[i].email === $scope.login_email)
+                            continue;
                         else
                             filteredNeeds.push($scope.cityneeds[i]);
                     }
@@ -803,6 +808,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         var d = new Date();
                         var o = new Date($scope.cityneeds[i].modified);
                         if (((d - o) > 7 * ONE_DAY))
+                            continue;
+                        else if (type != 'emergency' && $scope.cityneeds[i].email === $scope.login_email)
                             continue;
                         else
                             filteredNeeds.push($scope.cityneeds[i]);
