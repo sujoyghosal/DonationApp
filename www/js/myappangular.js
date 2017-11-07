@@ -401,7 +401,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             $scope.lng +
             "&emergency=" + emergency;
         $scope.loginResult = "Need Request Sent";
-
+        console.log("Create Need URL = " + sendURL);
         $http({
             method: "GET",
             url: sendURL
