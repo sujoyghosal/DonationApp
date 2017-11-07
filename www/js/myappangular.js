@@ -251,7 +251,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 icon = "fa fa-stethoscope fa-2x";
                 break;
             case "Food":
-                icon = "fa fa-food fa-2x";
+                icon = "fa fa-cutlery fa-2x";
                 break;
             case "Furniture":
                 icon = "fa fa-bed fa-2x";
@@ -662,6 +662,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&paramvalue=" +
             paramvalue.trim();
         getURL = encodeURI(getURL);
+
         $http({
             method: "GET",
             url: getURL

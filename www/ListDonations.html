@@ -48,7 +48,7 @@
             {{found}}
             <br>
         </center>
-        <fieldset class="fieldset-auto-width">
+        <fieldset class="fieldset-auto-width" ng-show="alldonations">
             <div class="container" ng-show="alldonations">
 
                 <label>Sort By:
@@ -72,7 +72,7 @@
                             <td><i class={{row.fa_icon}}></i>
                                 <h5> {{row.itemtype}} </h5>
                                 <h6>{{row.items}}</h6>
-                                {{ 'Offered by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                                {{ 'Offered by ' + row.offeredby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                                 <center>
                                     <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
                                     <span style="display:inline-block; width: 50px;"></span>

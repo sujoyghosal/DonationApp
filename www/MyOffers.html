@@ -53,6 +53,9 @@
                         <h5> {{row.itemtype}} </h5>
                         <h6>{{row.items}}</h6>
                         At {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                        <center>
+                            <a href='#' ng-click="CancelOffer(row)"><i class="fa fa-map-remove fa-2x"></i></a>
+                        </center>
                     </td>
                     <!--<td>{{row.items}} in {{row.city}} offered by {{row.offeredby}}</td>
                         <td>Email: {{row.email}} Phone: {{row.phone_number}}</td>
