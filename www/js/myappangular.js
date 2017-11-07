@@ -674,7 +674,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 } else {
                     $scope.found = "No Offers Found";
                 }
-
+                if ($scope.citydonations.length == 0) {
+                    $scope.alldonations = false;
+                    return;
+                }
                 $scope.alldonations = true;
                 $scope.cancel = false;
             },
@@ -724,6 +727,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     console.log("Filtered " + ($scope.cityneeds.length - filteredNeeds.length) + " old records");
                     $scope.cityneeds = filteredNeeds;
                     $scope.found = $scope.cityneeds.length + " found";
+                    if ($scope.cityneeds.length == 0) {
+                        $scope.allneeds = false;
+                        return;
+                    }
                 } else {
                     $scope.cityneeds = [];
                     $scope.found = "None found";
@@ -818,15 +825,19 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     $scope.cityneeds = filteredNeeds;
                     $scope.citydonations = filteredNeeds;
                     $scope.found = $scope.cityneeds.length + " found";
-                    $scope.cancel = false;
-                    $scope.allneeds = true;
-                    $scope.alldonations = true;
+                    if ($scope.cityneeds.length > 0) {
+                        $scope.cancel = false;
+                        $scope.allneeds = true;
+                        $scope.alldonations = true;
+                        return;
+                    }
+
                 } else {
                     $scope.cityneeds = [];
                     $scope.citydonations = [];
                     $scope.found = "None found";
-                    $scope.allneeds = true;
-                    $scope.alldonations = true;
+                    $scope.allneeds = false;
+                    $scope.alldonations = false;
                 }
 
             },

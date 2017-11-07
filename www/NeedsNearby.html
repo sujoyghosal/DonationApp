@@ -36,8 +36,8 @@
                             <p>{{'Within ' + data.distance + 'Km'}} Of Address</p>
                         </div>
                         <p>
-                            <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>
-                            <center/><textarea name="myAddress" rows="4" cols="25" ng-model="data.searchAddress" placeholder="Enter Address"></textarea></p>
+                            <!--<button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
+                            <input type="text" name="myAddress" size="40" ng-model="data.searchAddress" placeholder="Enter Address e.g. Park Street, Kolkata"></p>
                         <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'needs')">Fetch Needs Within {{data.distance}} km of Address</button>
                         <br>
                     </div>
