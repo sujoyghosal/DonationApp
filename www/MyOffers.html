@@ -52,14 +52,7 @@
                     <td><i class={{row.fa_icon}}></i>
                         <h5> {{row.itemtype}} </h5>
                         <h6>{{row.items}}</h6>
-                        {{ 'Posted by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
-                        <center>
-                            <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
-                            <span style="display:inline-block; width: 50px;"></span>
-                            <a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i></a>
-                            <span style="display:inline-block; width: 50px;"></span>
-                            <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a>
-                        </center>
+                        At {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                     </td>
                     <!--<td>{{row.items}} in {{row.city}} offered by {{row.offeredby}}</td>
                         <td>Email: {{row.email}} Phone: {{row.phone_number}}</td>

@@ -14,11 +14,11 @@
 <body>
 
     <p align="left">Welcome {{login_fullname}}</p>
-    <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="orderByField='time'">
+    <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="sortfield='modified'">
         <fieldset class="fieldset-auto-width">
             <div>
                 <input type="radio" ng-model="criteria" value="City" ng-click="alldonations=false; found=''"> City Based
-                <input type="radio" ng-model="criteria" value="Near Me" ng-click="alldonations=false; found=''"> Offers Near Me
+                <input type="radio" ng-model="criteria" value="Near Me" ng-click="alldonations=false; found=''"> Offers Near An Address
             </div>
             <div ng-switch="criteria">
                 <div ng-switch-when="City">
@@ -37,7 +37,7 @@
                     </div>
                     <p>
                         <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
-                        <input type="text" name="myAddress" size="40" ng-model="data.searchAddress" placeholder="Enter Address e.g. Park Street, Kolkata"></p>
+                        <input type="text" name="myAddress" size="30" ng-model="data.searchAddress" placeholder="Enter Address e.g. Park Street, Kolkata"></p>
                     <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'offers')">Fetch Offers Within {{data.distance}} km of Address</button>
                     <br>
                 </div>
@@ -48,10 +48,10 @@
             {{found}}
             <br>
         </center>
-        <center>
+        <fieldset class="fieldset-auto-width">
             <div class="container" ng-show="alldonations">
-                <fieldset class="fieldset-auto-width">
-                    <label>Sort By:
+
+                <label>Sort By:
                                 <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
                                     <option value="offeredby">Name</option>
                                     <option value="time">Date</option>
@@ -60,68 +60,32 @@
                                 </select>
                                 <br>
                             </label> <span></span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
-                    <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i></span>
+                <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i></span>
 
-                    <div class="container" style="width: 100%">
-                        <label ng-show="alldonations">Search Items, Places etc in results:
+                <div class="container" style="width: 100%">
+                    <label ng-show="alldonations">Search Items, Places etc in results:
                                     <input ng-model="searchText">
                                 </label>
-                        <br><b>{{result}}{{}}</b>
-                        <table class="table table-responsive">
-                            <!--                       <thead>
-                            <tr>
-                                <th ng-click="orderByField='items' ; reverse=! reverse ">Items
-                                    <span ng-show="orderByField=='items' ">
-                                                <i class="fa fa-sort-asc " ng-show="reverse "> </i>
-                                                <i class="fa fa-sort-desc " ng-show="!reverse "></i></span>
-                                </th>
-                                <th ng-click="orderByField='time' ; reverse=! reverse ">Date
-                                    <span ng-show="orderByField=='time' ">
-                                                    <i class="fa fa-sort-asc " ng-show="reverse "> </i>
-                                                    <i class="fa fa-sort-desc " ng-show="!reverse "></i></span>
-                                </th>
-                                <th ng-click="orderByField='offeredby' ; reverse=! reverse ">Offered By
-                                    <span ng-show="orderByField=='offeredby' ">
-                                            <i class="fa fa-sort-asc " ng-show="reverse "> </i>
-                                            <i class="fa fa-sort-desc " ng-show="!reverse "></i></span>
-                                </th>
-                                <th ng-click="orderByField='address' ; reverse=! reverse ">Address
-                                    <span ng-show="orderByField=='address' ">
-                                            <i class="fa fa-sort-asc " ng-show="reverse "> </i>
-                                            <i class="fa fa-sort-desc " ng-show="!reverse "></i></span>
-                                </th>
-                            </tr>
-                        </thead> -->
-                            <tr ng-repeat="row in citydonations | orderBy : sortfield : !reverse| filter:searchText ">
-                                <td><i class={{row.fa_icon}}></i>
-                                    <h5> {{row.itemtype}} </h5>
-                                    <h6>{{row.items}}</h6>
-                                    {{ 'Offered by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
-                                    <center>
-                                        <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
-                                        <span style="display:inline-block; width: 50px;"></span>
-                                        <a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i></a>
-                                        <span style="display:inline-block; width: 50px;"></span>
-                                        <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a>
-                                    </center>
-                                </td>
-                                <!--                           <td><i class={{row.fa_icon}}></i><br>{{row.items}}</td>
-                            <td>{{row.modified | date:'medium'}}</td>
-                            <td>{{row.offeredby}} <br><a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i>{{row.phone_number}}</a>
+                    <br><b>{{result}}{{}}</b>
+                    <table class="table table-responsive">
+                        <tr ng-repeat="row in citydonations | orderBy : sortfield : !reverse| filter:searchText ">
+                            <td><i class={{row.fa_icon}}></i>
+                                <h5> {{row.itemtype}} </h5>
+                                <h6>{{row.items}}</h6>
+                                {{ 'Offered by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                                <center>
+                                    <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
+                                    <span style="display:inline-block; width: 50px;"></span>
+                                    <a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i></a>
+                                    <span style="display:inline-block; width: 50px;"></span>
+                                    <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a>
+                                </center>
                             </td>
-                            <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>-->
-                                <!--                           <td ng-show="row.status!='ACCEPTED' ">
-                                <button class="btn btn-primary btn-md " ng-click="AcceptDonation(row, 'ACCEPTED') ">ACCEPT DONATION</button>
-                            </td>
-                            <td ng-show="row.status=='ACCEPTED' && row.receiver.receiver_email==login_email ">
-                                <button class="btn btn-primary btn-md " ng-click="AcceptDonation(row, 'OFFERED') ">CANCEL ACCEPTANCE</button>
-                            </td> -->
-                            </tr>
-                        </table>
-                    </div>
-                </fieldset>
+                        </tr>
+                    </table>
+                </div>
             </div>
-        </center>
+        </fieldset>
     </div>
 </body>
 

@@ -18,7 +18,7 @@
             <fieldset class="fieldset-auto-width">
                 <div>
                     <input type="radio" ng-model="criteria" value="City" ng-click="allneeds=false; found=''"> City Based
-                    <input type="radio" ng-model="criteria" value="Near Me" ng-click="allneeds=false; found=''"> Emergency Needs Near Me
+                    <input type="radio" ng-model="criteria" value="Near Me" ng-click="allneeds=false; found=''"> Emergencies Near An Address
                 </div>
                 <div ng-switch="criteria">
                     <div ng-switch-when="City">
@@ -37,7 +37,7 @@
                         </div>
                         <p>
                             <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
-                            <input type="text" name="myAddress" size="40" ng-model="data.searchAddress" placeholder="Address e.g. Park Street, Kolkata"></p>
+                            <input type="text" name="myAddress" size="30" ng-model="data.searchAddress" placeholder="Address e.g. Park Street, Kolkata"></p>
                         <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'emergency')">Fetch Emergencies Within {{data.distance}} km of Address</button>
                         <br>
                     </div>

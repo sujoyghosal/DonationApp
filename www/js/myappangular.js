@@ -1121,7 +1121,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 $scope.showmyevents = true;
-                console.log("GetGroupsForUser success" + JSON.stringify(response));
+                console.log("GetGroupsForUser success");
                 $scope.usergroups = response.data;
                 // $scope.found  = "Active donation offers for " + param_name;
             },
