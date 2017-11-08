@@ -25,6 +25,10 @@ app.config([
                 templateUrl: "UpdateProfile.html",
                 controller: "RegisterCtrl"
             })
+            .when("/updatepassword", {
+                templateUrl: "UpdateProfile.html",
+                controller: "RegisterCtrl"
+            })
             .when("/signup", {
                 templateUrl: "Register.html",
                 controller: "RegisterCtrl"
@@ -80,6 +84,10 @@ app.config([
             .when("/notifications", {
                 templateUrl: "Notifications.html",
                 controller: "DonationCtrl"
+            })
+            .when("/resetpw", {
+                templateUrl: "ResetPassword.html",
+                controller: "RegisterCtrl"
             })
             .otherwise({
                 redirectTo: "/login"
@@ -161,17 +169,20 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     };
 
     $scope.isVisible = function() {
-        return ("/login" !== $location.path() && "/signup" !== $location.path());
+        return ("/login" !== $location.path() && "/signup" !== $location.path() &&
+            "/resetpw" !== $location.path() && "/updatepassword" !== $location.path());
     };
     $rootScope.$on("CallGetEventsMethod", function() {
         $scope.GetEventsForUser(true);
     });
     $rootScope.$on('$routeChangeStart', function(event, next) {
 
-        if (!UserService.getLoggedInStatus() && "/signup" !== $location.path()) {
-            console.log("User not logged in")
-                /* You can save the user's location to take him back to the same page after he has logged-in */
-                //$rootScope.savedLocation = $location.url();
+        if (!UserService.getLoggedInStatus() && "/signup" !== $location.path() &&
+            "/resetpw" !== $location.path() &&
+            "/updatepassword" !== $location.path()) {
+            console.log("User not logged in for access to " + $location.path());
+            /* You can save the user's location to take him back to the same page after he has logged-in */
+            //$rootScope.savedLocation = $location.url();
 
             $location.path("/login");
             return;
@@ -1607,7 +1618,7 @@ app.controller("LoginCtrl", function(
     $scope.spinner = false;
     $scope.isCollapsed = true;
     $scope.isVisible = function() {
-        return ("/login" !== $location.path() && "/signup" !== $location.path());
+        return ("/login" !== $location.path() && "/signup" !== $location.path() && "/resetpw" !== $location.path());
     };
 
     $scope.showNav = "/login" !== $location.path();
@@ -1727,7 +1738,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
                     $location.path("/login");
                     return;
                 } else {
-                    $scope.result = response;
+                    $scope.result = "Error creating id. Email already in use.";
                     alert("Could not create user id");
 
                     //        $location.path("/login");
@@ -1743,13 +1754,21 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
         );
     };
     $scope.UpdateUser = function(user) {
+        if (!user || !user.email) {
+            alert("Please Enter Valid Email");
+            return;
+        }
+
         $scope.spinner = true;
         var getURL =
-            BASEURL + "/updateuser?uuid=" +
-            UserService.getLoggedIn().uuid + "&phone=" +
-            user.phone.trim() +
-            "&address=" +
-            user.address.trim() + "&password=" + user.password.trim();
+            BASEURL + "/updateuser?name=" + user.email.trim();
+        if (user.phone)
+            getURL += "&phone=" + user.phone.trim();
+        if (user.address)
+            getURL += "&address=" +
+            user.address.trim();
+        if (user.password)
+            getURL += "&password=" + user.password.trim();
         getURL = encodeURI(getURL);
         console.log("Update URL=" + getURL);
         $http({
@@ -1763,12 +1782,20 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
                 if (
                     angular.isObject(response)
                 ) {
-                    alert("Account Update Successfully");
-                    $scope.result = "Success";
-                    //   $location.path("/login");
-                    return;
+                    console.log("UpdateUSer response: " + JSON.stringify(response));
+
+                    if (!$scope.login_email) {
+                        alert("Password Update Successful");
+                        $scope.result = "Account Update Sucessful.";
+                        $location.path("/login");
+                        return;
+                    } else {
+                        alert("Account Update Successful");
+                        $scope.result = "Account Update Sucessful.";
+                        return;
+                    }
                 } else {
-                    $scope.result = response;
+                    $scope.result = "Could not update profile";
                     alert("Could not update profile");
 
                     //        $location.path("/login");
@@ -1783,5 +1810,33 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
             }
         );
     }
-
+    $scope.SendResetPasswordRequest = function(email) {
+        if (!email || email.length < 4) {
+            alert("Invalid Email");
+            return;
+        }
+        var getURL =
+            BASEURL + "/sendresetpwmail?email=" +
+            email.trim();
+        getURL = encodeURI(getURL);
+        console.log("Create URL=" + getURL);
+        $http({
+            method: "GET",
+            url: getURL
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.spinner = false;
+                $scope.result = "An email has been sent with the password reset link.";
+                console.log("SendResetPasswordRequest response: " + JSON.stringify(response));
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                $scope.spinner = false;
+                $scope.loginResult = "Could not submit request.." + error;
+            }
+        );
+    }
 });

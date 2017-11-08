@@ -16,26 +16,31 @@
                     <h4/>UPDATE YOUR INFO
                 </legend>
                 <br>
-                <fieldset class="clearfix">
-                    <p><span class="fontawesome-user"></span>
-                        <input type="text" size="30" ng-model="login.fullname" placeholder={{login_fullname}} ng-readonly="true">
+                <fieldset class="fieldset-auto-width">
+                    <p ng-show="login_email">
+                        <input type="text" size="30" ng-model="user.fullname" placeholder={{login_fullname}} ng-readonly="true">
                     </p>
-                    <p><span class="fontawesome-envelope "></span>
-                        <input type="email " size="30" ng-model="login.email " placeholder={{login_email}} ng-readonly="true">
+                    <p ng-show="login_email">
+                        <input type="email " size="30" ng-model="user.email" placeholder={{login_email}} ng-readonly="true">
+                    </p>
+                    <p ng-show="!login_email">
+                        <input type="email " size="30" ng-model="user.email" placeholder="Email" ng-readonly="false">
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username " -->
-                    <p>
-                        <input type="password " size="30" ng-model="login.password " placeholder="Password">
+                    <p ng-show="!login_email">
+                        <input type="password" size="30" ng-model="user.password" placeholder="Password">
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username " -->
-                    <p><input type="text " size="30" ng-model="login.phone " placeholder={{login_phone}}>
+                    <p ng-show="login_email">
+                        <input type="text " size="30" ng-model="user.phone" placeholder={{login_phone}}>
                     </p>
-                    <p>
-                        <input type="text" size="60" id="address " placeholder={{login_address}} name="address " ng-model="login.address ">
+                    <p ng-show="login_email">
+                        <input type="text" size="30" id="address " placeholder={{login_address}} name="address" ng-model="user.address">
                     </p>
                     <!-- JS because of IE support; better: placeholder="Password " -->
                     <p>
-                        <input type="button" value="SUBMIT " ng-click="UpdateUser(login) ">{{result}}
+                        <input type="button" value="SUBMIT " ng-click="UpdateUser(user) ">
+                        <br>{{result}}
                     </p>
                     <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
                 </fieldset>

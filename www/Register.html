@@ -20,7 +20,7 @@
                         <h4/>YOUR INFO
                     </legend>
                     <br>
-                    <fieldset class="clearfix">
+                    <fieldset class="fieldset-auto-width">
                         <p><i class="fa fa-user"></i>
                             <input type="text" ng-model="login.fullname" placeholder="Name" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''" required>
                             <p class="isa_error" ng-show="myForm.address.$dirty && myForm.address.$invalid">Invalid Address</p>
