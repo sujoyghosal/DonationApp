@@ -461,25 +461,25 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 //send notification to creator 15 min b4 donation starts
                 //               schedulePush(new Date());
                 if (emergency && response) {
-                    var socket = io.connect(BASEURL);
-                    socket.on('connect', function() {
-                        //alert("#####Client Socket Connected");
-                        socket.emit('emergency', response);
-                        /*socket.on('emergencydata', function(data) {
-                            console.log("####Event Blood: " + JSON.stringify(data));
-                            $scope.eventsCount = $scope.eventsCount + 1;
-                            //alert("Events count = " + $scope.eventsCount);
-                            alert("New Emergency Alert: " + JSON.stringify(data.data._data.items + " needed at " +
-                                data.data._data.address + ". Contact " + data.data._data.postedby + " @ " +
-                                data.data._data.phone_number + " or " + data.data._data.email
-                            ));
-                            cordova.plugins.notification.local.schedule({
-                                title: 'My first notification',
-                                text: 'Thats pretty easy...',
-                                foreground: true
-                            });
-                        }); */
-                    });
+                    /* var socket = io.connect(BASEURL);
+                     socket.on('connect', function() {
+                         //alert("#####Client Socket Connected");
+                         socket.emit('emergency', response);
+                         socket.on('emergencydata', function(data) {
+                             console.log("####Event Blood: " + JSON.stringify(data));
+                             $scope.eventsCount = $scope.eventsCount + 1;
+                             //alert("Events count = " + $scope.eventsCount);
+                             alert("New Emergency Alert: " + JSON.stringify(data.data._data.items + " needed at " +
+                                 data.data._data.address + ". Contact " + data.data._data.postedby + " @ " +
+                                 data.data._data.phone_number + " or " + data.data._data.email
+                             ));
+                             cordova.plugins.notification.local.schedule({
+                                 title: 'My first notification',
+                                 text: 'Thats pretty easy...',
+                                 foreground: true
+                             });
+                         }); 
+                     });*/
                     $scope.CheckIfGroupExists(need);
                 }
             },
@@ -1690,7 +1690,7 @@ app.controller("LoginCtrl", function(
                         $scope.showNav = true;
                         $scope.login_email = obj.email;
                         $scope.login_phone = obj.phone;
-                        var socket = io.connect(BASEURL);
+                        /*var socket = io.connect(BASEURL);
                         socket.on('connect', function() {
                             //alert("#####Client Socket Connected");
                             //socket.emit('emergency', response);
@@ -1709,7 +1709,7 @@ app.controller("LoginCtrl", function(
                                     foreground: true
                                 });
                             });
-                        });
+                        });*/
                         $rootScope.$emit("CallGetEventsMethod", {});
                         $location.path("/home");
                         //                $scope.fullname = UserService.getLoggedIn().fullname;
