@@ -120,7 +120,7 @@ app.service("UserService", function() {
     };
 });
 
-var BASEURL = "https://freecycleapissujoy.mybluemix.net";
+var BASEURL = "https://freecycleapissujoy.mybluemix.net:9000";
 //var BASEURL = "http://localhost:9000";
 
 app.controller("LogoutCtrl", function($scope, UserService) {
