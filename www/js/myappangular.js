@@ -465,7 +465,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     socket.on('connect', function() {
                         //alert("#####Client Socket Connected");
                         socket.emit('emergency', response);
-                        socket.on('emergencydata', function(data) {
+                        /*socket.on('emergencydata', function(data) {
                             console.log("####Event Blood: " + JSON.stringify(data));
                             $scope.eventsCount = $scope.eventsCount + 1;
                             //alert("Events count = " + $scope.eventsCount);
@@ -478,7 +478,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                                 text: 'Thats pretty easy...',
                                 foreground: true
                             });
-                        });
+                        }); */
                     });
                     $scope.CheckIfGroupExists(need);
                 }
@@ -1690,7 +1690,26 @@ app.controller("LoginCtrl", function(
                         $scope.showNav = true;
                         $scope.login_email = obj.email;
                         $scope.login_phone = obj.phone;
-
+                        var socket = io.connect('http://localhost:9000');
+                        socket.on('connect', function() {
+                            //alert("#####Client Socket Connected");
+                            //socket.emit('emergency', response);
+                            console.log("#####Setting up listener for emergency alerts");
+                            socket.on('emergencydata', function(data) {
+                                console.log("####received emergency event: " + JSON.stringify(data));
+                                //$scope.eventsCount = $scope.eventsCount + 1;
+                                //alert("Events count = " + $scope.eventsCount);
+                                alert("New Emergency Alert: " + JSON.stringify(data.data._data.items + " needed at " +
+                                    data.data._data.address + ". Contact " + data.data._data.postedby + " @ " +
+                                    data.data._data.phone_number + " or " + data.data._data.email
+                                ));
+                                cordova.plugins.notification.local.schedule({
+                                    title: 'My first notification',
+                                    text: 'Thats pretty easy...',
+                                    foreground: true
+                                });
+                            });
+                        });
                         $rootScope.$emit("CallGetEventsMethod", {});
                         $location.path("/home");
                         //                $scope.fullname = UserService.getLoggedIn().fullname;
