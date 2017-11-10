@@ -158,7 +158,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     var param_name = "";
     $scope.offererUUID = "";
     $scope.reverseSort = false;
-    $scope.eventsCount = 0;
+    //$scope.eventsCount = 0;
     $scope.events = [];
     var today = new Date().toISOString().slice(0, 10);
     $scope.today = {
@@ -180,7 +180,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         if (!UserService.getLoggedInStatus() && "/signup" !== $location.path() &&
             "/resetpw" !== $location.path() &&
             "/updatepassword" !== $location.path()) {
-            console.log("User not logged in for access to " + $location.path());
+            //console.log("User not logged in for access to " + $location.path());
             /* You can save the user's location to take him back to the same page after he has logged-in */
             //$rootScope.savedLocation = $location.url();
 
@@ -189,9 +189,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         }
 
     });
-    setInterval(function() {
+    /*setInterval(function() {
         $scope.GetEventsForUser(true);
-    }, 60000);
+    }, 60000);*/
 
     $scope.OrchestrateCreateOffer = function(offer) {
         $scope.GeoCodeAddress(offer.address, "offer");
@@ -460,14 +460,33 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 //   var myStartDate = new Date(offerDate.valueOf() - 15 * MS_PER_MINUTE);
                 //send notification to creator 15 min b4 donation starts
                 //               schedulePush(new Date());
-                if (emergency) {
+                if (emergency && response) {
+                    var socket = io.connect('http://localhost:9000');
+                    socket.on('connect', function() {
+                        //alert("#####Client Socket Connected");
+                        socket.emit('emergency', response);
+                        socket.on('emergencydata', function(data) {
+                            console.log("####Event Blood: " + JSON.stringify(data));
+                            $scope.eventsCount = $scope.eventsCount + 1;
+                            //alert("Events count = " + $scope.eventsCount);
+                            alert("New Emergency Alert: " + JSON.stringify(data.data._data.items + " needed at " +
+                                data.data._data.address + ". Contact " + data.data._data.postedby + " @ " +
+                                data.data._data.phone_number + " or " + data.data._data.email
+                            ));
+                            cordova.plugins.notification.local.schedule({
+                                title: 'My first notification',
+                                text: 'Thats pretty easy...',
+                                foreground: true
+                            });
+                        });
+                    });
                     $scope.CheckIfGroupExists(need);
                 }
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
-                $scope.loginResult = "Error Received from Server.." + error.toString();
+                $scope.loginResult = "A problem occurred processing the request. Please try again later.";
                 $scope.spinner = false;
                 $scope.status = error.statusText;
             }
@@ -1043,7 +1062,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 if (response && response.data && response.data === "No Groups Found") {
                     console.log("No Groups Found");
                     $scope.events = [];
-                    $scope.eventsCount = 0;
+                    //$scope.eventsCount = 0;
                     return;
                 }
                 console.log("Events Count= " + response.data.length);
@@ -1116,7 +1135,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
-    $scope.GetGroupsForUser = function(group) {
+    $scope.GetGroupsForUser = function() {
         $scope.spinner = true;
         $scope.showmyevents = false;
         //first create group with id=<city>-<place>

@@ -36,6 +36,17 @@
             });
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <!--    <script>
+        var socket = io.connect('http://localhost:9000');
+        socket.on('connect', function() {
+            alert("#####Client Socket Connected");
+            socket.on('Blood', function(data) {
+                console.log("####Event Blood: " + data);
+                alert("Blood Needed");
+            });
+        });
+    </script>-->
     <style>
         header {
             padding: 32px;
@@ -225,7 +236,7 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-notifications={{eventsCount}} class="buttonnotification" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe fa-2x"></i>  <span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-notifications="{{eventsCount}}" class="buttonnotification" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe fa-2x"></i>  <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#notifications">Notifications</a></li>
                                     <li><a href="#subscribe">Subscribe</a></li>

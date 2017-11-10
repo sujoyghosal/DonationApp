@@ -62,7 +62,7 @@
                         <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Item Name</p>
                     </p>
                     <p>
-                        <input type="button" name="submit" value="SUBMIT" ng-click="GeoCodeAddress(offer, 'offer')" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
+                        <input type="button" name="submit" value="SUBMIT" ng-click="GeoCodeAddress(offer, 'offer'); spinner = true;" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
                                           myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid">
                         <br>
                         <center/> {{loginResult}}

@@ -33,7 +33,7 @@
                     </p>
                     <!-- JS because of IE support; better: placeholder="Password" -->
                     <p>
-                        <input type="button" value="Sign In" ng-click="Login(login)" ng-disabled="myForm.username.$invalid||  myForm.password.$invalid">
+                        <input type="button" value="Sign In" ng-click="Login(login); spinner = true;" ng-disabled="myForm.username.$invalid||  myForm.password.$invalid">
                         <br>
                         <center/> {{loginResult}}
                     </p>

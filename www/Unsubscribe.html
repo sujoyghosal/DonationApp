@@ -11,7 +11,7 @@
         <div ng-app="myApp" ng-controller="DonationCtrl">
 
             <br>
-            <center/><button type="button" class="btn btn-primary btn-md" ng-click="GetGroupsForUser()">Fetch All My Subscriptions</button>
+            <center/><button type="button" class="btn btn-primary btn-md" ng-click="GetGroupsForUser(); spinner=true;">Fetch All My Subscriptions</button>
             <br>
             <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
             <center>
@@ -30,7 +30,7 @@
                         </thead>
                         <tr ng-repeat="row in usergroups">
                             <td>{{row.name}}</td>
-                            <td><button type="button" class="btn btn-primary btn-md" ng-click="DeleteGroupForUser(row.name)">Unsubscribe</button></td>
+                            <td><button type="button" class="btn btn-primary btn-md" ng-click="DeleteGroupForUser(row.name); spinner = true;">Unsubscribe</button></td>
                         </tr>
                     </table>
                 </div>

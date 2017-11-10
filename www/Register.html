@@ -44,7 +44,7 @@
                         </p>
                         <!-- JS because of IE support; better: placeholder="Password" -->
                         <p>
-                            <input type="button" value="SUBMIT" ng-click="CreateUser(login)">{{result}}
+                            <input type="button" value="SUBMIT" ng-click="CreateUser(login); spinner = true;">{{result}}
                         </p>
                         <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
 

@@ -11,7 +11,7 @@
     <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="showevents=false;">
 
         <br>
-        <center/><button type="button" class="btn btn-primary btn-md" ng-click="GetEventsForUser(false)">View Notifications</button>
+        <center/><button type="button" class="btn btn-primary btn-md" ng-click="GetEventsForUser(false); spinner = true;">View Notifications</button>
         <br>
         <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
         <p>

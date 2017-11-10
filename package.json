@@ -7,6 +7,8 @@
         "start": "node DonationWeb.js"
     },
     "dependencies": {
-        "express": "3.x.x"
+        "express": "3.x.x",
+        "socket.io": "x.x.x",
+        "express-socket.io": "x.x.x"
     }
 }

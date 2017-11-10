@@ -33,7 +33,7 @@
                     <p>
                         <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
                         <input type="text" name="myAddress" size="30" ng-model="data.searchAddress" placeholder="Enter Address e.g. Park Street, Kolkata"></p>
-                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'offers')">Fetch Offers Within {{data.distance}} km of Address</button>
+                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'offers'); spinner = true;">Fetch Offers Within {{data.distance}} km of Address</button>
                     <br>
                 </div>
             </div>
