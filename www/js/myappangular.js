@@ -461,7 +461,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 //send notification to creator 15 min b4 donation starts
                 //               schedulePush(new Date());
                 if (emergency && response) {
-                    var socket = io.connect('http://localhost:9000');
+                    var socket = io.connect(BASEURL);
                     socket.on('connect', function() {
                         //alert("#####Client Socket Connected");
                         socket.emit('emergency', response);
@@ -1690,7 +1690,7 @@ app.controller("LoginCtrl", function(
                         $scope.showNav = true;
                         $scope.login_email = obj.email;
                         $scope.login_phone = obj.phone;
-                        var socket = io.connect('http://localhost:9000');
+                        var socket = io.connect(BASEURL);
                         socket.on('connect', function() {
                             //alert("#####Client Socket Connected");
                             //socket.emit('emergency', response);
