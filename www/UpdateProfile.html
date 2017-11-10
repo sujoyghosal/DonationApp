@@ -18,24 +18,24 @@
                 <br>
                 <fieldset class="fieldset-auto-width">
                     <p ng-show="login_email">
-                        <input type="text" size="30" ng-model="user.fullname" placeholder={{login_fullname}} ng-readonly="true">
+                        <input type="text" size="20" ng-model="user.fullname" placeholder={{login_fullname}} ng-readonly="true">
                     </p>
                     <p ng-show="login_email">
-                        <input type="email " size="30" ng-model="user.email" placeholder={{login_email}} ng-readonly="true">
+                        <input type="email " size="20" ng-model="user.email" placeholder={{login_email}} ng-readonly="true">
                     </p>
                     <p ng-show="!login_email">
-                        <input type="email " size="30" ng-model="user.email" placeholder="Email" ng-readonly="false">
+                        <input type="email " size="20" ng-model="user.email" placeholder="Email" ng-readonly="false">
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username " -->
                     <p ng-show="!login_email">
-                        <input type="password" size="30" ng-model="user.password" placeholder="Password">
+                        <input type="password" size="20" ng-model="user.password" placeholder="Password">
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username " -->
                     <p ng-show="login_email">
-                        <input type="text " size="30" ng-model="user.phone" placeholder={{login_phone}}>
+                        <input type="text " size="20" ng-model="user.phone" placeholder={{login_phone}}>
                     </p>
                     <p ng-show="login_email">
-                        <input type="text" size="30" id="address " placeholder={{login_address}} name="address" ng-model="user.address">
+                        <input type="text" size="20" id="address " placeholder={{login_address}} name="address" ng-model="user.address">
                     </p>
                     <!-- JS because of IE support; better: placeholder="Password " -->
                     <p>
