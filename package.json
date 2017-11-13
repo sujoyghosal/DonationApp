@@ -9,6 +9,7 @@
     "dependencies": {
         "express": "3.x.x",
         "socket.io": "x.x.x",
-        "express-socket.io": "x.x.x"
+        "express-socket.io": "x.x.x",
+        "angular-ui-bootstrap": "x.x.x"
     }
 }

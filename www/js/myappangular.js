@@ -121,7 +121,7 @@ app.service("UserService", function() {
 });
 
 var BASEURL = "https://freecycleapissujoy.mybluemix.net";
-//var BASEURL = "http://localhost:8443";
+//var BASEURL = "http://localhost:9000";
 //var PORT = (process.env.VCAP_APP_PORT || 9000);
 
 app.controller("LogoutCtrl", function($scope, UserService) {
@@ -176,6 +176,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     };
     $rootScope.$on("CallGetEventsMethod", function() {
         $scope.GetEventsForUser(true);
+    });
+    $rootScope.$on("CallGetGroupsForUserMethod", function() {
+        $scope.GetGroupsForUser();
     });
     $rootScope.$on('$routeChangeStart', function(event, next) {
 
@@ -391,7 +394,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     console.log("CheckIfGroupExists: Groups exists for event " + group);
                     $scope.spinner = false;
                     // Connect event uuid with group name
-                    $scope.CreateEvent(event, response.data.entities[0].uuid);
+                    $scope.CreateEvent(event, response.data.entities[0].uuid, group);
                 } else {
                     console.log("CheckIfGroupExists: Group does not exists: " + group);
                     $scope.spinner = false;
@@ -522,7 +525,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
-    $scope.CreateEvent = function(event, group) {
+    $scope.CreateEvent = function(event, group_uuid, group_name) {
         $scope.loginResult = "";
         var now = new Date();
         var sendURL =
@@ -548,7 +551,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 event.itemtype +
                 "&fa_icon=" +
                 $scope.GetFontAwesomeIconsForCategory(event.itemtype) +
-                "&group=" + group);
+                "&group_uuid=" + group_uuid + "&group_name=" + group_name);
         $http({
             method: "GET",
             url: sendURL
@@ -989,6 +992,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.spinner = false;
                 console.log("SUCCESS ADDING SUBSCRIPTION TO GROUP " + group);
                 $scope.result = "SUCCESS ADDING SUBSCRIPTION. YOU WILL NOW RECEIVE NOTIFICTAIONS FOR OFFERS OR NEEDS MATCHING THIS CRITERIA ";
+                $rootScope.$emit("CallGetGroupsForUserMethod", {});
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -1064,7 +1068,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     for (var i = 0; i < $scope.events.length; i++) {
                         var d = new Date();
                         var o = new Date($scope.events[i].modified);
-                        if ((d - o) > 7 * ONE_DAY)
+                        if ((d - o) > 4 * ONE_DAY) //events for only last 4 days
                             continue;
                         else
                             filteredEvents.push($scope.events[i]);
@@ -1682,13 +1686,10 @@ app.controller("LoginCtrl", function(
                         //var socket = io.connect(BASEURL);
                         var socket = io.connect(BASEURL);
                         socket.on('connect', function() {
-                            //alert("#####Client Socket Connected");
-                            //socket.emit('emergency', response);
                             console.log("#####Setting up listener for emergency alerts");
                             socket.on('emergencydata', function(data) {
                                 console.log("####received emergency event: " + JSON.stringify(data));
-                                //$scope.eventsCount = $scope.eventsCount + 1;
-                                //alert("Received emergency data" + JSON.stringify(data));
+                                $rootScope.$emit("CallGetEventsMethod", {});
                                 alert("New Emergency Alert: " + JSON.stringify(data._data.items + ", address: " +
                                     data._data.address + ". Contact " + data._data.postedby + " @ " +
                                     data._data.phone_number + " or " + data._data.email
@@ -1699,8 +1700,30 @@ app.controller("LoginCtrl", function(
                                     foreground: true
                                 });*/
                             });
+                            socket.on('matchingevent', function(data) {
+                                console.log("####received matching event: " + JSON.stringify(data));
+                                if (data && data._data) {
+                                    for (var i = 0; i < $scope.usergroups.length; i++) {
+                                        if ($scope.usergroups[i].name === data._data.group_name) {
+                                            //$scope.eventsCount++;
+                                            $rootScope.$emit("CallGetEventsMethod", {});
+                                            alert("New Event Alert: " + JSON.stringify(data._data.items + ", address: " +
+                                                data._data.address + ". Contact " + data._data.postedby + " @ " +
+                                                data._data.phone_number + " or " + data._data.email
+                                            ));
+                                            /*cordova.plugins.notification.local.schedule({
+                                                title: 'My first notification',
+                                                text: 'Thats pretty easy...',
+                                                foreground: true
+                                            });*/
+                                            break;
+                                        }
+                                    }
+                                }
+                            });
                         });
                         $rootScope.$emit("CallGetEventsMethod", {});
+                        $rootScope.$emit("CallGetGroupsForUserMethod", {});
                         $location.path("/home");
                         //                $scope.fullname = UserService.getLoggedIn().fullname;
                         return;
@@ -1719,6 +1742,9 @@ app.controller("LoginCtrl", function(
         );
     };
 
+    function sendLocalPush(title, text) {
+
+    }
     $scope.Logout = function() {
         $scope.login_email = "";
         UserService.setLoggedInStatus(false);
