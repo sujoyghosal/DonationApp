@@ -1070,6 +1070,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         var o = new Date($scope.events[i].modified);
                         if ((d - o) > 4 * ONE_DAY) //events for only last 4 days
                             continue;
+                        else if ($scope.events[i].email === UserService.getLoggedIn().email) //self posted event
+                            continue;
                         else
                             filteredEvents.push($scope.events[i]);
                     }
