@@ -120,8 +120,9 @@ app.service("UserService", function() {
     };
 });
 
-var BASEURL = "https://freecycleapissujoy.mybluemix.net";
-//var BASEURL = "http://localhost:9000";
+var BASEURL = "https://freecycleapissujoy.mybluemix.net:8443";
+//var BASEURL = "http://localhost:8443";
+//var PORT = (process.env.VCAP_APP_PORT || 9000);
 
 app.controller("LogoutCtrl", function($scope, UserService) {
     UserService.setLoggedIn({});
@@ -141,6 +142,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.spinner = false;
     $scope.alldonations = false;
     $scope.allneeds = false;
+    var socket = null;
     $scope.citydonations = "";
     $scope.cancel = false;
     $scope.uuid = UserService.getLoggedIn().uuid;
@@ -461,25 +463,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 //send notification to creator 15 min b4 donation starts
                 //               schedulePush(new Date());
                 if (emergency && response) {
-                    /* var socket = io.connect(BASEURL);
-                     socket.on('connect', function() {
-                         //alert("#####Client Socket Connected");
-                         socket.emit('emergency', response);
-                         socket.on('emergencydata', function(data) {
-                             console.log("####Event Blood: " + JSON.stringify(data));
-                             $scope.eventsCount = $scope.eventsCount + 1;
-                             //alert("Events count = " + $scope.eventsCount);
-                             alert("New Emergency Alert: " + JSON.stringify(data.data._data.items + " needed at " +
-                                 data.data._data.address + ". Contact " + data.data._data.postedby + " @ " +
-                                 data.data._data.phone_number + " or " + data.data._data.email
-                             ));
-                             cordova.plugins.notification.local.schedule({
-                                 title: 'My first notification',
-                                 text: 'Thats pretty easy...',
-                                 foreground: true
-                             });
-                         }); 
-                     });*/
+                    /*console.log("####Waiting for emergency data from server");
+                    socket.on('emergencydata', function(data) {
+                        alert("##### Received Emergency Data");
+                        //socket.emit('emergency', response);
+                        console.log("#####Client socket connected");
+                    });*/
                     $scope.CheckIfGroupExists(need);
                 }
             },
@@ -1690,7 +1679,8 @@ app.controller("LoginCtrl", function(
                         $scope.showNav = true;
                         $scope.login_email = obj.email;
                         $scope.login_phone = obj.phone;
-                        /*var socket = io.connect(BASEURL);
+                        //var socket = io.connect(BASEURL);
+                        var socket = io.connect(BASEURL);
                         socket.on('connect', function() {
                             //alert("#####Client Socket Connected");
                             //socket.emit('emergency', response);
@@ -1698,18 +1688,18 @@ app.controller("LoginCtrl", function(
                             socket.on('emergencydata', function(data) {
                                 console.log("####received emergency event: " + JSON.stringify(data));
                                 //$scope.eventsCount = $scope.eventsCount + 1;
-                                //alert("Events count = " + $scope.eventsCount);
-                                alert("New Emergency Alert: " + JSON.stringify(data.data._data.items + " needed at " +
-                                    data.data._data.address + ". Contact " + data.data._data.postedby + " @ " +
-                                    data.data._data.phone_number + " or " + data.data._data.email
+                                //alert("Received emergency data" + JSON.stringify(data));
+                                alert("New Emergency Alert: " + JSON.stringify(data._data.items + ", address: " +
+                                    data._data.address + ". Contact " + data._data.postedby + " @ " +
+                                    data._data.phone_number + " or " + data._data.email
                                 ));
-                                cordova.plugins.notification.local.schedule({
+                                /*cordova.plugins.notification.local.schedule({
                                     title: 'My first notification',
                                     text: 'Thats pretty easy...',
                                     foreground: true
-                                });
+                                });*/
                             });
-                        });*/
+                        });
                         $rootScope.$emit("CallGetEventsMethod", {});
                         $location.path("/home");
                         //                $scope.fullname = UserService.getLoggedIn().fullname;
