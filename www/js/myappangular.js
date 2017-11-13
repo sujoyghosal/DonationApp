@@ -120,7 +120,7 @@ app.service("UserService", function() {
     };
 });
 
-var BASEURL = "https://freecycleapissujoy.mybluemix.net:8443";
+var BASEURL = "https://freecycleapissujoy.mybluemix.net";
 //var BASEURL = "http://localhost:8443";
 //var PORT = (process.env.VCAP_APP_PORT || 9000);
 
