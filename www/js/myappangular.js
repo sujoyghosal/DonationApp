@@ -563,7 +563,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 // Connect event uuid with group name
-                $scope.ConnectEntities(group, response.data._data.uuid);
+                //$scope.ConnectEntities(group, response.data._data.uuid);
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
