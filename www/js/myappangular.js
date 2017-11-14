@@ -1705,7 +1705,7 @@ app.controller("LoginCtrl", function(
                                 // ));
                                 swal("New Emergency Alert: ", JSON.stringify(data._data.items + ", address: " +
                                     data._data.address + ". Contact " + data._data.postedby + " @ " +
-                                    data._data.phone_number + " or " + data._data.email, "info"));
+                                    data._data.phone_number + " or " + data._data.email, "success"));
 
                                 /*cordova.plugins.notification.local.schedule({
                                     title: 'My first notification',
@@ -1724,9 +1724,9 @@ app.controller("LoginCtrl", function(
                                                 data._data.address + ". Contact " + data._data.postedby + " @ " +
                                                 data._data.phone_number + " or " + data._data.email
                                             ));*/
-                                            swal("New Event Alert: ", JSON.stringify(data._data.items + ", address: " +
+                                            swal(JSON.stringify(data._data.eventtype), JSON.stringify(data._data.items + ", address: " +
                                                 data._data.address + ". Contact " + data._data.postedby + " @ " +
-                                                data._data.phone_number + " or " + data._data.email, "info"));
+                                                data._data.phone_number + " or " + data._data.email, "success"));
 
                                             /*cordova.plugins.notification.local.schedule({
                                                 title: 'My first notification',
