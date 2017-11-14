@@ -18,30 +18,25 @@
         <div id="login">
 
             <form class="form-horizontal" name="myForm" autocomplete="on" novalidate>
-
-
-                <fieldset class="fieldset-auto-width">
-                    <h2>WELCOME TO THE FREECYCLE APP</h2><br><br>
-                    <p><span class="fontawesome-user"></span>
-                        <input type="text" name="username" ng-model="login.email" size="20" placeholder="email" value="" required>
-                        <p class="isa_error" ng-show="myForm.username.$dirty && myForm.username.$invalid">Invalid Email</p>
-                    </p>
-                    <!-- JS because of IE support; better: placeholder="Username" -->
-                    <p><span class="fontawesome-lock"></span>
-                        <input name="password" type="password" ng-model="login.password" size="20" placeholder="password" value="" required>
-                        <p class="isa_error " ng-show="myForm.password.$dirty && myForm.password.$invalid ">Invalid Password</p>
-                    </p>
-                    <!-- JS because of IE support; better: placeholder="Password " -->
-                    <p>
-                        <button type="button" class="btn btn-primary btn-md" ng-click="Login(login); spinner=true;" ng-disabled="myForm.username.$invalid|| myForm.password.$invalid ">Sign In</button>
-                        <br>
-                        <center/> {{loginResult}}
-                    </p>
-                    <p>Or <a href="#/signup ">Sign Up</a></p>
-                    <p>&nbsp;<a href="#/resetpw ">Forgot Password</a></p>
-                    <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
-                </fieldset>
-
+                <h2>WELCOME TO THE FREECYCLE APP</h2><br><br>
+                <p><span class="fontawesome-user"></span>
+                    <input type="text" name="username" ng-model="login.email" size="20" placeholder="email" value="" required>
+                    <p class="isa_error" ng-show="myForm.username.$dirty && myForm.username.$invalid">Invalid Email</p>
+                </p>
+                <!-- JS because of IE support; better: placeholder="Username" -->
+                <p><span class="fontawesome-lock"></span>
+                    <input name="password" type="password" ng-model="login.password" size="20" placeholder="password" value="" required>
+                    <p class="isa_error " ng-show="myForm.password.$dirty && myForm.password.$invalid ">Invalid Password</p>
+                </p>
+                <!-- JS because of IE support; better: placeholder="Password " -->
+                <p>
+                    <button type="button" class="btn btn-primary btn-md" ng-click="Login(login); spinner=true;" ng-disabled="myForm.username.$invalid|| myForm.password.$invalid ">Sign In</button>
+                    <br>
+                    <center/> {{loginResult}}
+                </p>
+                <p>Or <a href="#/signup ">Sign Up</a></p>
+                <p>&nbsp;<a href="#/resetpw ">Forgot Password</a></p>
+                <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
             </form>
         </div>
         <!-- end login -->
