@@ -143,6 +143,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.alldonations = false;
     $scope.allneeds = false;
     var socket = null;
+    $rootScope.username = UserService.getLoggedIn().fullname;
     $scope.citydonations = "";
     $scope.cancel = false;
     $scope.uuid = UserService.getLoggedIn().uuid;
@@ -1692,7 +1693,7 @@ app.controller("LoginCtrl", function(
                         $scope.showNav = true;
                         $scope.login_email = obj.email;
                         $scope.login_phone = obj.phone;
-                        //var socket = io.connect(BASEURL);
+                        $rootScope.username = obj.fullname;
                         var socket = io.connect(BASEURL);
                         socket.on('connect', function() {
                             console.log("#####Setting up listener for emergency alerts");
