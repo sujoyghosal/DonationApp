@@ -466,12 +466,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 //send notification to creator 15 min b4 donation starts
                 //               schedulePush(new Date());
                 if (emergency && response) {
-                    /*console.log("####Waiting for emergency data from server");
-                    socket.on('emergencydata', function(data) {
-                        alert("##### Received Emergency Data");
-                        //socket.emit('emergency', response);
-                        console.log("#####Client socket connected");
-                    });*/
                     $scope.CheckIfGroupExists(need);
                 }
             },
