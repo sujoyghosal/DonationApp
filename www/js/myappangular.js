@@ -229,7 +229,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     $scope.SendOffer(offer);
                 } else {
                     console.log("No action after Geocoding");
-                    alert("Could Not Submit Request");
+                    //alert("Could Not Submit Request");
+                    swal("Hmmm..some issues", "Could Not Submit Request.", "error");
                 }
                 /* $scope.GetNearByATMs(
                            $scope.geoCodeResponse.results[0].geometry.location
@@ -344,7 +345,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 console.log("Create Donation Response:" + JSON.stringify(response));
                 $scope.loginResult = "Success";
-                alert("Successufully Published Your Offer. Thank You!")
+                //alert("Successufully Published Your Offer. Thank You!");
+                swal("Good job!", "Successufully Published Your Offer. Thank You!", "success");
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 offer.type = "DonationOffer";
@@ -390,7 +392,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.loginResult = "Success";
                 if (response && response.data && response.data.entities && response.data.entities.length > 0) {
                     $scope.loginResult = "Success";
-                    alert("This Offer Has inetersted Users, notifying them now.");
+                    //alert("This Offer Has inetersted Users, notifying them now.");
+                    swal("People want this!", "This Offer Has inetersted Users, notifying them now.", "info");
                     console.log("CheckIfGroupExists: Groups exists for event " + group);
                     $scope.spinner = false;
                     // Connect event uuid with group name
@@ -447,7 +450,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.loginResult = "Success";
-                alert("Successufully Published Your Need. Thank You!")
+                //alert("Successufully Published Your Need. Thank You!");
+                swal("Good job!", "Successufully Published Your Need. Thank You!", "success");
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 /*              notifyUsersInGroup(
@@ -791,11 +795,13 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     }
     $scope.OrchestrateGetNearby = function(data, type) {
         if (!data.searchAddress || data.searchAddress.length < 5) {
-            alert("Please provide a valid address");
+            //alert("Please provide a valid address");
+            swal("Need Address", "Please provide a valid address", "warning");
             return;
         }
         if (!data.distance) {
-            alert("Please provide a valid distance");
+            //alert("Please provide a valid distance");
+            swal("Need Radius", "Please select distance", "warning");
             return;
         }
         $http({
@@ -820,11 +826,13 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.GetNearby = function(data, type) {
         $scope.spinner = true;
         if (!data.distance) {
-            alert("Invalid Distance");
+            //alert("Invalid Distance");
+            swal("Need Radius", "Please select distance", "warning");
             return;
         }
         if (!type) {
-            alert("Invalid Type");
+            //alert("Invalid Type");
+            swal("Need Type", "Please select item type", "warning");
             return;
         }
         var getURL =
@@ -923,7 +931,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.Subscribe = function(data, user) {
         $scope.spinner = true;
         if (!data || !data.city || !data.itemtype) {
-            alert("Please enter City and Item name for alerts");
+            //alert("Please enter City and Item name for alerts");
+            swal("Need Info", "Please enter City and Item name for alerts", "info");
             return;
         }
         console.log("Creating subscription for city " + data.city + "and item type " + data.itemtype);
@@ -1231,7 +1240,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     }
     $scope.NotifyDonor = function(email, text) {
         if (!email) {
-            alert("ERROR - email NOT FOUND");
+            //alert("ERROR - email NOT FOUND");
+            swal("Oops!", "Email Not Found!", "error");
             $scope.found = "ERROR - Email NOT FOUND";
             return;
         }
@@ -1500,7 +1510,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.spinner = false;
-                alert("Successfully Cancelled.");
+                //alert("Successfully Cancelled.");
+                swal("Good job!", "Sucessfully Cancelled!", "success");
                 $scope.cancel = true;
                 $scope.GetDonations("email", $scope.login_email, true);
                 $scope.result = "Successfully Cancelled This Offer";
@@ -1539,7 +1550,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.spinner = false;
-                alert("Successfully Cancelled.");
+                //alert("Successfully Cancelled.");
+                swal("Good job!", "Successfully Cancelled!", "success");
                 if (responseAsMessage) {
                     $scope.GetMyAccepteddonations(login_email);
                     return;
@@ -1668,7 +1680,8 @@ app.controller("LoginCtrl", function(
                     //        alert("Id Found");
                     if (angular.isObject(response) &&
                         response.data.toString() === "Authentication Error") {
-                        alert("Invalid Password");
+                        //alert("Invalid Password");
+                        swal("Oops!", "Invalid Pasword!", "error");
                         return;
                     } else {
                         var obj = response.data[0];
@@ -1686,10 +1699,14 @@ app.controller("LoginCtrl", function(
                             socket.on('emergencydata', function(data) {
                                 console.log("####received emergency event: " + JSON.stringify(data));
                                 $rootScope.$emit("CallGetEventsMethod", {});
-                                alert("New Emergency Alert: " + JSON.stringify(data._data.items + ", address: " +
+                                //alert("New Emergency Alert: " + JSON.stringify(data._data.items + ", address: " +
+                                //    data._data.address + ". Contact " + data._data.postedby + " @ " +
+                                //    data._data.phone_number + " or " + data._data.email
+                                // ));
+                                swal("New Emergency Alert: ", JSON.stringify(data._data.items + ", address: " +
                                     data._data.address + ". Contact " + data._data.postedby + " @ " +
-                                    data._data.phone_number + " or " + data._data.email
-                                ));
+                                    data._data.phone_number + " or " + data._data.email, "info"));
+
                                 /*cordova.plugins.notification.local.schedule({
                                     title: 'My first notification',
                                     text: 'Thats pretty easy...',
@@ -1703,10 +1720,14 @@ app.controller("LoginCtrl", function(
                                         if ($scope.usergroups[i].name === data._data.group_name) {
                                             //$scope.eventsCount++;
                                             $rootScope.$emit("CallGetEventsMethod", {});
-                                            alert("New Event Alert: " + JSON.stringify(data._data.items + ", address: " +
+                                            /*alert("New Event Alert: " + JSON.stringify(data._data.items + ", address: " +
                                                 data._data.address + ". Contact " + data._data.postedby + " @ " +
                                                 data._data.phone_number + " or " + data._data.email
-                                            ));
+                                            ));*/
+                                            swal("New Event Alert: ", JSON.stringify(data._data.items + ", address: " +
+                                                data._data.address + ". Contact " + data._data.postedby + " @ " +
+                                                data._data.phone_number + " or " + data._data.email, "info"));
+
                                             /*cordova.plugins.notification.local.schedule({
                                                 title: 'My first notification',
                                                 text: 'Thats pretty easy...',
@@ -1784,12 +1805,14 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
                     angular.isObject(response) &&
                     response.data.toString() === "CREATED"
                 ) {
-                    alert("Account Created with id " + user.email);
+                    //alert("Account Created with id " + user.email);
+                    swal("Good job!", "Account Created with id " + user.email, "success");
                     $location.path("/login");
                     return;
                 } else {
                     $scope.result = "Error creating id. Email already in use.";
-                    alert("Could not create user id");
+                    //alert("Could not create user id");
+                    swal("Problem!", "Could not create user id, might be existing!", "error");
 
                     //        $location.path("/login");
                     return;
@@ -1805,7 +1828,8 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
     };
     $scope.UpdateUser = function(user) {
         if (!user || !user.email) {
-            alert("Please Enter Valid Email");
+            //alert("Please Enter Valid Email");
+            swal("Email Not Correct!", "Please Enter Valid Email!", "warning");
             return;
         }
 
@@ -1835,19 +1859,21 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
                     console.log("UpdateUSer response: " + JSON.stringify(response));
 
                     if (!$scope.login_email) {
-                        alert("Password Update Successful");
+                        //alert("Password Update Successful");
+                        swal("Good job!", "Password Update Successful!", "success");
                         $scope.result = "Account Update Sucessful.";
                         $location.path("/login");
                         return;
                     } else {
-                        alert("Account Update Successful");
+                        //alert("Account Update Successful");
+                        swal("Good job!", "Account Update Successful!", "success");
                         $scope.result = "Account Update Sucessful.";
                         return;
                     }
                 } else {
                     $scope.result = "Could not update profile";
-                    alert("Could not update profile");
-
+                    //alert("Could not update profile");
+                    swal("Oops!", "Could not update profile!", "error");
                     //        $location.path("/login");
                     return;
                 }
@@ -1862,7 +1888,8 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
     }
     $scope.SendResetPasswordRequest = function(email) {
         if (!email || email.length < 4) {
-            alert("Invalid Email");
+            //alert("Invalid Email");
+            swal("Invalid Email!", "Please enter valid email!", "info");
             return;
         }
         var getURL =
