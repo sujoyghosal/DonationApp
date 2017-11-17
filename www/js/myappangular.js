@@ -196,8 +196,8 @@ app.service("UserService", function() {
         getLoggedInStatus: getLoggedInStatus,
     };
 });
-var BASEURL = "https://freecycleapissujoy.mybluemix.net";
-//var BASEURL = "http://localhost:9000";
+//var BASEURL = "https://freecycleapissujoy.mybluemix.net";
+var BASEURL = "http://localhost:9000";
 //var PORT = (process.env.VCAP_APP_PORT || 9000);
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
@@ -513,7 +513,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&longitude=" +
             $scope.lng +
             "&emergency=" + emergency;
-        $scope.loginResult = "Need Request Sent";
+        $scope.loginResult = "Request Sent";
         console.log("Create Need URL = " + sendURL);
         $http({
             method: "GET",
@@ -524,7 +524,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.loginResult = "Success";
                 //alert("Successufully Published Your Need. Thank You!");
-                swal("Good job!", "Successufully Published Your Need. Thank You!", "success");
+                swal("Good job!", "Successufully Published. Thank You!", "success");
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 /*              notifyUsersInGroup(
@@ -746,8 +746,11 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     }
 
     $scope.GetDonations = function(paramname, paramvalue, myoffers) {
+        if (!paramvalue || paramvalue.length < 2) {
+            swal("Need " + paramname, "Please provide a valid " + paramname, "warning");
+            return;
+        }
         $scope.spinner = true;
-        if (!paramname || !paramvalue) return;
         param_name = paramname.trim();
         var getURL =
             BASEURL + "/getdonations?paramname=" +
@@ -821,8 +824,11 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         );
     };
     $scope.GetNeeds = function(paramname, paramvalue, emergency) {
+        if (!paramvalue || paramvalue.length < 2) {
+            swal("Need " + paramname, "Please provide a valid " + paramname, "warning");
+            return;
+        }
         $scope.spinner = true;
-        if (!paramname || !paramvalue) return;
         param_name = paramname.trim();
         var getURL =
             BASEURL + "/getneeds?paramname=" +
@@ -897,7 +903,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         $scope.address = JSON.stringify(obj.address);
     }
     $scope.OrchestrateGetNearby = function(data, type) {
-        if (!data.searchAddress || data.searchAddress.length < 5) {
+        if (!data || !data.searchAddress || data.searchAddress.length < 5) {
             //alert("Please provide a valid address");
             swal("Need Address", "Please provide a valid address", "warning");
             return;
