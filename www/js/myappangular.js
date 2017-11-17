@@ -196,8 +196,8 @@ app.service("UserService", function() {
         getLoggedInStatus: getLoggedInStatus,
     };
 });
-//var BASEURL = "https://freecycleapissujoy.mybluemix.net";
-var BASEURL = "http://localhost:9000";
+var BASEURL = "https://freecycleapissujoy.mybluemix.net";
+//var BASEURL = "http://localhost:9000";
 //var PORT = (process.env.VCAP_APP_PORT || 9000);
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
