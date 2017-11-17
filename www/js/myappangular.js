@@ -201,20 +201,6 @@ var BASEURL = "https://freecycleapissujoy.mybluemix.net";
 //var PORT = (process.env.VCAP_APP_PORT || 9000);
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
-app.controller("LogoutCtrl", function($scope, UserService) {
-    UserService.setLoggedIn({});
-});
-//app.controller('NavBarCtrl', function () { });
-app.controller("OfferdonationCtrl", function(
-    $scope,
-    $http,
-    $filter,
-    UserService
-) {
-    $scope.spinner = false;
-    $scope.login_email = UserService.getLoggedIn().email;
-});
-
 app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $location, $timeout, $window, UserService, DataService) {
     $scope.spinner = false;
     $scope.alldonations = false;
@@ -285,15 +271,22 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         setTimeout($scope.CreateNeed(need), 3000);
     }
     $scope.GeoCodeAddress = function(offer, func) {
-        console.log("GeoCode URL=https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAJBIQdfnhuEcSi6qFDoXCszJpRZxlSFZ0&address=" +
+        console.log("GeoCode URL=" + GEOCODEURL + "&address=" +
             offer.address);
 
         $http({
             method: "GET",
-            url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAJBIQdfnhuEcSi6qFDoXCszJpRZxlSFZ0&address=" +
-                offer.address
+            url: GEOCODEURL + "&address=" + offer.address
         }).then(
             function mySucces(response) {
+                if (!DataService.isValidObject(response) || !DataService.isValidObject(response.data) ||
+                    !DataService.isValidArray(response.data.results)) {
+                    console.log("####Invalid response")
+                    swal("Error", "A problem occured!", "error");
+                    return;
+                } else {
+                    console.log("Awesome, a valid response!");
+                }
                 $scope.geoCodeResponse = response.data;
                 $scope.geocodesuccess = true;
                 $scope.lat = $scope.geoCodeResponse.results[0].geometry.location.lat;
@@ -770,6 +763,21 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
+                if (!DataService.isValidObject(response) || !DataService.isValidArray(response.data)) {
+
+                    if (DataService.isString(response)) {
+                        console.log("####Invalid response: " + JSON.stringify(response));
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    } else {
+                        console.log("####Invalid response - null or undefined");
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    }
+
+                } else {
+                    console.log("Awesome, a valid response!");
+                }
                 $scope.spinner = false;
                 $scope.citydonations = response.data;
 
@@ -829,6 +837,21 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
+                if (!DataService.isValidObject(response) || !DataService.isValidArray(response.data)) {
+
+                    if (DataService.isString(response)) {
+                        console.log("####Invalid response: " + JSON.stringify(response));
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    } else {
+                        console.log("####Invalid response - null or undefined");
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    }
+
+                } else {
+                    console.log("Awesome, a valid response!");
+                }
                 $scope.spinner = false;
                 $scope.cityneeds = response.data;
                 //    if (angular.isObject($scope.cityneeds))
@@ -890,7 +913,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         }).then(
             function mySucces(response) {
                 console.log("URL=" + GEOCODEURL + "&address=" + data.searchAddress);
-
                 if (!DataService.isValidObject(response) || !DataService.isValidObject(response.data) ||
                     !DataService.isValidArray(response.data.results)) {
                     console.log("####Invalid response")
@@ -937,6 +959,21 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
+                if (!DataService.isValidObject(response) || !DataService.isValidArray(response.data)) {
+
+                    if (DataService.isString(response)) {
+                        console.log("####Invalid response: " + JSON.stringify(response));
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    } else {
+                        console.log("####Invalid response - null or undefined");
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    }
+
+                } else {
+                    console.log("Awesome, a valid response!");
+                }
                 $scope.spinner = false;
                 $scope.citydonations = response.data;
                 $scope.cityneeds = response.data;
@@ -1198,7 +1235,22 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
+                if (!DataService.isValidObject(response) || !DataService.isValidObject(response.data) ||
+                    !DataService.isValidArray(response.data.entities)) {
 
+                    if (DataService.isString(response)) {
+                        console.log("####Invalid response: " + JSON.stringify(response));
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    } else {
+                        console.log("####Invalid response - null or undefined");
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    }
+
+                } else {
+                    console.log("Awesome, a valid response!");
+                }
                 $scope.showevents = true;
                 var aevent = {};
                 if (response.data.entities && response.data.entities.length > 0) {
@@ -1237,6 +1289,21 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
+                if (!DataService.isValidObject(response) || !DataService.isValidArray(response.data)) {
+
+                    if (DataService.isString(response)) {
+                        console.log("####Invalid response: " + JSON.stringify(response));
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    } else {
+                        console.log("####Invalid response - null or undefined");
+                        swal("Error", "A problem occured!", "error");
+                        return;
+                    }
+
+                } else {
+                    console.log("Awesome, a valid response!");
+                }
                 $scope.spinner = false;
                 $scope.showmyevents = true;
                 console.log("GetGroupsForUser success");
@@ -1722,7 +1789,8 @@ app.controller("LoginCtrl", function(
     $http,
     $location,
     $routeParams,
-    UserService
+    UserService,
+    DataService
 ) {
     $scope.spinner = false;
     $scope.isCollapsed = true;
