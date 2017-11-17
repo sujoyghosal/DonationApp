@@ -94,6 +94,83 @@ app.config([
             });
     }
 ]);
+app.service("DataService", function() {
+    var stringConstructor = "test".constructor;
+    var arrayConstructor = [].constructor;
+    var objectConstructor = {}.constructor;
+    var response = "";
+
+    function whatIsIt(object) {
+        if (object === null) {
+            response = "null";
+            return response;
+        } else if (object === undefined) {
+            response = "undefined";
+            return response;;
+        } else if (object.constructor === stringConstructor) {
+            response = "String";
+            return response;;
+        } else if (object.constructor === arrayConstructor) {
+            response = "Array";
+            return response;
+        } else if (object.constructor === objectConstructor) {
+            response = "Object";
+            return response;
+        } else {
+            response = "don't know";
+            return response;
+        }
+    }
+
+    function isValidArray(object) {
+        whatIsIt(object);
+        if (response === "Array")
+            return true;
+        else
+            return false;
+    }
+
+    function isValidObject(object) {
+        whatIsIt(object);
+        if (response === "Object")
+            return true;
+        else
+            return false;
+    }
+
+    function isNull(object) {
+        whatIsIt(object);
+        if (response === "null")
+            return true;
+        else
+            return false;
+    }
+
+    function isString(object) {
+        whatIsIt(object);
+        if (response === "String")
+            return true;
+        else
+            return false;
+    }
+
+    function isUnDefined(object) {
+        whatIsIt(object);
+        if (response === "don't know" || response === "undefined")
+            return true;
+        else
+            return false;
+    }
+    return {
+        whatIsIt: whatIsIt,
+        isValidArray: isValidArray,
+        isValidObject: isValidObject,
+        isNull: isNull,
+        isString: isString,
+        isUnDefined: isUnDefined,
+    };
+});
+
 app.service("UserService", function() {
     var loggedinUser = {};
     var isLoggedIn = false;
@@ -119,10 +196,10 @@ app.service("UserService", function() {
         getLoggedInStatus: getLoggedInStatus,
     };
 });
-
 var BASEURL = "https://freecycleapissujoy.mybluemix.net";
 //var BASEURL = "http://localhost:9000";
 //var PORT = (process.env.VCAP_APP_PORT || 9000);
+var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
 app.controller("LogoutCtrl", function($scope, UserService) {
     UserService.setLoggedIn({});
@@ -138,7 +215,7 @@ app.controller("OfferdonationCtrl", function(
     $scope.login_email = UserService.getLoggedIn().email;
 });
 
-app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $location, $timeout, $window, UserService) {
+app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $location, $timeout, $window, UserService, DataService) {
     $scope.spinner = false;
     $scope.alldonations = false;
     $scope.allneeds = false;
@@ -208,6 +285,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         setTimeout($scope.CreateNeed(need), 3000);
     }
     $scope.GeoCodeAddress = function(offer, func) {
+        console.log("GeoCode URL=https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAJBIQdfnhuEcSi6qFDoXCszJpRZxlSFZ0&address=" +
+            offer.address);
 
         $http({
             method: "GET",
@@ -807,10 +886,19 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         }
         $http({
             method: "GET",
-            url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAJBIQdfnhuEcSi6qFDoXCszJpRZxlSFZ0&address=" +
-                data.searchAddress
+            url: GEOCODEURL + "&address=" + data.searchAddress
         }).then(
             function mySucces(response) {
+                console.log("URL=" + GEOCODEURL + "&address=" + data.searchAddress);
+
+                if (!DataService.isValidObject(response) || !DataService.isValidObject(response.data) ||
+                    !DataService.isValidArray(response.data.results)) {
+                    console.log("####Invalid response")
+                    swal("Error", "A problem occured!", "error");
+                    return;
+                } else {
+                    console.log("Awesome, a valid response!");
+                }
                 $scope.geoCodeResponse = response.data;
                 $scope.geocodesuccess = true;
                 data.lat = $scope.geoCodeResponse.results[0].geometry.location.lat;

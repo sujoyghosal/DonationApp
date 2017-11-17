@@ -39,16 +39,6 @@
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <!--    <script>
-        var socket = io.connect('http://localhost:9000');
-        socket.on('connect', function() {
-            alert("#####Client Socket Connected");
-            socket.on('Blood', function(data) {
-                console.log("####Event Blood: " + data);
-                alert("Blood Needed");
-            });
-        });
-    </script>-->
     <style>
         header {
             padding: 32px;
@@ -192,19 +182,6 @@
                                 </ul>
                             </li>
                         </ul>
-                        <!-- <form class="navbar-form navbar-left">
-                            <div class="form-group">
-                                <input type="text" class="form-control" ng-model="search" placeholder="Search">
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
-                                    <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">In Offers</a></li>
-                                    <li><a href="#">In Needs and Emergencies</a></li>
-                                </ul>
-                            </div>
-                        </form> -->
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="#/updateuser "><i class="fa fa-user fa-2x "></i></a></li>
                             <li><a href="#" ng-click="Logout()"><i class="fa fa-sign-out fa-2x "></i></a></li>
