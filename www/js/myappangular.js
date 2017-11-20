@@ -276,7 +276,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
         $http({
             method: "GET",
-            url: GEOCODEURL + "&address=" + offer.address
+            url: encodeURI(GEOCODEURL + "&address=" + offer.address)
         }).then(
             function mySucces(response) {
                 if (!DataService.isValidObject(response) || !DataService.isValidObject(response.data) ||
@@ -411,7 +411,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
         $http({
             method: "GET",
-            url: sendURL
+            url: encodeURI(sendURL)
         }).then(
             function successCallback(response) {
                 // this callback will be called asynchronously
@@ -457,7 +457,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
         $http({
             method: "GET",
-            url: sendURL
+            url: encodeURI(sendURL)
         }).then(
             function successCallback(response) {
                 // this callback will be called asynchronously
@@ -517,7 +517,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         console.log("Create Need URL = " + sendURL);
         $http({
             method: "GET",
-            url: sendURL
+            url: encodeURI(sendURL)
         }).then(
             function successCallback(response) {
                 // this callback will be called asynchronously
@@ -574,16 +574,15 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         }
         $scope.spinner = true;
 
-        var notifyURL = encodeURI(
+        var notifyURL =
             BASEURL + "/sendpush/devicespush?regids=" +
             gcmids +
             "&text=" +
-            text
-        );
+            text;
         console.log("SendPush: notifyURL=" + notifyURL);
         $http({
             method: "GET",
-            url: notifyURL
+            url: encodeURI(notifyURL)
         }).then(
             function successCallback(response) {
                 $scope.spinner = false;
@@ -600,32 +599,32 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         $scope.loginResult = "";
         var now = new Date();
         var sendURL =
-            encodeURI(BASEURL + "/createevent?email=" +
-                $scope.login_email +
-                "&postedby=" +
-                $scope.login_fullname +
-                "&phone_number=" +
-                $scope.login_phone +
-                "&time=" +
-                now +
-                "&address=" +
-                event.address +
-                "&city=" +
-                event.city +
-                "&items=" +
-                event.items +
-                "&latitude=" +
-                $scope.lat +
-                "&longitude=" +
-                $scope.lng +
-                "&itemtype=" +
-                event.itemtype +
-                "&fa_icon=" +
-                $scope.GetFontAwesomeIconsForCategory(event.itemtype) +
-                "&group_uuid=" + group_uuid + "&group_name=" + group_name);
+            BASEURL + "/createevent?email=" +
+            $scope.login_email +
+            "&postedby=" +
+            $scope.login_fullname +
+            "&phone_number=" +
+            $scope.login_phone +
+            "&time=" +
+            now +
+            "&address=" +
+            event.address +
+            "&city=" +
+            event.city +
+            "&items=" +
+            event.items +
+            "&latitude=" +
+            $scope.lat +
+            "&longitude=" +
+            $scope.lng +
+            "&itemtype=" +
+            event.itemtype +
+            "&fa_icon=" +
+            $scope.GetFontAwesomeIconsForCategory(event.itemtype) +
+            "&group_uuid=" + group_uuid + "&group_name=" + group_name;
         $http({
             method: "GET",
-            url: sendURL
+            url: encodeURI(sendURL)
         }).then(
             function successCallback(response) {
                 // this callback will be called asynchronously
@@ -915,7 +914,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         }
         $http({
             method: "GET",
-            url: GEOCODEURL + "&address=" + data.searchAddress
+            url: encodeURI(GEOCODEURL + "&address=" + data.searchAddress)
         }).then(
             function mySucces(response) {
                 console.log("URL=" + GEOCODEURL + "&address=" + data.searchAddress);
@@ -1564,7 +1563,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         console.log("Accept donation URL is: " + updateURL);
         $http({
             method: "GET",
-            url: updateURL
+            url: encodeURI(updateURL)
         }).then(
             function successCallback(response) {
                 // this callback will be called asynchronously
@@ -1666,7 +1665,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
         $http({
             method: "GET",
-            url: cancelURL
+            url: encodeURI(cancelURL)
         }).then(
             function successCallback(response) {
                 // this callback will be called asynchronously
