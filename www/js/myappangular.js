@@ -466,7 +466,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 if (response && response.data && response.data.entities && response.data.entities.length > 0) {
                     $scope.loginResult = "Success";
                     //alert("This Offer Has inetersted Users, notifying them now.");
-                    swal("People want this!", "This Offer Has inetersted Users, notifying them now.", "info");
+                    //swal("People want this!", "This Offer Has inetersted Users, notifying them now.", "info");
                     console.log("CheckIfGroupExists: Groups exists for event " + group);
                     $scope.spinner = false;
                     // Connect event uuid with group name
@@ -1811,44 +1811,24 @@ app.controller("LoginCtrl", function(
                         $rootScope.username = obj.fullname;
                         var socket = io.connect(BASEURL);
                         socket.on('connect', function() {
-                            console.log("#####Setting up listener for emergency alerts");
-                            socket.on('emergencydata', function(data) {
-                                console.log("####received emergency event: " + JSON.stringify(data));
-                                $rootScope.$emit("CallGetEventsMethod", {});
-                                //alert("New Emergency Alert: " + JSON.stringify(data._data.items + ", address: " +
-                                //    data._data.address + ". Contact " + data._data.postedby + " @ " +
-                                //    data._data.phone_number + " or " + data._data.email
-                                // ));
-                                swal("New Emergency Alert: ", JSON.stringify(data._data.items + ", address: " +
-                                    data._data.address + ". Contact " + data._data.postedby + " @ " +
-                                    data._data.phone_number + " or " + data._data.email, "success"));
-
-                                /*cordova.plugins.notification.local.schedule({
-                                    title: 'My first notification',
-                                    text: 'Thats pretty easy...',
-                                    foreground: true
-                                });*/
-                            });
+                            console.log("#####Setting up listener for alerts");
                             socket.on('matchingevent', function(data) {
                                 console.log("####received matching event: " + JSON.stringify(data));
-                                if (data && data._data) {
+                                if (!DataService.isValidObject(data) || !DataService.isValidObject(data._data)) {
+                                    console.log("#####received matching event but no data!");
+                                    return;
+                                } else if (UserService.getLoggedIn().email === data._data.email) {
+                                    console.log("#####received matching event created by self!");
+                                    return;
+                                } else {
                                     for (var i = 0; i < $scope.usergroups.length; i++) {
                                         if ($scope.usergroups[i].name === data._data.group_name) {
                                             //$scope.eventsCount++;
+                                            var msg = JSON.stringify(data._data.items + ", address: " +
+                                                data._data.address + ". Contact " + data._data.postedby + " @ " +
+                                                data._data.phone_number + " or " + data._data.email);
+                                            swal(JSON.stringify(data._data.eventtype), msg, "success");
                                             $rootScope.$emit("CallGetEventsMethod", {});
-                                            /*alert("New Event Alert: " + JSON.stringify(data._data.items + ", address: " +
-                                                data._data.address + ". Contact " + data._data.postedby + " @ " +
-                                                data._data.phone_number + " or " + data._data.email
-                                            ));*/
-                                            swal(JSON.stringify(data._data.eventtype), JSON.stringify(data._data.items + ", address: " +
-                                                data._data.address + ". Contact " + data._data.postedby + " @ " +
-                                                data._data.phone_number + " or " + data._data.email, "success"));
-
-                                            /*cordova.plugins.notification.local.schedule({
-                                                title: 'My first notification',
-                                                text: 'Thats pretty easy...',
-                                                foreground: true
-                                            });*/
                                             break;
                                         }
                                     }
@@ -1858,7 +1838,6 @@ app.controller("LoginCtrl", function(
                         $rootScope.$emit("CallGetEventsMethod", {});
                         $rootScope.$emit("CallGetGroupsForUserMethod", {});
                         $location.path("/home");
-                        //                $scope.fullname = UserService.getLoggedIn().fullname;
                         return;
                     }
                 }
