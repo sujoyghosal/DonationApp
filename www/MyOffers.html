@@ -13,7 +13,7 @@
         <div class="container" ng-show="alldonations">
             <label>Sort By:
                             <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
-                                <option value="time" selected>Date</option>
+                                <option value="modified" selected>Date</option>
                                 <option value="itemtype">Item Type</option>
                                 <option value="address">Address</option>
                             </select>
@@ -25,27 +25,6 @@
                             <input ng-model="searchText">
                         </label>
             <table class="table table-responsive">
-                <!--                   <thead>
-                        <tr>
-                            <th>Offer</th>
-                            <th ng-click="orderByField='email'; reverse = !reverse" nowrap>Contacts
-                                <span ng-show="orderByField == 'email'">
-                                    <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                    <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                            </th>
-                            <th ng-click="orderByField='status'; reverse = !reverse" nowrap>Status
-                                <span ng-show="orderByField == 'status'">
-                                    <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                    <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                            </th>
-                            <th ng-click="orderByField='address'; reverse = !reverse" nowrap>Pickup Address
-                                <span ng-show="orderByField == 'address'">
-                                    <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                    <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                            </th>
-                            <th>Request</th>
-                        </tr>
-                    </thead>-->
                 <tr ng-repeat="row in citydonations | orderBy : sortfield : !reverse | filter:searchText">
                     <td><i class={{row.fa_icon}}></i>
                         <h5> {{row.itemtype}} </h5>
@@ -55,11 +34,7 @@
                             <a href='#' ng-click="CancelOffer(row)"><i class="fa fa-map-remove fa-2x"></i></a>
                         </center>
                     </td>
-                    <!--<td>{{row.items}} in {{row.city}} offered by {{row.offeredby}}</td>
-                        <td>Email: {{row.email}} Phone: {{row.phone_number}}</td>
-                        <td>{{row.status}} on {{row.time | date: 'short'}}</td>
-                        <td>{{row.address}}</td>
-                        <td>
+                    <!--<td>
                             <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
                         </td> -->
                 </tr>
