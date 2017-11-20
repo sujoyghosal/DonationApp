@@ -1828,6 +1828,7 @@ app.controller("LoginCtrl", function(
                                                 data._data.address + ". Contact " + data._data.postedby + " @ " +
                                                 data._data.phone_number + " or " + data._data.email);
                                             swal(JSON.stringify(data._data.eventtype), msg, "success");
+                                            //sendLocalPush("FreeCycle Alert", msg);
                                             $rootScope.$emit("CallGetEventsMethod", {});
                                             break;
                                         }
@@ -1855,7 +1856,11 @@ app.controller("LoginCtrl", function(
     };
 
     function sendLocalPush(title, text) {
-
+        /*cordova.plugins.notification.local.schedule({
+            title: 'My first notification',
+            text: 'Thats pretty easy...',
+            foreground: true
+        });*/
     }
     $scope.Logout = function() {
         $scope.login_email = "";
