@@ -260,7 +260,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     });
 
     $scope.GeoCodeAddress = function(offer, func) {
-        alert("In GeoCodeAddress. Object received=" + JSON.stringify(offer));
         console.log("GeoCode URL=" + GEOCODEURL + "&address=" +
             offer.address);
 
@@ -474,7 +473,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     };
 
     $scope.CreateNeed = function(need, emergency) {
-        alert("Received need object as: " + JSON.stringify(need));
         $scope.loginResult = "";
         var now = new Date();
         var sendURL =
@@ -610,6 +608,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&fa_icon=" +
             $scope.GetFontAwesomeIconsForCategory(event.itemtype) +
             "&group_uuid=" + group_uuid + "&group_name=" + group_name;
+        console.log("CreateEvent URL=" + sendURL);
         $http({
             method: "GET",
             url: encodeURI(sendURL)
