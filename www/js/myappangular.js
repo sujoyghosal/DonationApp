@@ -258,19 +258,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         }
 
     });
-    /*setInterval(function() {
-        $scope.GetEventsForUser(true);
-    }, 60000);*/
 
-    $scope.OrchestrateCreateOffer = function(offer) {
-        $scope.GeoCodeAddress(offer.address, "offer");
-        setTimeout($scope.SendOffer(offer), 3000);
-    }
-    $scope.OrchestrateCreateNeed = function(need) {
-        $scope.GeoCodeAddress(need.address, "need");
-        setTimeout($scope.CreateNeed(need), 3000);
-    }
     $scope.GeoCodeAddress = function(offer, func) {
+        alert("In GeoCodeAddress. Object received=" + JSON.stringify(offer));
         console.log("GeoCode URL=" + GEOCODEURL + "&address=" +
             offer.address);
 
@@ -305,9 +295,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     //alert("Could Not Submit Request");
                     swal("Hmmm..some issues", "Could Not Submit Request.", "error");
                 }
-                /* $scope.GetNearByATMs(
-                           $scope.geoCodeResponse.results[0].geometry.location
-                         );*/
             },
             function myError(response) {
                 $scope.geoCodeResponse = response.statusText;
@@ -487,6 +474,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     };
 
     $scope.CreateNeed = function(need, emergency) {
+        alert("Received need object as: " + JSON.stringify(need));
         $scope.loginResult = "";
         var now = new Date();
         var sendURL =
@@ -1662,7 +1650,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.CancelOffer = function(row) {
         $scope.spinner = true;
         var cancelURL = BASEURL + "/canceloffer?uuid=" + row.uuid;
-
+        swal("Obliterating Offer!", "Please Wait..", "warning");
         $http({
             method: "GET",
             url: encodeURI(cancelURL)
@@ -1672,7 +1660,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 //alert("Successfully Cancelled.");
-                swal("Good job!", "Sucessfully Cancelled!", "success");
+                swal("All Done!", "Sucessfully Cancelled!", "success");
                 $scope.cancel = true;
                 $scope.GetDonations("email", $scope.login_email, true);
                 $scope.result = "Successfully Cancelled This Offer";

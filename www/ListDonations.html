@@ -29,7 +29,7 @@
                 </div>
                 <p>
                     <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
-                    <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="Enter Address e.g. Park Street, Kolkata"></p>
+                    <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="e.g. Park Street, Kolkata"></p>
                 <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'offers'); spinner = true;">Fetch Offers Within {{data.distance}} km of Address</button>
                 <br>
             </div>
@@ -43,8 +43,8 @@
 
             <label>Sort By:
                                 <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
+                                    <option value="modified" selected>Date</option>                                       
                                     <option value="offeredby">Name</option>
-                                    <option value="modified" selected>Date</option>
                                     <option value="itemtype">Item Type</option>
                                     <option value="address">Address</option>
                                 </select>

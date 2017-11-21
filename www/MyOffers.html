@@ -6,7 +6,7 @@
 
 <body>
     <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="sortfield='time'">
-        <button class="btn btn-primary btn-md" ng-click="GetDonations('email',login_email, true); spinner = true;">VIEW DONATIONS I OFFERED</button>
+        <button class="btn btn-primary btn-md" ng-click="GetDonations('email',login_email, true); spinner = true;">VIEW STUFF I OFFERED</button>
         <br>
         <i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i> {{found}}
         <br>
@@ -21,7 +21,7 @@
                         </label> <span></span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
             <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i></span>
 
-            <label ng-show="alldonations">Search in Donations:
+            <label ng-show="alldonations">Search in My Offers:
                             <input ng-model="searchText">
                         </label>
             <table class="table table-responsive">
@@ -29,14 +29,12 @@
                     <td><i class={{row.fa_icon}}></i>
                         <h5> {{row.itemtype}} </h5>
                         <h6>{{row.items}}</h6>
-                        At {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
-                        <center>
-                            <a href='#' ng-click="CancelOffer(row)"><i class="fa fa-map-remove fa-2x"></i></a>
-                        </center>
+                        At {{row.address}}; posted on {{row.modified | date:'medium'}}
                     </td>
-                    <!--<td>
-                            <button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Cancel Offer</button>
-                        </td> -->
+                    <td>
+                        <!--<button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Remove Offer</button>-->
+                        <i ng-click="CancelOffer(row); spinner=true;" class="fa fa-minus-circle fa-2x"></i>
+                    </td>
                 </tr>
             </table>
         </div>

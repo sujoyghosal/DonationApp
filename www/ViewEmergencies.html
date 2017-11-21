@@ -30,7 +30,7 @@
                     </div>
                     <p>
                         <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
-                        <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="Address e.g. Park Street, Kolkata"></p>
+                        <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="e.g. Park Street, Kolkata"></p>
                     <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'emergency'); spinner = true;">Fetch Emergencies Within {{data.distance}} km of Address</button>
                     <br>
                 </div>
@@ -43,8 +43,8 @@
             <div class="container" ng-show="allneeds">
                 <label>Sort By:
                                 <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
+                                    <option value="modified" selected>Date</option>                                     
                                     <option value="postedby">Name</option>
-                                    <option value="modified" selected>Date</option>
                                     <option value="itemtype">Item Type</option>
                                     <option value="address">Address</option>
                                 </select>
@@ -57,31 +57,6 @@
                             </label>
                 <br><b>{{result}}{{}}</b>
                 <table class="table table-responsive" id="needstable" id="searchResults2">
-                    <!--   <thead>
-                            <tr>
-                                <th ng-click="orderByField='items'; reverse = !reverse" nowrap>Need
-                                    <span ng-show="orderByField == 'items'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                                </th>
-                                <th ng-click="orderByField='time'; reverse = !reverse" nowrap>Date
-                                    <span ng-show="orderByField == 'time'">
-                                                <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                                <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                                </th>
-                                <th ng-click="orderByField='postedby'; reverse = !reverse" nowrap>Posted By
-                                    <span ng-show="orderByField == 'postedby'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                                </th>
-                                <th ng-click="orderByField='address'; reverse = !reverse" nowrap>Address
-                                    <span ng-show="orderByField == 'address'">
-                                        <i class="fa fa-sort-asc" ng-show="reverse"> </i>
-                                        <i class="fa fa-sort-desc" ng-show="!reverse"></i></span>
-                                </th>
-                            </tr>
-                        </thead>
-                    -->
                     <tr ng-repeat="row in cityneeds | orderBy : sortfield : !reverse| filter:searchText">
                         <td><i class={{row.fa_icon}}></i>
                             <h5> {{row.itemtype}} </h5>
@@ -95,11 +70,6 @@
                                 <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a>
                             </center>
                         </td>
-                        <!--        <td><i class={{row.fa_icon}}></i><br>{{row.items}}</td>
-                            <td>{{row.modified | date: 'medium'}}</td>
-                            <td>{{row.postedby}} <br><a href=email:{{row.email}}><i class="fa fa-envelope fa-2x"></i>{{row.email}}</a><br><a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i>{{row.phone_number}}</a></td>
-                            <td>{{row.address}}<br><a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a></td>
-                        -->
                     </tr>
                 </table>
             </div>
