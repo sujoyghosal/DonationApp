@@ -1871,7 +1871,7 @@ app.controller("LoginCtrl", function(
         $location.path("/register");
     };
 });
-app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
+app.controller("RegisterCtrl", function($scope, $http, $location, UserService, DataService) {
     $scope.spinner = false;
     $scope.login_fullname = UserService.getLoggedIn().fullname;
     $scope.login_email = UserService.getLoggedIn().email;
@@ -1926,20 +1926,23 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
         );
     };
     $scope.UpdateUser = function(user) {
-        if (!user || !user.email) {
-            //alert("Please Enter Valid Email");
-            swal("Email Not Correct!", "Please Enter Valid Email!", "warning");
+
+        if (!user || (!user.phone && !user.address)) {
+            alert("Please enter values to update");
+            $scope.spinner = false;
             return;
         }
-
         $scope.spinner = true;
         var getURL =
-            BASEURL + "/updateuser?name=" + user.email.trim();
+            BASEURL + "/updateuser?name=" + UserService.getLoggedIn().email;
         if (user.phone)
             getURL += "&phone=" + user.phone.trim();
+        else
+            getURL += "&phone=" + UserService.getLoggedIn().phone;
         if (user.address)
-            getURL += "&address=" +
-            user.address.trim();
+            getURL += "&address=" + user.address.trim();
+        else
+            getURL += "&address=" + UserService.getLoggedIn().address;
         if (user.password)
             getURL += "&password=" + user.password.trim();
         getURL = encodeURI(getURL);
@@ -1960,13 +1963,18 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService) {
                     if (!$scope.login_email) {
                         //alert("Password Update Successful");
                         swal("Good job!", "Password Update Successful!", "success");
-                        $scope.result = "Account Update Sucessful.";
+                        $scope.result = "Password Update Sucessful.";
                         $location.path("/login");
                         return;
                     } else {
                         //alert("Account Update Successful");
                         swal("Good job!", "Account Update Successful!", "success");
                         $scope.result = "Account Update Sucessful.";
+                        if (DataService.isValidObject(response) &&
+                            DataService.isValidObject(response.data) &&
+                            DataService.isValidObject(response.data._data)) {
+                            UserService.setLoggedIn(response.data._data);
+                        }
                         return;
                     }
                 } else {
