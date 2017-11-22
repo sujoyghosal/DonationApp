@@ -196,6 +196,7 @@ app.service("UserService", function() {
         getLoggedInStatus: getLoggedInStatus,
     };
 });
+
 var BASEURL = "https://freecycleapissujoy.mybluemix.net";
 //var BASEURL = "http://localhost:9000";
 //var PORT = (process.env.VCAP_APP_PORT || 9000);
@@ -787,7 +788,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                             filteredDonations.push($scope.citydonations[i]);
                         }
                     }
-                    console.log("Filtered " + ($scope.citydonations.length - filteredDonations.length) + " old records");
+                    //console.log("Filtered " + ($scope.citydonations.length - filteredDonations.length) + " old records");
                     $scope.citydonations = filteredDonations;
                     $scope.found = "Found " + $scope.citydonations.length + " offers";
                 } else {
@@ -861,7 +862,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         else
                             filteredNeeds.push($scope.cityneeds[i]);
                     }
-                    console.log("Filtered " + ($scope.cityneeds.length - filteredNeeds.length) + " old records");
+                    //console.log("Filtered " + ($scope.cityneeds.length - filteredNeeds.length) + " old records");
                     $scope.cityneeds = filteredNeeds;
                     $scope.found = $scope.cityneeds.length + " found";
                     if ($scope.cityneeds.length == 0) {
@@ -871,6 +872,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 } else {
                     $scope.cityneeds = [];
                     $scope.found = "None found";
+                    $scope.spinner = false;
+                    $scope.alldonations = false;
+                    $scope.allneeds = false;
                 }
                 $scope.allneeds = true;
                 $scope.cancel = false;
@@ -985,7 +989,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         else
                             filteredNeeds.push($scope.cityneeds[i]);
                     }
-                    console.log("Filtered " + ($scope.cityneeds.length - filteredNeeds.length) + " old records");
+                    //console.log("Filtered " + ($scope.cityneeds.length - filteredNeeds.length) + " old records");
                     $scope.cityneeds = filteredNeeds;
                     $scope.citydonations = filteredNeeds;
                     $scope.found = $scope.cityneeds.length + " found";
@@ -1002,6 +1006,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     $scope.found = "None found";
                     $scope.allneeds = false;
                     $scope.alldonations = false;
+                    $scope.spinner = false;
                 }
 
             },
@@ -1179,7 +1184,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     //$scope.eventsCount = 0;
                     return;
                 }
-                console.log("Events Count= " + response.data.length);
+                //console.log("Events Count= " + response.data.length);
                 $scope.events = response.data;
 
                 //Show only newer events
@@ -1196,7 +1201,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         else
                             filteredEvents.push($scope.events[i]);
                     }
-                    console.log("Filtered " + ($scope.events.length - filteredEvents.length) + " old records");
+                    //console.log("Filtered " + ($scope.events.length - filteredEvents.length) + " old records");
                     $scope.events = filteredEvents;
                     $scope.resultEvents = "Found " + $scope.events.length + " events matching your criteria.";
                 }

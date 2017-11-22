@@ -213,3 +213,10 @@ p.copyright {
     font-size: 2em;
     vertical-align: middle;
 }
+
+
+/*empty vertical space*/
+
+.vl {
+    height: 100px;
+}
