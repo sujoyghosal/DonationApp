@@ -2,7 +2,8 @@ var app = angular.module("myApp", [
     "ngRoute",
     "ui.bootstrap",
     "ui.directives",
-    "ui.filters"
+    "ui.filters",
+    "ui-notification"
 ]);
 app.config([
     "$routeProvider",
@@ -202,7 +203,7 @@ var BASEURL = "https://freecycleapissujoy.mybluemix.net";
 //var PORT = (process.env.VCAP_APP_PORT || 9000);
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
-app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $location, $timeout, $window, UserService, DataService) {
+app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $location, $timeout, $window, Notification, UserService, DataService) {
     $scope.spinner = false;
     $scope.alldonations = false;
     $scope.allneeds = false;
@@ -272,7 +273,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 if (!DataService.isValidObject(response) || !DataService.isValidObject(response.data) ||
                     !DataService.isValidArray(response.data.results)) {
                     console.log("####Invalid response")
-                    swal("Error", "A problem occured!", "error");
+                        //swal("Error", "A problem occured!", "error");
+                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                     return;
                 } else {
                     console.log("Awesome, a valid response!");
@@ -313,57 +315,57 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
         switch (category) {
             case "Electronics":
-                icon = "fa fa-mobile fa-2x";
+                icon = "fa fa-mobile";
                 break;
             case "Fashion":
-                icon = "fa fa-female fa-2x";
+                icon = "fa fa-female";
                 break;
             case "Educational":
-                icon = "fa fa-university fa-2x";
+                icon = "fa fa-university";
                 break;
             case "Blood":
-                icon = "fa fa-tint fa-2x";
+                icon = "fa fa-tint";
                 break;
             case "Medical":
-                icon = "fa fa-stethoscope fa-2x";
+                icon = "fa fa-stethoscope";
                 break;
             case "Food":
-                icon = "fa fa-cutlery fa-2x";
+                icon = "fa fa-cutlery";
                 break;
             case "Furniture":
-                icon = "fa fa-bed fa-2x";
+                icon = "fa fa-bed";
                 break;
             case "Clothes":
-                icon = "fa fa-shirtsinbulk fa-2x";
+                icon = "fa fa-shirtsinbulk";
                 break;
             case "Sports":
-                icon = "fa fa-futbol-o fa-2x";
+                icon = "fa fa-futbol-o";
                 break;
             case "Household":
-                icon = "fa fa-home fa-2x";
+                icon = "fa fa-home";
                 break;
             case "Shoes":
-                icon = "fa fa-tags fa-2x";
+                icon = "fa fa-tags";
                 break;
             case "Other":
-                icon = "fa fa-star fa-2x";
+                icon = "fa fa-star";
             case "Natural Disaster":
-                icon = "fa fa-fire fa-2x";
+                icon = "fa fa-fire";
                 break;
             case "Terrorism":
-                icon = "fa fa-bomb fa-2x";
+                icon = "fa fa-bomb";
                 break;
             case "Accident":
-                icon = "fa fa-ambulance fa-2x";
+                icon = "fa fa-ambulance";
                 break;
             case "Women's Safety":
-                icon = "fa fa-life-ring fa-2x";
+                icon = "fa fa-life-ring";
                 break;
             case "Children's Safety":
-                icon = "fa fa-child fa-2x";
+                icon = "fa fa-child";
                 break;
             default:
-                icon = "fa fa-star fa-2x";
+                icon = "fa fa-star";
         }
         console.log("GetFontAwesomeIconsForCategory: Category=" + category + ", Icon=>" + icon);
         return icon;
@@ -406,7 +408,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 console.log("Create Donation Response:" + JSON.stringify(response));
                 $scope.loginResult = "Success";
                 //alert("Successufully Published Your Offer. Thank You!");
-                swal("Good job!", "Successufully Published Your Offer. Thank You!", "success");
+                //swal("Good job!", "Successufully Published Your Offer. Thank You!", "success");
+                Notification.success({ message: "Good job! Successufully Published Your Offer. Thank You!", positionY: 'bottom', positionX: 'center' });
+                //Notification.success({message: 'Success Top Left', positionX: 'left'});
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 offer.type = "DonationOffer";
@@ -512,6 +516,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.loginResult = "Success";
                 //alert("Successufully Published Your Need. Thank You!");
                 swal("Good job!", "Successufully Published. Thank You!", "success");
+                Notification.success({ message: "Successufully Published. Thank You!", title: "Good job!", positionY: 'center', positionX: 'bottom', delay: 10000 });
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 /*              notifyUsersInGroup(
@@ -757,11 +762,13 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
-                        swal("Error", "A problem occured!", "error");
+                        //swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        swal("Error", "A problem occured!", "error");
+                        //swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                         return;
                     }
 
@@ -838,7 +845,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        swal("Error", "A problem occured!", "error");
+                        //                        swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                         return;
                     }
 
@@ -912,7 +920,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 if (!DataService.isValidObject(response) || !DataService.isValidObject(response.data) ||
                     !DataService.isValidArray(response.data.results)) {
                     console.log("####Invalid response")
-                    swal("Error", "A problem occured!", "error");
+                        //                   swal("Error", "A problem occured!", "error");
+                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                     return;
                 } else {
                     console.log("Awesome, a valid response!");
@@ -959,11 +968,13 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
-                        swal("Error", "A problem occured!", "error");
+                        //swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
                         swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                         return;
                     }
 
@@ -1237,11 +1248,13 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
-                        swal("Error", "A problem occured!", "error");
+                        //swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        swal("Error", "A problem occured!", "error");
+                        //swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                         return;
                     }
 
@@ -1290,11 +1303,13 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
-                        swal("Error", "A problem occured!", "error");
+                        //swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        swal("Error", "A problem occured!", "error");
+                        //swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'center', positionX: 'top', delay: 10000 });
                         return;
                     }
 
@@ -1739,6 +1754,7 @@ app.controller("LoginCtrl", function(
     $http,
     $location,
     $routeParams,
+    Notification,
     UserService,
     DataService
 ) {
@@ -1818,8 +1834,9 @@ app.controller("LoginCtrl", function(
                                             var msg = JSON.stringify(data._data.items + ", address: " +
                                                 data._data.address + ". Contact " + data._data.postedby + " @ " +
                                                 data._data.phone_number + " or " + data._data.email);
-                                            swal(JSON.stringify(data._data.eventtype), msg, "success");
-                                            //sendLocalPush("FreeCycle Alert", msg);
+                                            //swal(JSON.stringify(data._data.eventtype), msg, "success");
+                                            console.log("####Sending Notification....");
+                                            $scope.sendLocalPush("FreeCycle Alert", msg);
                                             $rootScope.$emit("CallGetEventsMethod", {});
                                             break;
                                         }
@@ -1846,12 +1863,14 @@ app.controller("LoginCtrl", function(
         );
     };
 
-    function sendLocalPush(title, text) {
+    $scope.sendLocalPush = function(title, text) {
         /*cordova.plugins.notification.local.schedule({
-            title: 'My first notification',
-            text: 'Thats pretty easy...',
+            title: title,
+            text: text,
             foreground: true
         });*/
+        //swal(title, text, "success");
+        Notification.info({ message: text, title: title, positionY: 'center', positionX: 'top', delay: 10000 });
     }
     $scope.Logout = function() {
         $scope.login_email = "";

@@ -63,11 +63,11 @@
                             <h6>{{row.items}}</h6>
                             {{ 'Required by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                             <center>
-                                <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
+                                <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
                                 <span style="display:inline-block; width: 50px;"></span>
-                                <a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i></a>
+                                <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>
                                 <span style="display:inline-block; width: 50px;"></span>
-                                <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a>
+                                <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker"></i></a>
                             </center>
                         </td>
                     </tr>
