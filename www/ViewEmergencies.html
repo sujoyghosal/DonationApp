@@ -60,7 +60,7 @@
                     <tr ng-repeat="row in cityneeds | orderBy : sortfield : !reverse| filter:searchText">
                         <td><i class={{row.fa_icon}}></i>
                             <b> {{row.itemtype}} <b>
-                            <p>{row.items}}</p>{
+                            <p>{{row.items}}</p>
                             {{ 'Required by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                             <center>
                                 <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
