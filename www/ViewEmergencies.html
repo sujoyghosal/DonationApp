@@ -59,8 +59,8 @@
                 <table class="table table-responsive" id="needstable" id="searchResults2">
                     <tr ng-repeat="row in cityneeds | orderBy : sortfield : !reverse| filter:searchText">
                         <td><i class={{row.fa_icon}}></i>
-                            <h5> {{row.itemtype}} </h5>
-                            <h6>{{row.items}}</h6>
+                            <b> {{row.itemtype}} <b>
+                            <p>{row.items}}</p>{
                             {{ 'Required by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                             <center>
                                 <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
