@@ -1836,9 +1836,9 @@ app.controller("LoginCtrl", function(
                                                 data._data.address + ". Contact " + data._data.postedby + " @ " +
                                                 data._data.phone_number + " or " + data._data.email);
                                             //swal(JSON.stringify(data._data.eventtype), msg, "success");
+                                            $rootScope.$emit("CallGetEventsMethod", {});
                                             console.log("####Sending Notification....");
                                             $scope.sendLocalPush("FreeCycle Alert", msg);
-                                            $rootScope.$emit("CallGetEventsMethod", {});
                                             break;
                                         }
                                     }
