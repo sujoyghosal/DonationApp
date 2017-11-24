@@ -1842,6 +1842,7 @@ app.controller("LoginCtrl", function(
                                             break;
                                         }
                                     }
+                                    return;
                                 }
                             });
                         });
