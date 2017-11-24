@@ -515,7 +515,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.loginResult = "Success";
                 //alert("Successufully Published Your Need. Thank You!");
-                swal("Good job!", "Successufully Published. Thank You!", "success");
+                //swal("Good job!", "Successufully Published. Thank You!", "success");
                 Notification.success({ message: "Successufully Published. Thank You!", title: "Good job!", positionY: 'bottom', positionX: 'center', delay: 10000 });
                 $scope.spinner = false;
                 $scope.status = response.statusText;
@@ -543,7 +543,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // or server returns response with an error status.
                 $scope.loginResult = "A problem occurred processing the request. Please try again later.";
                 $scope.spinner = false;
-                $scope.status = error.statusText;
+                $scope.status = "A problem occurred processing the request. Please try again later.";
             }
         );
     };
@@ -1939,23 +1939,31 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
     };
     $scope.UpdateUser = function(user) {
 
-        if (login_email && (!user || (!user.phone && !user.address))) {
+        if ($scope.login_email && (!user || (!user.phone && !user.address))) {
             alert("Please enter values to update");
             $scope.spinner = false;
             return;
+        } else if (!$scope.login_email && (!user || !user.email || !user.password)) {
+            swal("Oops!", "Please Enter Email and Password", "error");
+            return;
         }
         $scope.spinner = true;
+        var email = '';
+        if ($scope.login_email)
+            email = $scope.login_email;
+        else
+            email = user.email;
         var getURL =
-            BASEURL + "/updateuser?name=" + UserService.getLoggedIn().email;
-        if (user.phone)
+            BASEURL + "/updateuser?name=" + email;
+        if (user && user.phone)
             getURL += "&phone=" + user.phone.trim();
         else
             getURL += "&phone=" + UserService.getLoggedIn().phone;
-        if (user.address)
+        if (user && user.address)
             getURL += "&address=" + user.address.trim();
         else
             getURL += "&address=" + UserService.getLoggedIn().address;
-        if (user.password)
+        if (user && user.password)
             getURL += "&password=" + user.password.trim();
         getURL = encodeURI(getURL);
         console.log("Update URL=" + getURL);
