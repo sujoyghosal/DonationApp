@@ -26,10 +26,7 @@
                         </label>
             <table class="table table-responsive">
                 <tr ng-repeat="row in citydonations | orderBy : sortfield : !reverse | filter:searchText">
-                    <td><i class={{row.fa_icon}}></i>
-                        <h5> {{row.itemtype}} </h5>
-                        <h6>{{row.items}}</h6>
-                        At {{row.address}}; posted on {{row.modified | date:'medium'}}
+                    <td><i class={{row.fa_icon}}></i>&nbsp;&nbsp;{{row.itemtype}}<br> {{row.items}} At {{row.address}}; posted on {{row.modified | date:'medium'}}
                     </td>
                     <td>
                         <!--<button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Remove Offer</button>-->

@@ -33,17 +33,12 @@
                 <br><b>{{resultEvents}}{{}}</b>
                 <table class="table table-responsive" id="eventstable" id="searchResults2">
                     <tr ng-repeat="row in events | orderBy : sortfield : !reverse| filter:searchText">
-                        <td><i class={{row.fa_icon}}></i>
-                            <h5> {{row.eventtype}}</h5>
-                            <h6>{{row.items}}</h6>
-                            {{ 'Posted by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
-                            <center>
-                                <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
-                                <span style="display:inline-block; width: 50px;"></span>
-                                <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>
-                                <span style="display:inline-block; width: 50px;"></span>
-                                <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker"></i></a>
-                            </center>
+                        <td><i class={{row.fa_icon}}></i>&nbsp;&nbsp;{{row.eventtype}}<br> {{row.items}} {{ 'Posted by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                            <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
+                            <span style="display:inline-block; width: 36px;"></span>
+                            <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>
+                            <span style="display:inline-block; width: 36px;"></span>
+                            <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker"></i></a>
                         </td>
                     </tr>
                 </table>
