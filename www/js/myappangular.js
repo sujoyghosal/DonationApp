@@ -1939,7 +1939,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
     };
     $scope.UpdateUser = function(user) {
 
-        if (!user || (!user.phone && !user.address)) {
+        if (login_email && (!user || (!user.phone && !user.address))) {
             alert("Please enter values to update");
             $scope.spinner = false;
             return;
