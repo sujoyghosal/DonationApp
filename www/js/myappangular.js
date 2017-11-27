@@ -123,27 +123,6 @@ app.service("DataService", function() {
         }
     }
 
-    var isMobile = {
-        Android: function() {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry: function() {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function() {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera: function() {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows: function() {
-            return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function() {
-            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-        }
-    };
-
     function isValidArray(object) {
         whatIsIt(object);
         if (response === "Array")
@@ -190,12 +169,6 @@ app.service("DataService", function() {
         isNull: isNull,
         isString: isString,
         isUnDefined: isUnDefined,
-        mobileAndTabletcheck: window.mobileAndTabletcheck,
-        isMobileAny: isMobile.any,
-        isMobileIOS: isMobile.iOS,
-        isMobileAndroid: isMobile.Android,
-        isMobileWindows: isMobile.Windows,
-        isMobileBlackBerry: isMobile.BlackBerry,
     };
 });
 

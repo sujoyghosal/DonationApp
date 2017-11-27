@@ -27,7 +27,7 @@
                             </tr>
                         </thead>
                         <tr ng-repeat="row in usergroups">
-                            <td>{{row.name}}</td>
+                            <td><i class="fa fa-check-square-o fa-2x"></i>&nbsp;&nbsp;{{row.name}}</td>
                             <td><button type="button" class="btn btn-primary btn-md" ng-click="DeleteGroupForUser(row.name); spinner = true;">Unsubscribe</button></td>
                         </tr>
                     </table>
