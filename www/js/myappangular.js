@@ -123,6 +123,27 @@ app.service("DataService", function() {
         }
     }
 
+    var isMobile = {
+        Android: function() {
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function() {
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function() {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function() {
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function() {
+            return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function() {
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+    };
+
     function isValidArray(object) {
         whatIsIt(object);
         if (response === "Array")
@@ -169,6 +190,12 @@ app.service("DataService", function() {
         isNull: isNull,
         isString: isString,
         isUnDefined: isUnDefined,
+        mobileAndTabletcheck: window.mobileAndTabletcheck,
+        isMobileAny: isMobile.any,
+        isMobileIOS: isMobile.iOS,
+        isMobileAndroid: isMobile.Android,
+        isMobileWindows: isMobile.Windows,
+        isMobileBlackBerry: isMobile.BlackBerry,
     };
 });
 
@@ -227,6 +254,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.offererUUID = "";
     $scope.reverseSort = false;
     //$scope.eventsCount = 0;
+    $rootScope.mobileDevice = false;
     $scope.events = [];
     var today = new Date().toISOString().slice(0, 10);
     $scope.today = {
@@ -235,7 +263,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.maxDate = {
         value: new Date(2015, 12, 31, 14, 57)
     };
+    $scope.isMobileDevice = function() {
 
+    };
     $scope.isVisible = function() {
         return ("/login" !== $location.path() && "/signup" !== $location.path() &&
             "/resetpw" !== $location.path() && "/updatepassword" !== $location.path());
@@ -1408,8 +1438,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     }
     $scope.NotifyDonor = function(email, text) {
         if (!email) {
-            //alert("ERROR - email NOT FOUND");
-            swal("Oops!", "Email Not Found!", "error");
+            Notification.error({ message: "Email Not Found!", positionY: 'bottom', positionX: 'center' });
             $scope.found = "ERROR - Email NOT FOUND";
             return;
         }
@@ -1669,7 +1698,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.CancelOffer = function(row) {
         $scope.spinner = true;
         var cancelURL = BASEURL + "/canceloffer?uuid=" + row.uuid;
-        swal("Obliterating Offer!", "Please Wait..", "warning");
+        //swal("Obliterating Offer!", "Please Wait..", "warning");
+        Notification.info({ message: "Obliterating offer..please wait!", positionY: 'bottom', positionX: 'center' });
         $http({
             method: "GET",
             url: encodeURI(cancelURL)
@@ -1679,14 +1709,14 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 //alert("Successfully Cancelled.");
-                swal("All Done!", "Sucessfully Cancelled!", "success");
+                Notification.success({ message: "All done! Sucessfully removed Offer.", positionY: 'bottom', positionX: 'center' });
                 $scope.cancel = true;
                 $scope.GetDonations("email", $scope.login_email, true);
                 $scope.result = "Successfully Cancelled This Offer";
-                SendPushToUser(
+                /*SendPushToUser(
                     row.receiver.receiver_uuid,
                     "A donation offered by " + $scope.fullname + " has been cancelled"
-                );
+                );*/
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -1719,7 +1749,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 //alert("Successfully Cancelled.");
-                swal("Good job!", "Successfully Cancelled!", "success");
+                //swal("Good job!", "Successfully Cancelled!", "success");
+                Notification.info({ message: "Successfully Cancelled This Offer!", positionY: 'bottom', positionX: 'center' });
                 if (responseAsMessage) {
                     $scope.GetMyAccepteddonations(login_email);
                     return;
@@ -1728,7 +1759,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.cancel = true;
                 $scope.Getdonations("city", row.city, false);
                 $scope.result = "Cancelled donation";
-                SendPushToUserByEmail(row.email, "donation cancelled by a passenger");
+                //    SendPushToUserByEmail(row.email, "donation cancelled by a passenger");
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -1883,7 +1914,7 @@ app.controller("LoginCtrl", function(
         $location.path("/register");
     };
 });
-app.controller("RegisterCtrl", function($scope, $http, $location, UserService, DataService) {
+app.controller("RegisterCtrl", function($scope, $http, $location, UserService, DataService, Notification) {
     $scope.spinner = false;
     $scope.login_fullname = UserService.getLoggedIn().fullname;
     $scope.login_email = UserService.getLoggedIn().email;
@@ -1917,13 +1948,15 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                     response.data.toString() === "CREATED"
                 ) {
                     //alert("Account Created with id " + user.email);
-                    swal("Good job!", "Account Created with id " + user.email, "success");
+                    //swal("Good job!", "Account Created with id " + user.email, "success");
+                    Notification.success({ message: "Account Created with id " + user.email, positionY: 'bottom', positionX: 'center' });
                     $location.path("/login");
                     return;
                 } else {
                     $scope.result = "Error creating id. Email already in use.";
                     //alert("Could not create user id");
-                    swal("Problem!", "Could not create user id, might be existing!", "error");
+                    //swal("Problem!", "Could not create user id, might be existing!", "error");
+                    Notification.error({ message: "Could not create user id, might be existing!", positionY: 'bottom', positionX: 'center' });
 
                     //        $location.path("/login");
                     return;
@@ -1940,11 +1973,11 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
     $scope.UpdateUser = function(user) {
 
         if ($scope.login_email && (!user || (!user.phone && !user.address))) {
-            alert("Please enter values to update");
+            Notification.error({ message: "Please enter values to update", positionY: 'bottom', positionX: 'center' });
             $scope.spinner = false;
             return;
         } else if (!$scope.login_email && (!user || !user.email || !user.password)) {
-            swal("Oops!", "Please Enter Email and Password", "error");
+            Notification.error({ message: "Please Enter Email and Password", positionY: 'bottom', positionX: 'center' });
             return;
         }
         $scope.spinner = true;
@@ -1981,14 +2014,12 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                     console.log("UpdateUSer response: " + JSON.stringify(response));
 
                     if (!$scope.login_email) {
-                        //alert("Password Update Successful");
-                        swal("Good job!", "Password Update Successful!", "success");
+                        Notification.success({ message: "Password Update Successful!", positionY: 'top', positionX: 'center', delay: 10000 });
                         $scope.result = "Password Update Sucessful.";
                         $location.path("/login");
                         return;
                     } else {
-                        //alert("Account Update Successful");
-                        swal("Good job!", "Account Update Successful!", "success");
+                        Notification.success({ message: "Successfully updated your info!", positionY: 'top', positionX: 'center', delay: 10000 });
                         $scope.result = "Account Update Sucessful.";
                         if (DataService.isValidObject(response) &&
                             DataService.isValidObject(response.data) &&
@@ -2000,7 +2031,8 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                 } else {
                     $scope.result = "Could not update profile";
                     //alert("Could not update profile");
-                    swal("Oops!", "Could not update profile!", "error");
+                    //swal("Oops!", "Could not update profile!", "error");
+                    Notification.error({ message: "Could not update profile!", positionY: 'top', positionX: 'center', delay: 10000 });
                     //        $location.path("/login");
                     return;
                 }
@@ -2015,8 +2047,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
     }
     $scope.SendResetPasswordRequest = function(email) {
         if (!email || email.length < 4) {
-            //alert("Invalid Email");
-            swal("Invalid Email!", "Please enter valid email!", "info");
+            Notification.info({ message: "Please enter valid email!", positionY: 'top', positionX: 'center', delay: 10000 });
             return;
         }
         var getURL =
