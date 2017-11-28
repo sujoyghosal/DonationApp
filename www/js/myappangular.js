@@ -277,7 +277,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     !DataService.isValidArray(response.data.results)) {
                     console.log("####Invalid response")
                         //swal("Error", "A problem occured!", "error");
-                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 10000 });
+                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
                     return;
                 } else {
                     console.log("Awesome, a valid response!");
@@ -519,7 +519,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.loginResult = "Success";
                 //alert("Successufully Published Your Need. Thank You!");
                 //swal("Good job!", "Successufully Published. Thank You!", "success");
-                Notification.success({ message: "Successufully Published. Thank You!", title: "Good job!", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                Notification.success({ message: "Successufully Published. Thank You!", title: "Good job!", positionY: 'bottom', positionX: 'center', delay: 4000 });
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 /*              notifyUsersInGroup(
@@ -766,12 +766,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     }
 
@@ -849,7 +849,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     } else {
                         console.log("####Invalid response - null or undefined");
                         //                        swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     }
 
@@ -924,7 +924,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     !DataService.isValidArray(response.data.results)) {
                     console.log("####Invalid response")
                         //                   swal("Error", "A problem occured!", "error");
-                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                     return;
                 } else {
                     console.log("Awesome, a valid response!");
@@ -972,12 +972,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
                         swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     }
 
@@ -1252,12 +1252,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     }
 
@@ -1307,12 +1307,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
                         return;
                     }
 
@@ -1875,7 +1875,7 @@ app.controller("LoginCtrl", function(
             foreground: true
         });*/
         //swal(title, text, "success");
-        Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 10000 });
+        Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 4000 });
     }
     $scope.Logout = function() {
         $scope.login_email = "";
@@ -1987,12 +1987,12 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                     console.log("UpdateUSer response: " + JSON.stringify(response));
 
                     if (!$scope.login_email) {
-                        Notification.success({ message: "Password Update Successful!", positionY: 'top', positionX: 'center', delay: 10000 });
+                        Notification.success({ message: "Password Update Successful!", positionY: 'top', positionX: 'center', delay: 4000 });
                         $scope.result = "Password Update Sucessful.";
                         $location.path("/login");
                         return;
                     } else {
-                        Notification.success({ message: "Successfully updated your info!", positionY: 'top', positionX: 'center', delay: 10000 });
+                        Notification.success({ message: "Successfully updated your info!", positionY: 'top', positionX: 'center', delay: 4000 });
                         $scope.result = "Account Update Sucessful.";
                         if (DataService.isValidObject(response) &&
                             DataService.isValidObject(response.data) &&
@@ -2005,7 +2005,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                     $scope.result = "Could not update profile";
                     //alert("Could not update profile");
                     //swal("Oops!", "Could not update profile!", "error");
-                    Notification.error({ message: "Could not update profile!", positionY: 'top', positionX: 'center', delay: 10000 });
+                    Notification.error({ message: "Could not update profile!", positionY: 'top', positionX: 'center', delay: 4000 });
                     //        $location.path("/login");
                     return;
                 }
@@ -2020,7 +2020,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
     }
     $scope.SendResetPasswordRequest = function(email) {
         if (!email || email.length < 4) {
-            Notification.info({ message: "Please enter valid email!", positionY: 'top', positionX: 'center', delay: 10000 });
+            Notification.info({ message: "Please enter valid email!", positionY: 'top', positionX: 'center', delay: 4000 });
             return;
         }
         var getURL =
