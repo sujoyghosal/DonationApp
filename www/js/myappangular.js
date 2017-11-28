@@ -314,7 +314,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.ShowDirections = function(address) {
         $window.open("https://www.google.com/maps?saddr=My+Location&daddr=" + address + "/", "_blank");
     };
-
+    $scope.english = '';
     $scope.GetFontAwesomeIconsForCategory = function(category) {
         var icon = '';
 
@@ -375,6 +375,39 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         console.log("GetFontAwesomeIconsForCategory: Category=" + category + ", Icon=>" + icon);
         return icon;
     };
+    $scope.TranslateEventToEnglish = function(type) {
+
+        console.log("####Type=" + type);
+        if (!type)
+            $scope.english = "Emergency Event";
+        switch (type.toUpperCase()) {
+            case "BLOOD":
+                $scope.english = "Blood Needed";
+                break;
+            case "MEDICAL":
+                $scope.english = "Medical Needs";
+                break;
+            case "DISASTER":
+                $scope.english = "Natural Disaster";
+                break;
+            case "TERRORISM":
+                $scope.english = "Terror Attack";
+                break;
+            case "ACCIDENT":
+                $scope.english = "Accident";
+                break;
+            case "SAFETY":
+                $scope.english = "Incident";
+                break;
+            case "OTHER":
+                $scope.english = "Other Emergency";
+                break;
+            default:
+                $scope.english = type;
+        }
+        console.log("#####English=" + $scope.english);
+        return $scope.english;
+    }
     $scope.SendOffer = function(offer) {
         $scope.loginResult = "";
         var now = new Date();
@@ -1698,7 +1731,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 //alert("Successfully Cancelled.");
-                Notification.success({ message: "All done! Sucessfully removed Offer.", positionY: 'bottom', positionX: 'center' });
+                Notification.success({ message: "All done! Sucessfully removed offer.", positionY: 'bottom', positionX: 'center' });
                 $scope.cancel = true;
                 $scope.GetDonations("email", $scope.login_email, true);
                 $scope.result = "Successfully Cancelled This Offer";

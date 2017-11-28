@@ -59,7 +59,7 @@
                 <br><b>{{result}}{{}}</b>
                 <table class="table table-responsive">
                     <tr ng-repeat="row in citydonations | orderBy : sortfield : !reverse| filter:searchText ">
-                        <td><i class={{row.fa_icon}}></i>&nbsp;&nbsp;{{row.itemtype}}<br> {{row.items}} {{ 'Offered by ' + row.offeredby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                        <td><i class={{row.fa_icon}}></i>&nbsp;&nbsp;{{ TranslateEventToEnglish(row.itemtype); english }}<br> {{row.items}} {{ 'Offered by ' + row.offeredby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                             <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
                             <span style="display:inline-block; width: 36px;"></span>
                             <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>
