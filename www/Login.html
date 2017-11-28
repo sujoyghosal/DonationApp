@@ -8,21 +8,15 @@
 </head>
 
 <body ng-app="myApp" ng-controller="LoginCtrl">
-    <br>
-    <br>
-    <br>
-    <br>
-
     <div class="container">
 
         <div id="login">
-
+            <div class="vl"></div>
             <form class="form-horizontal" name="myForm" autocomplete="on" novalidate>
                 <!--<i class="fa fa-recycle fa-2x">FREECYCLE</i>-->
-                <h4>FREECYCLE</h4>
-                <img src="img/FreeCycleLogo.png">
-                <!--<div class="vl"></div>-->
-                <br>
+                <h2>FREECYCLE</h2>
+                <img src="img/LoginIcon.png">
+                <div class="vl"></div>
                 <p><span class="fontawesome-user"></span>
                     <input type="text" name="username" ng-model="login.email" size="30" placeholder="email" value="" required>
                     <p class="isa_error" ng-show="myForm.username.$dirty && myForm.username.$invalid">Invalid Email</p>
