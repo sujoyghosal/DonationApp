@@ -277,7 +277,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     !DataService.isValidArray(response.data.results)) {
                     console.log("####Invalid response")
                         //swal("Error", "A problem occured!", "error");
-                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
+                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 7000 });
                     return;
                 } else {
                     console.log("Awesome, a valid response!");
@@ -298,7 +298,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 } else {
                     console.log("No action after Geocoding");
                     //alert("Could Not Submit Request");
-                    swal("Hmmm..some issues", "Could Not Submit Request.", "error");
+                    //swal("Hmmm..some issues", "Could Not Submit Request.", "error");
+                    Notification.error({ message: "A problem occured getting address latitude/longitude!", title: "Error", positionY: 'top', positionX: 'center', delay: 7000 });
+
                 }
             },
             function myError(response) {
@@ -438,6 +440,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
                 $scope.loginResult = "Error Received from Server.." + error.toString();
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.spinner = false;
                 $scope.status = error.statusText;
             }
@@ -474,6 +477,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
                 $scope.loginResult = "Error Received from Server.." + error.toString();
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.spinner = false;
                 $scope.status = error.statusText;
             }
@@ -519,7 +523,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.loginResult = "Success";
                 //alert("Successufully Published Your Need. Thank You!");
                 //swal("Good job!", "Successufully Published. Thank You!", "success");
-                Notification.success({ message: "Successufully Published. Thank You!", title: "Good job!", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                Notification.success({ message: "Successufully Published. Thank You!", title: "Good job!", positionY: 'bottom', positionX: 'center', delay: 7000 });
                 $scope.spinner = false;
                 $scope.status = response.statusText;
                 /*              notifyUsersInGroup(
@@ -545,6 +549,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
                 $scope.loginResult = "A problem occurred processing the request. Please try again later.";
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.spinner = false;
                 $scope.status = "A problem occurred processing the request. Please try again later.";
             }
@@ -586,6 +591,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             },
             function errorCallback(error) {
                 $scope.spinner = false;
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 //          $scope.result = "Could not send push messages. ";
             }
         );
@@ -635,6 +641,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
                 $scope.loginResult = "Error Received from Server.." + error.toString();
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.spinner = false;
                 $scope.status = error.statusText;
             }
@@ -766,12 +773,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 7000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 7000 });
                         return;
                     }
 
@@ -816,6 +823,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // or server returns response with an error status.
                 $scope.spinner = false;
                 //      $scope.result = "Could not submit acceptance. " + error;
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.alldonations = false;
             }
         );
@@ -849,7 +857,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     } else {
                         console.log("####Invalid response - null or undefined");
                         //                        swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 7000 });
                         return;
                     }
 
@@ -895,6 +903,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // or server returns response with an error status.
                 $scope.spinner = false;
                 //      $scope.result = "Could not submit acceptance. " + error;
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.alldonations = false;
             }
         );
@@ -924,7 +933,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     !DataService.isValidArray(response.data.results)) {
                     console.log("####Invalid response")
                         //                   swal("Error", "A problem occured!", "error");
-                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                    Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 7000 });
                     return;
                 } else {
                     console.log("Awesome, a valid response!");
@@ -972,12 +981,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 7000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
                         swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 7000 });
                         return;
                     }
 
@@ -1028,7 +1037,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
                 $scope.spinner = false;
-                //      $scope.result = "Could not submit acceptance. " + error;
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.allneeds = false;
                 $scope.alldonations = false;
             }
@@ -1108,7 +1117,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
                 $scope.spinner = false;
-                $scope.found = "Could not submit acceptance. " + error;
+                $scope.found = "Could not process this request. Please try again later!";
+                console.log("#####Subscribe error: " + JSON.stringify(error));
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.alldonations = false;
             }
         );
@@ -1132,13 +1143,16 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.spinner = false;
                 console.log("SUCCESS ADDING SUBSCRIPTION TO GROUP " + group);
                 $scope.result = "SUCCESS ADDING SUBSCRIPTION. YOU WILL NOW RECEIVE NOTIFICTAIONS FOR OFFERS OR NEEDS MATCHING THIS CRITERIA ";
+                Notification.succes({ message: "SUCCESS ADDING SUBSCRIPTION. YOU WILL NOW RECEIVE NOTIFICTAIONS FOR OFFERS OR NEEDS MATCHING THIS CRITERIA.", title: "Success!", positionY: 'bottom', positionX: 'center', delay: 7000 });
+
                 $rootScope.$emit("CallGetGroupsForUserMethod", {});
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
                 $scope.spinner = false;
-                $scope.result = "ERROR ADDING SUBSCRIPTION TO PUSH MESSAGES ";
+                $scope.result = "ERROR ADDING SUBSCRIPTION TO THIS EVENT";
+                Notification.error({ message: "ERROR ADDING SUBSCRIPTION TO THIS EVENT.", title: "Error!", positionY: 'bottom', positionX: 'center', delay: 7000 });
                 $scope.alldonations = false;
             }
         );
@@ -1252,12 +1266,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 7000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 7000 });
                         return;
                     }
 
@@ -1307,12 +1321,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 7000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
                         //swal("Error", "A problem occured!", "error");
-                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 7000 });
                         return;
                     }
 
@@ -1352,6 +1366,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.spinner = false;
                 $scope.showmyevents = true;
                 $scope.GetGroupsForUser();
+                Notification.success({ message: "Successfully removed this subscription!", positionY: 'bottom', positionX: 'center' });
                 // $scope.found  = "Active donation offers for " + param_name;
             },
             function errorCallback(error) {
@@ -1359,6 +1374,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // or server returns response with an error status.
                 $scope.spinner = false;
                 $scope.groupusers = "ERROR GETTING GROUP USERS ";
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.alldonations = false;
             }
         );
@@ -1696,6 +1712,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // or server returns response with an error status.
                 $scope.spinner = false;
                 $scope.result = "Could not cancel. " + cancelURL;
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.accepted = false;
                 $scope.uuid = row.uuid;
                 $scope.cancel = false;
@@ -1739,6 +1756,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // or server returns response with an error status.
                 $scope.spinner = false;
                 $scope.result = "Could not cancel. ";
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
                 $scope.accepted = false;
                 $scope.uuid = row.uuid;
                 $scope.cancel = false;
@@ -1809,7 +1827,7 @@ app.controller("LoginCtrl", function(
                         response.data.toString() === "Authentication Error") {
                         //alert("Invalid Password");
                         //swal("Oops!", "Invalid Pasword!", "error");
-                        Notification.error({ message: "Invalid Password!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
+                        Notification.error({ message: "Invalid Password!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 7000 });
                         return;
                     } else {
                         var obj = response.data[0];
@@ -1875,7 +1893,7 @@ app.controller("LoginCtrl", function(
             foreground: true
         });*/
         //swal(title, text, "success");
-        Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 4000 });
+        Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 7000 });
     }
     $scope.Logout = function() {
         $scope.login_email = "";
@@ -1940,6 +1958,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                 // or server returns response with an error status.
                 $scope.spinner = false;
                 $scope.loginResult = "Could not submit request.." + error;
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
             }
         );
     };
@@ -1987,12 +2006,12 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                     console.log("UpdateUSer response: " + JSON.stringify(response));
 
                     if (!$scope.login_email) {
-                        Notification.success({ message: "Password Update Successful!", positionY: 'top', positionX: 'center', delay: 4000 });
+                        Notification.success({ message: "Password Update Successful!", positionY: 'top', positionX: 'center', delay: 7000 });
                         $scope.result = "Password Update Sucessful.";
                         $location.path("/login");
                         return;
                     } else {
-                        Notification.success({ message: "Successfully updated your info!", positionY: 'top', positionX: 'center', delay: 4000 });
+                        Notification.success({ message: "Successfully updated your info!", positionY: 'top', positionX: 'center', delay: 7000 });
                         $scope.result = "Account Update Sucessful.";
                         if (DataService.isValidObject(response) &&
                             DataService.isValidObject(response.data) &&
@@ -2005,7 +2024,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                     $scope.result = "Could not update profile";
                     //alert("Could not update profile");
                     //swal("Oops!", "Could not update profile!", "error");
-                    Notification.error({ message: "Could not update profile!", positionY: 'top', positionX: 'center', delay: 4000 });
+                    Notification.error({ message: "Could not update profile!", positionY: 'top', positionX: 'center', delay: 7000 });
                     //        $location.path("/login");
                     return;
                 }
@@ -2020,7 +2039,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
     }
     $scope.SendResetPasswordRequest = function(email) {
         if (!email || email.length < 4) {
-            Notification.info({ message: "Please enter valid email!", positionY: 'top', positionX: 'center', delay: 4000 });
+            Notification.info({ message: "Please enter valid email!", positionY: 'top', positionX: 'center', delay: 7000 });
             return;
         }
         var getURL =
@@ -2044,6 +2063,7 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                 // or server returns response with an error status.
                 $scope.spinner = false;
                 $scope.loginResult = "Could not submit request.." + error;
+                Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
             }
         );
     }
