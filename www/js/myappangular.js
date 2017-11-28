@@ -1143,7 +1143,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.spinner = false;
                 console.log("SUCCESS ADDING SUBSCRIPTION TO GROUP " + group);
                 $scope.result = "SUCCESS ADDING SUBSCRIPTION. YOU WILL NOW RECEIVE NOTIFICTAIONS FOR OFFERS OR NEEDS MATCHING THIS CRITERIA ";
-                Notification.succes({ message: "SUCCESS ADDING SUBSCRIPTION. YOU WILL NOW RECEIVE NOTIFICTAIONS FOR OFFERS OR NEEDS MATCHING THIS CRITERIA.", title: "Success!", positionY: 'bottom', positionX: 'center', delay: 7000 });
+                Notification.success({ message: "SUCCESS ADDING SUBSCRIPTION. YOU WILL NOW RECEIVE NOTIFICTAIONS FOR OFFERS OR NEEDS MATCHING THIS CRITERIA.", title: "Success!", positionY: 'bottom', positionX: 'center', delay: 7000 });
 
                 $rootScope.$emit("CallGetGroupsForUserMethod", {});
             },
@@ -1365,8 +1365,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 $scope.spinner = false;
                 $scope.showmyevents = true;
-                $scope.GetGroupsForUser();
                 Notification.success({ message: "Successfully removed this subscription!", positionY: 'bottom', positionX: 'center' });
+                $scope.GetGroupsForUser();
                 // $scope.found  = "Active donation offers for " + param_name;
             },
             function errorCallback(error) {
