@@ -59,7 +59,7 @@
                         <p class="isa_error" ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Invalid Item Type</p>
                     </p>
                     <p>
-                        <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
+                        <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" autocomplete="off" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
                         <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Item</p>
                     </p>
                     <p>

@@ -54,12 +54,12 @@
                         <p class="isa_error" ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Invalid Item Type</p>
                     </p>
                     <p>
-                        <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" placeholder="Emergency Items" class="form-control input-md" ng-required="true">
+                        <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" autocomplete="off" placeholder="Emergency Items" class="form-control input-md" ng-required="true">
                         <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Items</p>
                     </p>
                     <p>
                         <input type="button" name="submit" value="SUBMIT" ng-click="GeoCodeAddress(need, 'emergency'); spinner = true;" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
-                                          myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid">
+                                          myForm.city.$invalid ||  myForm.items.$invalid">
                         <br>
                         <center/> {{loginResult}}
                     </p>

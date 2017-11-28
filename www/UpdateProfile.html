@@ -31,10 +31,10 @@
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username " -->
                 <p ng-show="login_email">
-                    <input type="text " size="20" ng-model="user.phone" placeholder={{login_phone}}>
+                    <input type="text " size="20" ng-model="user.phone" autocomplete="off" placeholder={{login_phone}}>
                 </p>
                 <p ng-show="login_email">
-                    <input type="text" size="20" id="address " placeholder={{login_address}} name="address" ng-model="user.address">
+                    <input type="text" size="20" id="address " placeholder={{login_address}} autocomplete="off" name="address" ng-model="user.address">
                 </p>
                 <!-- JS because of IE support; better: placeholder="Password " -->
                 <p>
