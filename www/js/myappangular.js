@@ -1809,7 +1809,7 @@ app.controller("LoginCtrl", function(
                         response.data.toString() === "Authentication Error") {
                         //alert("Invalid Password");
                         //swal("Oops!", "Invalid Pasword!", "error");
-                        Notification.error({ message: "Invalid Password!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 10000 });
+                        Notification.error({ message: "Invalid Password!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         var obj = response.data[0];
