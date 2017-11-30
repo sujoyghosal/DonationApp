@@ -3,7 +3,8 @@ var app = angular.module("myApp", [
     "ui.bootstrap",
     "ui.directives",
     "ui.filters",
-    "ui-notification"
+    "ui-notification",
+    "720kb.socialshare"
 ]);
 app.config([
     "$routeProvider",
@@ -94,7 +95,51 @@ app.config([
                 redirectTo: "/login"
             });
     }
+
 ]);
+app.config(['socialshareConfProvider', function configApp(socialshareConfProvider) {
+
+    socialshareConfProvider.configure([{
+            'provider': 'twitter',
+            'conf': {
+                'url': 'http://720kb.net',
+                'text': '720kb is enough',
+                'via': 'npm',
+                'hashtags': 'angularjs,socialshare,angular-socialshare',
+                'trigger': 'click',
+                'popupHeight': 800,
+                'popupWidth': 400
+            }
+        },
+        {
+            'provider': 'facebook',
+            'conf': {
+                'url': 'http://720kb.net',
+                'popupHeight': 1000,
+                'popupWidth': 1000
+            }
+        },
+        //and so on ...
+        {
+            'provider': 'google',
+            'conf': {
+                'url': 'http://720kb.net',
+                'trigger': 'mouseover',
+                'popupHeight': 900,
+                'popupWidth': 700
+            }
+        },
+        {
+            'provider': 'linkedin',
+            'conf': {
+                'url': 'http://720kb.net',
+                'trigger': 'mouseover',
+                'popupHeight': 900,
+                'popupWidth': 700
+            }
+        }
+    ]);
+}]);
 app.service("DataService", function() {
     var stringConstructor = "test".constructor;
     var arrayConstructor = [].constructor;
@@ -207,7 +252,7 @@ var BASEURL = BASEURL_PROD;
 
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
-app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $location, $timeout, $window, Notification, UserService, DataService) {
+app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $location, $timeout, $window, Notification, Socialshare, UserService, DataService) {
     $scope.spinner = false;
     $scope.alldonations = false;
     $scope.allneeds = false;
@@ -781,6 +826,60 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         } else return false;
     }
 
+    $scope.SocialShare = function(row, site) {
+
+        if (!DataService.isValidObject(row))
+            return;
+        var message = row.items;
+        var title = '';
+        if (!DataService.isUnDefined(row.postedby)) {
+            message += ' posted by ' + row.postedby;
+            title = "FreeCycle Alert: " + row.itemtype;
+        } else if (!DataService.isUnDefined(row.offeredby)) {
+            message += ' offered by ' + row.offeredby;
+            title = "FreeCycle Alert: " + row.itemtype + " Item Offered";
+        }
+        message += ' at ' + row.address + '; posted on ' + new Date(row.modified);
+        var options = {};
+        switch (site) {
+            case 'twitter':
+                options = {
+                    provider: "twitter",
+                    attrs: {
+                        socialshareText: message
+                    }
+                }
+                break;
+            case 'facebook':
+                options = {
+                    provider: "facebook",
+                    attrs: {
+                        socialshareQuote: message
+                            //socialshareVia: "1942374775794853"
+                    }
+                }
+                break;
+            case 'google':
+                options = {
+                    provider: "google",
+                    attrs: {
+                        socialshareUrl: 'http://720kb.net'
+
+                    }
+                }
+                break;
+            case 'linkedin':
+                options = {
+                    provider: "linkedin",
+                    attrs: {
+                        socialshareText: title,
+                        socialshareDescription: message
+                    }
+                }
+                break;
+        }
+        Socialshare.share(options);
+    }
     $scope.GetDonations = function(paramname, paramvalue, myoffers) {
         if (!paramvalue || paramvalue.length < 2) {
             swal("Need " + paramname, "Please provide a valid " + paramname, "warning");
