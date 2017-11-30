@@ -1888,9 +1888,9 @@ app.controller("LoginCtrl", function(
                                     for (var i = 0; i < $scope.usergroups.length; i++) {
                                         if ($scope.usergroups[i].name === data._data.group_name) {
                                             //$scope.eventsCount++;
-                                            var msg = JSON.stringify(data._data.items + ", address: " +
-                                                data._data.address + ". Contact " + data._data.postedby + " @ " +
-                                                data._data.phone_number + " or " + data._data.email);
+                                            var msg = JSON.stringify(data._data.items + "@: " +
+                                                data._data.address + ". Contact " + data._data.postedby + ": " +
+                                                data._data.phone_number + " / " + data._data.email);
                                             //swal(JSON.stringify(data._data.eventtype), msg, "success");
                                             $rootScope.$emit("CallGetEventsMethod", {});
                                             console.log("####Sending Notification....");
