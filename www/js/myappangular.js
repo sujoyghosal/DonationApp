@@ -198,8 +198,12 @@ app.service("UserService", function() {
     };
 });
 
-var BASEURL = "https://freecycleapissujoy.mybluemix.net";
-//var BASEURL = "http://localhost:9000";
+var BASEURL_DEV = "https://freecycleapissujoy.mybluemix.net";
+var BASEURL_PROD = "https://sujoyfreecycleeventsapi.mybluemix.net";
+var BASEURL_LOCAL = "http://localhost:9000";
+var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
+
+var BASEURL = BASEURL_DEV;
 
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
@@ -376,8 +380,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         return icon;
     };
     $scope.TranslateEventToEnglish = function(type) {
-
-        console.log("####Type=" + type);
         if (!type)
             $scope.english = "Emergency Event";
         switch (type.toUpperCase()) {
@@ -405,7 +407,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             default:
                 $scope.english = type;
         }
-        console.log("#####English=" + $scope.english);
         return $scope.english;
     }
     $scope.SendOffer = function(offer) {
@@ -1851,7 +1852,7 @@ app.controller("LoginCtrl", function(
                             "Email ID not found in App database. Would you like to create an account with this id?"
                         ) == true
                     ) {
-                        $location.path("/register");
+                        $location.path("/signup");
                         return;
                     }
                 } else {
