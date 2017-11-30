@@ -877,6 +877,60 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     }
                 }
                 break;
+            case 'flipboard':
+                options = {
+                    provider: "flipboard",
+                    attrs: {
+                        socialshareText: message,
+                        socialshareUrl: 'http://720kb.net'
+                    }
+                }
+                break;
+            case 'pocket':
+                options = {
+                    provider: "pocket",
+                    attrs: {
+                        socialshareText: message,
+                        socialshareUrl: 'http://720kb.net'
+                    }
+                }
+                break;
+            case 'tumblr':
+                options = {
+                    provider: "tumblr",
+                    attrs: {
+                        socialshareText: message,
+                        socialshareUrl: 'http://720kb.net'
+                    }
+                }
+                break;
+            case 'pinterest':
+                options = {
+                    provider: "pinterest",
+                    attrs: {
+                        socialshareText: message,
+                        socialshareUrl: 'http://720kb.net'
+                    }
+                }
+                break;
+            case 'stumbleupon':
+                options = {
+                    provider: "stumbleupon",
+                    attrs: {
+                        socialshareText: message,
+                        socialshareUrl: 'http://720kb.net'
+                    }
+                }
+                break;
+            case 'digg':
+                options = {
+                    provider: "digg",
+                    attrs: {
+                        socialshareText: message,
+                        socialshareUrl: 'http://720kb.net'
+                    }
+                }
+                break;
         }
         Socialshare.share(options);
     }
