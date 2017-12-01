@@ -248,7 +248,7 @@ var BASEURL_PROD = "https://sujoyfreecycleeventsapi.mybluemix.net";
 var BASEURL_LOCAL = "http://localhost:9000";
 var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
 
-var BASEURL = BASEURL_PROD;
+var BASEURL = BASEURL_PIVOTAL;
 
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
@@ -2048,6 +2048,7 @@ app.controller("LoginCtrl", function(
                                             $rootScope.$emit("CallGetEventsMethod", {});
                                             console.log("####Sending Notification....");
                                             $scope.sendLocalPush("FreeCycle Alert", msg);
+                                            console.log("#### This line is for demo");
                                             break;
                                         }
                                     }
