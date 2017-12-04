@@ -2027,8 +2027,6 @@ app.controller("LoginCtrl", function(
                         $scope.login_phone = obj.phone;
                         $rootScope.username = obj.fullname;
                         var socket = io.connect(BASEURL);
-                        //var socket = io(BASEURL, { transports: ['websocket'] });
-
                         socket.on('connect', function() {
                             console.log("#####Setting up listener for alerts");
                             socket.on('matchingevent', function(data) {
@@ -2047,11 +2045,8 @@ app.controller("LoginCtrl", function(
                                                 data._data.address + ". Contact " + data._data.postedby + ": " +
                                                 data._data.phone_number + " / " + data._data.email);
                                             //swal(JSON.stringify(data._data.eventtype), msg, "success");
-                                            $rootScope.$emit("CallGetEventsMethod", {});
-                                            console.log("####Sending Notification....");
-                                            $scope.sendLocalPush("FreeCycle Alert", msg);
-                                            console.log("#### This line is for demo");
-                                            break;
+                                            $scope.HandleEvent("FreeCycle Alert", msg);
+                                            return;
                                         }
                                     }
                                 }
@@ -2076,14 +2071,17 @@ app.controller("LoginCtrl", function(
         );
     };
 
-    $scope.sendLocalPush = function(title, text) {
+    $scope.HandleEvent = function(title, text) {
         /*cordova.plugins.notification.local.schedule({
             title: title,
             text: text,
             foreground: true
         });*/
         //swal(title, text, "success");
+        console.log("####Handling matching event...");
         Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 7000 });
+        $rootScope.$emit("CallGetEventsMethod", {});
+
     }
     $scope.Logout = function() {
         $scope.login_email = "";
