@@ -2080,9 +2080,41 @@ app.controller("LoginCtrl", function(
         //swal(title, text, "success");
         console.log("####Handling matching event...");
         Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 7000 });
+        $scope.SendFCMPush(title, text);
         $rootScope.$emit("CallGetEventsMethod", {});
-
     }
+    $scope.SendFCMPush = function(title, text) {
+
+        var sendURL =
+            BASEURL + "/sendfcmpush?&title=" + title + "&text=" + text;
+
+        $http({
+            method: "GET",
+            url: encodeURI(sendURL)
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.loginResult = "Success";
+                if (response) {
+                    $scope.loginResult = "Push Sent";
+                    //alert("This Offer Has inetersted Users, notifying them now.");
+                    //swal("People want this!", "This Offer Has inetersted Users, notifying them now.", "info");
+                    console.log("SendFCMPush: Success");
+                    $scope.spinner = false;
+                } else {
+                    console.log("SendFCMPush: Failed");
+                    $scope.spinner = false;
+                }
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                console.log("SendFCMPush: Failed");
+                $scope.spinner = false;
+            }
+        );
+    };
     $scope.Logout = function() {
         $scope.login_email = "";
         UserService.setLoggedInStatus(false);
