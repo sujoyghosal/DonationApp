@@ -2029,19 +2029,19 @@ app.controller("LoginCtrl", function(
                             console.log("#####Setting up listener for alerts");
                             socket.on('matchingevent', function(data) {
                                 console.log("####received matching event: " + JSON.stringify(data));
-                                if (!DataService.isValidObject(data) || !DataService.isValidObject(data._data)) {
+                                if (!DataService.isValidObject(data) || !DataService.isValidArray(data.entities)) {
                                     console.log("#####received matching event but no data!");
                                     return;
-                                } else if (UserService.getLoggedIn().email === data._data.email) {
+                                } else if (UserService.getLoggedIn().email === data.entities[0].email) {
                                     console.log("#####received matching event created by self!");
                                     return;
                                 } else {
                                     for (var i = 0; i < $scope.usergroups.length; i++) {
-                                        if ($scope.usergroups[i].name === data._data.group_name) {
+                                        if ($scope.usergroups[i].name === data.entities[0].group_name) {
                                             //$scope.eventsCount++;
-                                            var msg = JSON.stringify(data._data.items + "@: " +
-                                                data._data.address + ". Contact " + data._data.postedby + ": " +
-                                                data._data.phone_number + " / " + data._data.email);
+                                            var msg = JSON.stringify(data.entities[0].items + "@: " +
+                                                data.entities[0].address + ". Contact " + data.entities[0].postedby + ": " +
+                                                data.entities[0].phone_number + " / " + data.entities[0].email);
                                             //swal(JSON.stringify(data._data.eventtype), msg, "success");
                                             $scope.HandleEvent("FreeCycle Alert", msg);
                                             return;
