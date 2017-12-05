@@ -40,8 +40,8 @@
                         <p class="isa_error " ng-show="myForm.address.$dirty && myForm.address.$invalid ">Invalid Address</p>
                     </p>
                     <p>
-                        <select class="form-control" name="itemtype " ng-model="need.itemtype ">
-                                <option value=" " selected>Select Emergency</option>
+                        <select class="form-control" id="sel1" name="itemtype" ng-model="need.itemtype">
+                                <option value="" selected disabled>Select Emergency</option>
                                 <option value="Blood ">Blood Needed</option>
                                 <option value="Medical ">Other Medical</option>
                                 <option value="Natural Disaster ">Natural Disaster</option>

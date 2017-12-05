@@ -16,28 +16,28 @@
                 <br>
                 <fieldset class="clearfix:after">
                     <p><span class="fontawesome-user"></span>
-                        <input id="name" name="name" ng-model="need.name" ng-minlength="2" type="text" placeholder={{login_fullname}} class="form-control input-md" ng-readonly="true">
+                        <input id="name" name="name" ng-model="need.name" ng-minlength="2" type="text" placeholder="&#xf007; {{login_fullname}}" class="form-control input-md" ng-readonly="true">
                         <p class="isa_error" ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</p>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p><span class="fontawesome-envelope"></span>
-                        <input id="email" name="email" ng-model="need.email" ng-minlength="2" type="email" placeholder={{login_email}} class="form-control input-md" ng-readonly="true">
+                        <input id="email" name="email" ng-model="need.email" ng-minlength="2" type="email" placeholder="&#xf0e0; {{login_email}}" class="form-control input-md" ng-readonly="true">
                         <p class="isa_error" ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</p>
 
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p><span class="fontawesome-phone"></span>
-                        <input id="phone" name="phone" ng-model="need.phone" ng-minlength="8" type="tel" placeholder={{login_phone}} class="form-control input-md" ng-readonly="true">
+                        <input id="phone" name="phone" ng-model="need.phone" ng-minlength="8" type="tel" placeholder="&#xf10b; {{login_phone}}" class="form-control input-md" ng-readonly="true">
                         <p class="isa_error" ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</p>
 
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p>
-                        <input id="city" name="city" ng-model="need.city" ng-minlength="2" type="text" placeholder="City" class="form-control input-md" ng-required="true">
+                        <input id="city" name="city" ng-model="need.city" ng-minlength="2" type="text" placeholder="&#xf239; City " class="form-control input-md" ng-required="true">
                         <p class="isa_error" ng-show="myForm.city.$dirty && myForm.city.$invalid">Invalid City</p>
                     </p>
                     <p>
-                        <input type="text" size="30" id="address" name="address" ng-model="need.address" ng-minlength="2" placeholder="Address e.g. Park Street, Kolkata" class="form-control input-md" ng-required="true">
+                        <input type="text" size="30" id="address" name="address" ng-model="need.address" ng-minlength="2" placeholder="&#xf041; Address e.g. Park Street, Kolkata" class="form-control input-md" ng-required="true">
                         <p class="isa_error" ng-show="myForm.address.$dirty && myForm.address.$invalid">Invalid Address</p>
                     </p>
                     <p>
@@ -59,7 +59,7 @@
                         <p class="isa_error" ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Invalid Item Type</p>
                     </p>
                     <p>
-                        <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" autocomplete="off" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
+                        <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" autocomplete="off" placeholder="&#xf1b3; Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
                         <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Item</p>
                     </p>
                     <p>
