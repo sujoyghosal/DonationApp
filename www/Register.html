@@ -24,17 +24,16 @@
                     </legend>
                     <br>
                     <p><i class="fa fa-user"></i>
-                        <input type="text" class="form-control" name="name" ng-model="login.fullname" placeholder="Name" ng-minlength="4" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''" required>
+                        <input type="text" class="form-control" name="name" ng-model="login.fullname" placeholder="Name" ng-minlength="4" value="Full Name" ng-required="true">
                         <span class="help-block" ng-show="myForm.name.$dirty && myForm.name.$invalid">minimum length 4</span>
                     </p>
                     <p><i class="fa fa-envelope"></i>
-                        <input type="email" class="form-control" name="email" ng-model="login.email" placeholder="Email" value="EMail" onBlur="if(this.value == '') this.value = 'EMail'" onFocus="if(this.value == 'EMail') this.value = ''" required>
+                        <input type="email" class="form-control" name="email" ng-model="login.email" placeholder="Email" value="EMail" ng-required="true">
                         <span class="help-block" ng-show="myForm.email.$dirty && myForm.email.$invalid">e.g. abcd@xyz.com</span>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p><i class="fa fa-lock"></i>
-                        <input type="password" class="form-control" name="password" ng-model="login.password" placeholder="Password" value="Password" ng-minlength="6" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''"
-                            required>
+                        <input type="password" class="form-control" name="password" ng-model="login.password" placeholder="Password" value="Password" ng-minlength="6" ng-required="true">
                         <span class="help-block" ng-show="myForm.password.$dirty && myForm.password.$invalid">minimum length 6</span>
                     </p>
                     <p><i class="fa fa-phone"></i>
@@ -46,8 +45,12 @@
 
                     </p>
                     <p><i class="fa fa-map-marker"></i>
-                        <input type="text" class="form-control" name="address" ng-minlength="10" placeholder="Address e.g. Park Street, Kolkata" name="address" ng-model="login.address" ng-minlength="2" placeholder="Address" required>
+                        <input type="text" class="form-control" name="address" ng-minlength="10" placeholder="Address e.g. Park Street, Kolkata" ng-model="login.address" ng-required="true">
                         <span class="help-block" ng-show="myForm.address.$dirty && myForm.address.$invalid">Invalid Address</span>
+                    </p>
+                    <p><i class="fa fa-user"></i>
+                        <input type="text" class="form-control" name="org" ng-model="login.fullname" placeholder="Organization" ng-minlength="4">
+                        <span class="help-block" ng-show="myForm.org.$dirty && myForm.org.$invalid">minimum length 4</span>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Password" -->
                     <p>

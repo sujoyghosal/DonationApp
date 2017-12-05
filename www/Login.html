@@ -18,17 +18,17 @@
                 <img src="img/LoginIcon.png">
                 <br><br>
                 <p><span class="fontawesome-user"></span>
-                    <input type="text" name="username" ng-model="login.email" size="30" placeholder="email" value="" required>
+                    <input type="text" name="username" class="form-control" ng-model="login.email" placeholder="email" value="" ng-required="true">
                     <p class="isa_error" ng-show="myForm.username.$dirty && myForm.username.$invalid">Invalid Email</p>
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fontawesome-lock"></span>
-                    <input name="password" type="password" ng-model="login.password" size="30" placeholder="password" value="" required>
+                    <input name="password" type="password" class="form-control" ng-model="login.password" placeholder="password" value="" ng-required="true">
                     <p class="isa_error " ng-show="myForm.password.$dirty && myForm.password.$invalid ">Invalid Password</p>
                 </p>
                 <!-- JS because of IE support; better: placeholder="Password " -->
                 <p>
-                    <button type="button" class="btn btn-primary btn-md" ng-click="Login(login); spinner=true;" ng-disabled="myForm.username.$invalid|| myForm.password.$invalid ">Sign In</button>
+                    <button type="button" class="btn btn-success btn-md form-control" ng-click="Login(login); spinner=true;" ng-disabled="myForm.username.$invalid|| myForm.password.$invalid ">Sign In</button>
                     <br>
                     <center/> {{loginResult}}
                 </p>
