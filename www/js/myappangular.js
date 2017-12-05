@@ -1523,7 +1523,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.showmyevents = true;
                 console.log("GetGroupsForUser success");
                 $scope.usergroups = response.data;
-                // $scope.found  = "Active donation offers for " + param_name;
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -2079,7 +2078,7 @@ app.controller("LoginCtrl", function(
         //swal(title, text, "success");
         console.log("####Handling matching event...");
         Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 7000 });
-        $scope.SendFCMPush(title, text);
+        //$scope.SendFCMPush(title, text);
         $rootScope.$emit("CallGetEventsMethod", {});
     }
     $scope.SendFCMPush = function(title, text) {
