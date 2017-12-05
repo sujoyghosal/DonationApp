@@ -8,38 +8,46 @@
 
 </head>
 
-<body ng-app="myApp">
+<body ng-app="myApp" ng-controller="RegisterCtrl">
 
     <br>
     <br>
     <div class="container">
+        <div align="left">
+            <i class="fa fa-arrow-left" ng-click="Back()"></i>
+        </div>
         <div id="login">
             <center>
-                <form class="form-horizontal" ng-controller="RegisterCtrl" name="myForm">
+                <form class="form-horizontal" name="myForm">
                     <legend>
                         <h4/>YOUR INFO
                     </legend>
                     <br>
                     <p><i class="fa fa-user"></i>
-                        <input type="text" id="name" name="name" ng-model="login.fullname" placeholder="Name" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''" required>
-                        <p class="isa_error" ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Address</p>
+                        <input type="text" class="form-control" name="name" ng-model="login.fullname" placeholder="Name" ng-minlength="4" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''" required>
+                        <span class="help-block" ng-show="myForm.name.$dirty && myForm.name.$invalid">minimum length 4</span>
                     </p>
                     <p><i class="fa fa-envelope"></i>
-                        <input type="email" ng-model="login.email" placeholder="Email" value="EMail" onBlur="if(this.value == '') this.value = 'EMail'" onFocus="if(this.value == 'EMail') this.value = ''" required>
-                        <p class="isa_error" ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Address</p>
+                        <input type="email" class="form-control" name="email" ng-model="login.email" placeholder="Email" value="EMail" onBlur="if(this.value == '') this.value = 'EMail'" onFocus="if(this.value == 'EMail') this.value = ''" required>
+                        <span class="help-block" ng-show="myForm.email.$dirty && myForm.email.$invalid">e.g. abcd@xyz.com</span>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p><i class="fa fa-lock"></i>
-                        <input type="password" ng-model="login.password" placeholder="Password" value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required>
-                        <p class="isa_error" ng-show="myForm.password.$dirty && myForm.password.$invalid">Invalid Address</p>
+                        <input type="password" class="form-control" name="password" ng-model="login.password" placeholder="Password" value="Password" ng-minlength="6" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''"
+                            required>
+                        <span class="help-block" ng-show="myForm.password.$dirty && myForm.password.$invalid">minimum length 6</span>
                     </p>
                     <p><i class="fa fa-phone"></i>
-                        <input type="text" ng-model="login.phone" placeholder="Phone" value="Phone" onBlur="if(this.value == '') this.value = 'Phone'" onFocus="if(this.value == 'Phone') this.value = ''" required>
-                        <p class="isa_error" ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Address</p>
+                        <input type="text" class="form-control" ng-minlength="10" ng-maxlength="20" id="inputPhone" name="phone" placeholder="e.g. +91 xxx-xxxxxxx" ng-pattern="/^\+?\d{3}[- ]?\d{3}[- ]?\d{7}$/" ng-model="login.phone" ng-required="true">
+                        <!--<p class="isa_error" ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</p>
+                        <span class="error" ng-show="myForm.phone.$error.minlength">Phone no not less that 10 char.</span>
+                        <span class="error" ng-show="myForm.phone.$error.maxlength">Phone no not more than 16 char.</span>-->
+                        <br><span class="error" ng-show="myForm.phone.$error.pattern">Please match pattern [+091-123-4567890 || 091-123-4567890]</span>
+
                     </p>
                     <p><i class="fa fa-map-marker"></i>
-                        <input type="text" id="address" placeholder="Address" name="address" ng-model="login.address" ng-minlength="2" placeholder="Address" required>
-                        <p class="isa_error" ng-show="myForm.address.$dirty && myForm.address.$invalid">Invalid Address</p>
+                        <input type="text" class="form-control" name="address" ng-minlength="10" placeholder="Address e.g. Park Street, Kolkata" name="address" ng-model="login.address" ng-minlength="2" placeholder="Address" required>
+                        <span class="help-block" ng-show="myForm.address.$dirty && myForm.address.$invalid">Invalid Address</span>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Password" -->
                     <p>

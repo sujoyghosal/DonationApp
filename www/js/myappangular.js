@@ -2123,7 +2123,7 @@ app.controller("LoginCtrl", function(
         $location.path("/register");
     };
 });
-app.controller("RegisterCtrl", function($scope, $http, $location, UserService, DataService, Notification) {
+app.controller("RegisterCtrl", function($scope, $http, $location, $window, UserService, DataService, Notification) {
     $scope.spinner = false;
     $scope.login_fullname = UserService.getLoggedIn().fullname;
     $scope.login_email = UserService.getLoggedIn().email;
@@ -2284,5 +2284,8 @@ app.controller("RegisterCtrl", function($scope, $http, $location, UserService, D
                 Notification.error({ message: "Error processing this request. Please try again later!", positionY: 'bottom', positionX: 'center' });
             }
         );
+    }
+    $scope.Back = function() {
+        $window.history.back();
     }
 });
