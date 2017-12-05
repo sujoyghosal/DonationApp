@@ -2076,7 +2076,7 @@ app.controller("LoginCtrl", function(
             foreground: true
         });*/
         //swal(title, text, "success");
-        console.log("####Handling matching event...");
+        console.log("####Handling matching event..." + text);
         Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 7000 });
         //$scope.SendFCMPush(title, text);
         $rootScope.$emit("CallGetEventsMethod", {});
