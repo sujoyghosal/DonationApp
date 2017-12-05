@@ -221,6 +221,10 @@ p.copyright {
     border-radius: 10px;
 }
 
+.form-control {
+    font-family: "FontAwesome", "comma"
+}
+
 
 /*empty vertical space*/
 
