@@ -21,13 +21,13 @@
                 <img src="img/LoginIcon.png">
                 <br><br>
                 <p><span class="fontawesome-user"></span>
-                    <input type="text" name="username" size="33" ng-model="login.email" placeholder="email" value="" ng-required="true">
-                    <p class="isa_error" ng-show="myForm.username.$dirty && myForm.username.$invalid">Invalid Email</p>
+                    <input type="text" name="username" class="form-control" ng-model="login.email" placeholder="email" value="" ng-required="true">
+                    <p class="isa_error" ng-show="myForm.username.$dirty && myForm.username.$invalid"></p>
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fontawesome-lock"></span>
-                    <input name="password" type="password" size="33" ng-model="login.password" placeholder="password" value="" ng-required="true">
-                    <p class="isa_error " ng-show="myForm.password.$dirty && myForm.password.$invalid ">Invalid Password</p>
+                    <input name="password" type="password" class="form-control" ng-model="login.password" ng-minlength="6" placeholder="password" value="" ng-required="true">
+                    <p class="isa_error " ng-show="myForm.password.$dirty && myForm.password.$invalid "></p>
                 </p>
                 <!-- JS because of IE support; better: placeholder="Password " -->
                 <p>
