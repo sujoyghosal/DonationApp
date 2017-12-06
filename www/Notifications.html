@@ -18,13 +18,13 @@
             <div class="container" ng-show="showevents">
                 <label>Sort By:
                                 <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
-                                    <option value="modified" selected>Date</option>                                        
-                                    <option value="eventtype">Event Type</option>
-                                    <option value="eventtype">Item Type</option>
+                                    <option value="modified" selected>Date</option>                                                                     
+                                    <option value="eventtype">Event Type</option>                                   
+                                    <option value="itemtype">Item Type</option>
                                     <option value="address">Address</option>
                                 </select>
                                 <br>
-                            </label> <span></span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
+                            </label> <span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
                 <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i></span>
 
                 <label ng-show="showevents">Search Items, Places etc. in events:
