@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <title>Freecycle - Login</title>
     <link rel="stylesheet" href="css/landing-page.css" media="screen" type="text/css" />
-    <style>
-
-    </style>
 </head>
 
 <body ng-app="myApp" ng-controller="LoginCtrl">
@@ -15,18 +12,18 @@
 
         <div id="login">
             <div class="vl"></div>
-            <form class="form-horizontal" name="myForm" autocomplete="on" novalidate>
+            <form name="myForm" autocomplete="on" novalidate>
                 <!--<i class="fa fa-recycle fa-2x">FREECYCLE</i>-->
                 <h2>FREECYCLE</h2>
                 <img src="img/LoginIcon.png">
-                <br><br>
-                <p><span class="fontawesome-user"></span>
-                    <input type="text" name="username" size="30" class="form-control" ng-model="login.email" placeholder="&#xf0e0; Email" value="" ng-required="true">
+                <div class="vl"></div>
+                <p>
+                    <input type="text" name="username" class="form-control input-md" ng-model="login.email" placeholder="&#xf0e0; Email" value="" ng-required="true">
                     <p class="isa_error" ng-show="myForm.username.$dirty && myForm.username.$invalid"></p>
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username" -->
-                <p><span class="fontawesome-lock"></span>
-                    <input name="password" type="password" size="30" class="form-control" ng-model="login.password" ng-minlength="6" placeholder="&#xf023; Password" value="" ng-required="true">
+                <p>
+                    <input name="password" type="password" class="form-control input-md" ng-model="login.password" ng-minlength="6" placeholder="&#xf023; Password" value="" ng-required="true">
                     <p class="isa_error " ng-show="myForm.password.$dirty && myForm.password.$invalid "></p>
                 </p>
                 <!-- JS because of IE support; better: placeholder="Password " -->
