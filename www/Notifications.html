@@ -32,8 +32,18 @@
                             </label>
                 <br><b>{{resultEvents}}{{}}</b>
                 <table class="table table-responsive" id="eventstable" id="searchResults2">
-                    <tr ng-repeat="row in events | orderBy : sortfield : !reverse| filter:searchText">
-                        <td><i class={{row.fa_icon}}></i>&nbsp;&nbsp;{{ TranslateEventToEnglish(row.itemtype); english }}<br> {{row.items}} {{ 'Posted by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                    <tr ng-repeat="row in events | orderBy : sortfield : reverse| filter:searchText">
+                        <td ng-init="stackicon = row.fa_icon + ' fa-stack-1x'">
+                            <span class="fa-stack fa-2x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background4"></i>
+                                        <i class={{stackicon}}></i>
+                            </span> &nbsp;
+                            <span class="fa-stack fa-2x" ng-show="isEmergency(row.itemtype)">
+                                <i class="fa fa-circle fa-stack-2x icon-backgroundemergency"></i>
+                                <i class="fa fa-plus-square fa-stack-1x"></i>
+                              </span>
+                            <!--{{ TranslateEventToEnglish(row.itemtype); english }}-->
+                            <br> {{row.items}} {{ 'Posted by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                             <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
                             <span style="display:inline-block; width: 36px;"></span>
                             <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>
@@ -78,6 +88,17 @@
                                 </ul>
                             </li>
                         </td>
+                        <!--<td ng-show="isEmergency(row.itemtype)">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x icon-backgroundemergency"></i>
+                                <i class="fa fa-ambulance fa-stack-1x"></i>
+                              </span>
+                            <svg height="20" width="20">
+                                <circle cx="10" cy="10" r="10"  fill="red" />
+                                <text x="6" y="14" fill="white">e</text>  
+                               </svg>
+                        </td>-->
+
                     </tr>
                 </table>
             </div>

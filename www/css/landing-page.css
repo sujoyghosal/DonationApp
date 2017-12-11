@@ -231,3 +231,48 @@ p.copyright {
 .vl {
     height: 16px;
 }
+
+.icon-backgroundemergency {
+    color: #ff0000;
+}
+
+.icon-background1 {
+    color: #ffc0ff;
+}
+
+.icon-background2 {
+    color: #ffffc0;
+}
+
+.icon-background3 {
+    color: #c0ffff;
+}
+
+.icon-background4 {
+    color: #c0ffc0;
+}
+
+.icon-background6 {
+    color: #40c040;
+}
+
+.icon-background5 {
+    color: #c0c0ff;
+}
+
+.circle-icon2 {
+    background: #ffc0c0;
+    padding: 30px;
+    border-radius: 50%;
+}
+
+.circle-icon {
+    background: #ffc0c0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 100px;
+    vertical-align: middle;
+    padding: 30px;
+}

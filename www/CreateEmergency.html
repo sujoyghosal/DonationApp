@@ -32,26 +32,31 @@
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username " -->
                     <p>
-                        <input id="city " name="city " ng-model="need.city " ng-minlength="2 " type="text " placeholder="&#xf239; City " class="form-control input-md " ng-required="true ">
-                        <p class="isa_error " ng-show="myForm.city.$dirty && myForm.city.$invalid ">Invalid City</p>
+                        <input id="city " name="city " ng-model="need.city " ng-minlength="2" type="text " placeholder="&#xf239; City " class="form-control input-md " ng-required="true ">
+                        <p class="isa_error " ng-show="myForm.city.$dirty && myForm.city.$invalid ">City Needed</p>
                     </p>
                     <p>
-                        <input type="text " size="30 " id="address " name="address " ng-model="need.address " ng-minlength="2 " placeholder="&#xf041; Address e.g. Park Street, Kolkata " class="form-control input-md " ng-required="true ">
-                        <p class="isa_error " ng-show="myForm.address.$dirty && myForm.address.$invalid ">Invalid Address</p>
+                        <input type="text " size="30 " id="address " name="address " ng-model="need.address " ng-minlength="5" placeholder="&#xf041; Address e.g. Park Street, Kolkata " class="form-control input-md " ng-required="true ">
+                        <p class="isa_error " ng-show="myForm.address.$dirty && myForm.address.$invalid ">Address Needed e.g. Park Street, Kolkata</p>
                     </p>
                     <p>
                         <select class="form-control" id="sel1" name="itemtype" ng-model="need.itemtype">
                                 <option value="" selected disabled>Select Emergency</option>
-                                <option value="Blood ">Blood Needed</option>
-                                <option value="Medical ">Other Medical</option>
-                                <option value="Natural Disaster ">Natural Disaster</option>
-                                <option value="Terrorism ">Terrorism</option>
-                                <option value="Accident ">Accident</option>
+                                <option value="Blood">Blood Needed</option>
+                                <option value="Life Saving Drugs">Life Saving Drugs</option>
+                                <option value="Organs">Organs Needed</option>
+                                <option value="General Medicines">General Medicines</option>
+                                <option value="Ambulance">Ambulance Services</option>
+                                <option value="Doctor">Doctor</option>
+                                <option value="Medical">Other Medical</option>
+                                <option value="Natural Disaster">Natural Disaster</option>
+                                <option value="Terrorism">Terrorism</option>
+                                <option value="Accident">Accident</option>
                                 <option value="Women 's Safety">Women's Safety</option>
                                 <option value="Children's Safety">Children's Safety</option>
                                 <option value="Other">Other</option>
                         </select>
-                        <p class="isa_error" ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Invalid Item Type</p>
+                        <p class="isa_error" ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Please Select Item Type</p>
                     </p>
                     <p>
                         <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" autocomplete="off" placeholder="&#xf055; Emergency Items" class="form-control input-md" ng-required="true">
@@ -59,7 +64,7 @@
                     </p>
                     <p>
                         <input type="button" name="submit" class="btn btn-success btn-xl" value="SUBMIT" ng-click="GeoCodeAddress(need, 'emergency'); spinner = true;" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
-                                          myForm.city.$invalid ||  myForm.items.$invalid">
+                                          myForm.city.$invalid ||  myForm.items.$invalid || myForm.address.$invalid || myForm.itemtype.$invalid">
                         <br>
                         <center/> {{loginResult}}
                     </p>
