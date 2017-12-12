@@ -996,7 +996,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     }
     $scope.GetDonations = function(paramname, paramvalue, myoffers) {
         if (!paramvalue || paramvalue.length < 2) {
-            swal("Need " + paramname, "Please provide a valid " + paramname, "warning");
+            alert("Need " + paramname, "Please provide a valid " + paramname, "warning");
             return;
         }
         $scope.spinner = true;
@@ -1077,7 +1077,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     };
     $scope.GetNeeds = function(paramname, paramvalue, emergency) {
         if (!paramvalue || paramvalue.length < 2) {
-            swal("Need " + paramname, "Please provide a valid " + paramname, "warning");
+            alert("Need " + paramname, "Please provide a valid " + paramname, "warning");
             return;
         }
         $scope.spinner = true;
@@ -1099,7 +1099,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
-                        swal("Error", "A problem occured!", "error");
+                        Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
@@ -1162,12 +1162,14 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.OrchestrateGetNearby = function(data, type) {
         if (!data || !data.searchAddress || data.searchAddress.length < 5) {
             //alert("Please provide a valid address");
-            swal("Need Address", "Please provide a valid address", "warning");
+            //swal("Need Address", "Please provide a valid address", "warning");
+            Notification.error({ message: "Please provide a valid address", positionY: 'bottom', positionX: 'center' });
             return;
         }
         if (!data.distance) {
             //alert("Please provide a valid distance");
-            swal("Need Radius", "Please select distance", "warning");
+            //swal("Need Radius", "Please select distance", "warning");
+            Notification.error({ message: "Please select distance", positionY: 'bottom', positionX: 'center' });
             return;
         }
         $http({
@@ -1202,12 +1204,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         $scope.spinner = true;
         if (!data.distance) {
             //alert("Invalid Distance");
-            swal("Need Radius", "Please select distance", "warning");
+            Notification.error({ message: "Please select distance", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
             return;
         }
         if (!type) {
             //alert("Invalid Type");
-            swal("Need Type", "Please select item type", "warning");
+            Notification.error({ message: "Please select Item Type", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
             return;
         }
         var getURL =
@@ -1232,7 +1234,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        swal("Error", "A problem occured!", "error");
+                        //swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     }
@@ -1325,7 +1327,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         $scope.spinner = true;
         if (!data || !data.city || !data.itemtype) {
             //alert("Please enter City and Item name for alerts");
-            swal("Need Info", "Please enter City and Item name for alerts", "info");
+            //swal("Need Info", "Please enter City and Item name for alerts", "info");
+            Notification.error({ message: "Please enter City and Item name for alerts", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
             return;
         }
         console.log("Creating subscription for city " + data.city + "and item type " + data.itemtype);
@@ -1931,6 +1934,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         );
     };
     $scope.CancelOffer = function(row) {
+        var cancel = false;
+        alert("Are you sure you want to cancel the offer?");
         $scope.spinner = true;
         var cancelURL = BASEURL + "/canceloffer?uuid=" + row.uuid;
         //swal("Obliterating Offer!", "Please Wait..", "warning");
