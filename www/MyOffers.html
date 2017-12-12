@@ -26,10 +26,21 @@
                         </label>
             <table class="table table-responsive">
                 <tr ng-repeat="row in citydonations | orderBy : sortfield : !reverse | filter:searchText">
-                    <td><i class={{row.fa_icon}}></i>&nbsp;&nbsp;{{ TranslateEventToEnglish(row.itemtype); english }}<br> {{row.items}} At {{row.address}}; posted on {{row.modified | date:'medium'}}
-                        <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                        <li class="dropdown" ng-show="!mobileDevice">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-square"></i>  <span class="caret"></span></a>
+                    <td ng-init="stackicon = row.fa_icon + ' fa-stack-1x'">
+                        <span class="fa-stack fa-2x">
+                                    <i class="fa fa-circle fa-stack-2x icon-background4"></i>
+                                    <i class={{stackicon}}></i>
+                        </span> &nbsp;
+                        <span class="fa-stack fa-2x" ng-show="isEmergency(row.itemtype)">
+                            <i class="fa fa-circle fa-stack-2x icon-backgroundemergency"></i>
+                            <i class="fa fa-plus-square fa-stack-1x"></i>
+                          </span> &nbsp;
+
+                        <!--{{ TranslateEventToEnglish(row.itemtype); english }}-->
+                        <br> {{row.items}} At {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                        <center><span ng-show="!mobileDevice" style="display:inline-block; width: 36px;">
+                                <li class="dropdown" ng-show="!mobileDevice">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-square fa-2x"></i>  <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
@@ -62,10 +73,13 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                            </li>
+                            </span>
+                            <span ng-show="mobileDevice" style="display:inline-block; width: 36px;"></span>
+                            <a href='' ng-show="mobileDevice" ng-click="SocialShare(row, 'FreeCycle New Event Alert')"><i class="fa fa-share-square-o fa-2x"></i></a>
+                        </center>
                     </td>
                     <td>
-                        <!--<button class="btn btn-primary btn-md" ng-click="CancelOffer(row)">Remove Offer</button>-->
                         <i ng-click="CancelOffer(row); spinner=true;" class="fa fa-minus-circle fa-2x"></i>
                     </td>
                 </tr>
