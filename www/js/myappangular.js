@@ -1934,8 +1934,13 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         );
     };
     $scope.CancelOffer = function(row) {
-        var cancel = false;
-        alert("Are you sure you want to cancel the offer?");
+        if (
+            confirm(
+                "Are you sure you want to cancel the offer?"
+            ) == false
+        ) {
+            return;
+        }
         $scope.spinner = true;
         var cancelURL = BASEURL + "/canceloffer?uuid=" + row.uuid;
         //swal("Obliterating Offer!", "Please Wait..", "warning");
