@@ -279,6 +279,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $rootScope.mobileDevice = false;
     $scope.events = [];
     var today = new Date().toISOString().slice(0, 10);
+    $rootScope.lastUUID = "";
     $scope.today = {
         value: today
     };
@@ -622,7 +623,56 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
-
+    $scope.setupWebSockets = function() {
+        console.log("#####Setting up listener for alerts");
+        var socket = null;
+        var room = null;
+        socket = io.connect(BASEURL);
+        socket.on('connect', function() {
+            for (var i = 0; i < $scope.usergroups.length; i++) {
+                //socket.join($scope.usergroups[i].name);
+                room = $scope.usergroups[i].name;
+                console.log("#### Joining events channel " + room);
+                socket.emit('room', room);
+            }
+        });
+        socket.on('matchingevent', function(data) {
+            console.log("####received matching event: " + JSON.stringify(data));
+            if (!DataService.isValidObject(data) || !DataService.isValidArray(data.entities)) {
+                console.log("#####received matching event but no data!");
+                return;
+            } else if (UserService.getLoggedIn().email === data.entities[0].email) {
+                console.log("#####received matching event created by self!");
+                return;
+            } else {
+                console.log("#####lastUUID for HandleEvent=" + $rootScope.lastUUID + " and entity uuid=" + data.entities[0].uuid);
+                if ($rootScope.lastUUID === data.entities[0].uuid) {
+                    console.log("#####Discarding duplicate events");
+                } else {
+                    $rootScope.lastUUID = data.entities[0].uuid;
+                    console.log("#####received matching event created by others! " + data.entities[0].uuid);
+                    var msg = JSON.stringify(data.entities[0].items + "@: " +
+                        data.entities[0].address + ". Contact " + data.entities[0].postedby + ": " +
+                        data.entities[0].phone_number + " / " + data.entities[0].email);
+                    //swal(JSON.stringify(data._data.eventtype), msg, "success");
+                    $scope.HandleEvent("FreeCycle Alert", msg);
+                    return;
+                }
+            }
+        });
+    }
+    $scope.HandleEvent = function(title, text) {
+        /*cordova.plugins.notification.local.schedule({
+            title: title,
+            text: text,
+            foreground: true
+        });*/
+        //swal(title, text, "success");
+        console.log("####Handling matching event..." + text);
+        Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 4000 });
+        //$scope.SendFCMPush(title, text);
+        $rootScope.$emit("CallGetEventsMethod", {});
+    }
     $scope.CreateNeed = function(need, emergency) {
         $scope.loginResult = "";
         var now = new Date();
@@ -1587,6 +1637,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.showmyevents = true;
                 console.log("GetGroupsForUser success");
                 $scope.usergroups = response.data;
+                $scope.setupWebSockets();
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -2038,6 +2089,9 @@ app.controller("LoginCtrl", function(
 ) {
     $scope.spinner = false;
     $scope.isCollapsed = true;
+    $rootScope.$on("CallSetupWebSocketsMethod", function() {
+        $scope.setupWebSockets();
+    });
     $scope.isVisible = function() {
         return ("/login" !== $location.path() && "/signup" !== $location.path() && "/resetpw" !== $location.path());
     };
@@ -2095,32 +2149,6 @@ app.controller("LoginCtrl", function(
                         $scope.login_email = obj.email;
                         $scope.login_phone = obj.phone;
                         $rootScope.username = obj.fullname;
-                        var socket = io.connect(BASEURL);
-                        socket.on('connect', function() {
-                            console.log("#####Setting up listener for alerts");
-                            socket.on('matchingevent', function(data) {
-                                console.log("####received matching event: " + JSON.stringify(data));
-                                if (!DataService.isValidObject(data) || !DataService.isValidArray(data.entities)) {
-                                    console.log("#####received matching event but no data!");
-                                    return;
-                                } else if (UserService.getLoggedIn().email === data.entities[0].email) {
-                                    console.log("#####received matching event created by self!");
-                                    return;
-                                } else {
-                                    for (var i = 0; i < $scope.usergroups.length; i++) {
-                                        if ($scope.usergroups[i].name === data.entities[0].group_name) {
-                                            //$scope.eventsCount++;
-                                            var msg = JSON.stringify(data.entities[0].items + "@: " +
-                                                data.entities[0].address + ". Contact " + data.entities[0].postedby + ": " +
-                                                data.entities[0].phone_number + " / " + data.entities[0].email);
-                                            //swal(JSON.stringify(data._data.eventtype), msg, "success");
-                                            $scope.HandleEvent("FreeCycle Alert", msg);
-                                            return;
-                                        }
-                                    }
-                                }
-                            });
-                        });
                         $rootScope.$emit("CallGetEventsMethod", {});
                         $rootScope.$emit("CallGetGroupsForUserMethod", {});
                         $location.path("/home");
@@ -2139,19 +2167,6 @@ app.controller("LoginCtrl", function(
             }
         );
     };
-
-    $scope.HandleEvent = function(title, text) {
-        /*cordova.plugins.notification.local.schedule({
-            title: title,
-            text: text,
-            foreground: true
-        });*/
-        //swal(title, text, "success");
-        console.log("####Handling matching event..." + text);
-        Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 4000 });
-        //$scope.SendFCMPush(title, text);
-        $rootScope.$emit("CallGetEventsMethod", {});
-    }
     $scope.SendFCMPush = function(title, text) {
 
         var sendURL =
