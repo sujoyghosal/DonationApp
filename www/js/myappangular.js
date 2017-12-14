@@ -669,7 +669,14 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         });*/
         //swal(title, text, "success");
         console.log("####Handling matching event..." + text);
-        Notification.info({ message: text, title: title, positionY: 'top', positionX: 'center', delay: 4000 });
+        Notification.info({
+            message: text,
+            title: title,
+            positionY: 'top',
+            positionX: 'center',
+            delay: 4000,
+            replaceMessage: true
+        });
         //$scope.SendFCMPush(title, text);
         $rootScope.$emit("CallGetEventsMethod", {});
     }
