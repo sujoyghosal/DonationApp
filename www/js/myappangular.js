@@ -276,7 +276,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.offererUUID = "";
     $scope.reverseSort = false;
     $scope.emergency = false;
-    //$scope.eventsCount = 0;
+    $scope.eventsCount = 0;
     $rootScope.mobileDevice = false;
     $scope.events = [];
     var today = new Date().toISOString().slice(0, 10);
@@ -1521,7 +1521,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 if (response && response.data && response.data === "No Groups Found") {
                     console.log("No Groups Found");
                     $scope.events = [];
-                    //$scope.eventsCount = 0;
+                    $scope.eventsCount = 0;
                     return;
                 }
                 //console.log("Events Count= " + response.data.length);
