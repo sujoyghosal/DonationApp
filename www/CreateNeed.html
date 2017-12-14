@@ -34,11 +34,11 @@
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p>
                         <input id="city" name="city" ng-model="need.city" ng-minlength="2" type="text" placeholder="&#xf239; City " class="form-control input-md" ng-required="true">
-                        <p class="isa_error" ng-show="myForm.city.$dirty && myForm.city.$invalid">Invalid City</p>
+                        <p class="isa_error" ng-show="myForm.city.$dirty && myForm.city.$invalid">Please Enter City</p>
                     </p>
                     <p>
                         <input type="text" size="30" id="address" name="address" ng-model="need.address" ng-minlength="2" placeholder="&#xf041; Address e.g. Park Street, Kolkata" class="form-control input-md" ng-required="true">
-                        <p class="isa_error" ng-show="myForm.address.$dirty && myForm.address.$invalid">Invalid Address</p>
+                        <p class="isa_error" ng-show="myForm.address.$dirty && myForm.address.$invalid">Address Needed e.g. Park Street, Kolkata</p>
                     </p>
                     <p>
                         <select class="form-control" id="sel1" name="itemtype" ng-model="need.itemtype">
@@ -56,11 +56,11 @@
                                 <option value="Shoes">Shoes</option>                               
                                 <option value="Other">Other</option>
                                 </select>
-                        <p class="isa_error" ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Invalid Item Type</p>
+                        <p class="isa_error" ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Please Select Item Type</p>
                     </p>
                     <p>
                         <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" autocomplete="off" placeholder="&#xf1b3; Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
-                        <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Invalid Item</p>
+                        <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Please Provide Item Details</p>
                     </p>
                     <p>
                         <input type="button" name="submit" class="btn btn-success btn-xl" value="SUBMIT" ng-click="GeoCodeAddress(need, 'need'); spinner = true;" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
