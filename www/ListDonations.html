@@ -59,7 +59,17 @@
                 <br><b>{{result}}{{}}</b>
                 <table class="table table-responsive">
                     <tr ng-repeat="row in citydonations | orderBy : sortfield : reverse| filter:searchText ">
-                        <td><i class={{row.fa_icon}}></i>&nbsp;&nbsp;{{ TranslateEventToEnglish(row.itemtype); english }}<br> {{row.items}} {{ 'Offered by ' + row.offeredby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                        <td ng-init="stackicon = row.fa_icon + ' fa-stack-1x'">
+                            <span class="fa-stack fa-2x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background4"></i>
+                                        <i class={{stackicon}}></i>
+                            </span> &nbsp;
+                            <span class="fa-stack fa-2x" ng-show="isEmergency(row.itemtype)">
+                                <i class="fa fa-circle fa-stack-2x icon-backgroundemergency"></i>
+                                <i class="fa fa-plus-square fa-stack-1x"></i>
+                              </span>
+                            <!--{{ TranslateEventToEnglish(row.itemtype); english }}-->
+                            <br> {{row.items}} {{ 'Offered by ' + row.offeredby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                             <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
                             <span style="display:inline-block; width: 36px;"></span>
                             <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>

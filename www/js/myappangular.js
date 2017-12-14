@@ -670,8 +670,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         });*/
         //swal(title, text, "success");
         console.log("####Handling matching event..." + text);
+        if (!text || text.length < 2) {
+            console.log("No substantial text for notification..aborting");
+            return;
+        }
         Notification.info({
-            message: text,
+            message: text.replace(/\"$/, "").replace(/\"/, ""),
             title: title,
             positionY: 'top',
             positionX: 'center',
