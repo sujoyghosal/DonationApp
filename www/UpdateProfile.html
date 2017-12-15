@@ -30,12 +30,12 @@
                     <input type="password" size="20" ng-model="user.password" placeholder="Password">
                 </p>
                 <!-- JS because of IE support; better: placeholder="Username " -->
-                <p ng-show="login_email">
+                <!--<p ng-show="login_email">
                     <input type="text " size="20" ng-model="user.phone" autocomplete="off" placeholder={{login_phone}}>
                 </p>
                 <p ng-show="login_email">
                     <input type="text" size="20" id="address " placeholder={{login_address}} autocomplete="off" name="address" ng-model="user.address">
-                </p>
+                </p>-->
                 <!-- JS because of IE support; better: placeholder="Password " -->
                 <p>
                     <input type="button" value="SUBMIT " ng-click="UpdateUser(user)">

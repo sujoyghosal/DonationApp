@@ -27,7 +27,7 @@
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p><span class="fontawesome-phone"></span>
-                        <input id="phone" name="phone" ng-model="offer.phone" placeholder="&#xf10b; {{login_phone}}" ng-minlength="8" type="tel" class="form-control input-md" ng-readonly="true">
+                        <input id="phone" name="phone" ng-model="offer.phone" placeholder="&#xf10b; Phone" ng-minlength="10" type="tel" class="form-control input-md" ng-required="true">
                         <p class="isa_error" ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</p>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->

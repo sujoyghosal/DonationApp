@@ -246,7 +246,7 @@ app.service("UserService", function() {
 var BASEURL_BLUEMIX = "https://freecycleapissujoy.mybluemix.net";
 var BASEURL_LOCAL = "http://localhost:9000";
 var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
-var BASEURL_PERSONAL = "https://freecycleapi.au-syd.mybluemix.net";
+var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
 
 var BASEURL = BASEURL_BLUEMIX;
 
@@ -268,7 +268,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.selectedfrom = undefined;
     $scope.login_email = UserService.getLoggedIn().email;
     $scope.login_fullname = UserService.getLoggedIn().fullname;
-    $scope.login_phone = UserService.getLoggedIn().phone;
+    //$scope.login_phone = UserService.getLoggedIn().phone;
     $scope.found = "";
     $scope.result = "";
     $scope.groupusers = [];
@@ -525,7 +525,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&offeredby=" +
             $scope.login_fullname +
             "&phone_number=" +
-            $scope.login_phone +
+            offer.phone +
             "&time=" +
             now +
             "&address=" +
@@ -543,7 +543,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&longitude=" +
             $scope.lng;
         $scope.loginResult = "Sent Request";
-
+        console.log("Send Offer URL=" + sendURL);
         $http({
             method: "GET",
             url: encodeURI(sendURL)
@@ -694,7 +694,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&postedby=" +
             $scope.login_fullname +
             "&phone_number=" +
-            $scope.login_phone +
+            need.phone +
             "&time=" +
             now +
             "&address=" +
@@ -806,7 +806,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             "&postedby=" +
             $scope.login_fullname +
             "&phone_number=" +
-            $scope.login_phone +
+            event.phone +
             "&time=" +
             now +
             "&address=" +
@@ -2225,21 +2225,17 @@ app.controller("RegisterCtrl", function($scope, $http, $location, $window, UserS
     $scope.spinner = false;
     $scope.login_fullname = UserService.getLoggedIn().fullname;
     $scope.login_email = UserService.getLoggedIn().email;
-    $scope.login_phone = UserService.getLoggedIn().phone;
-    $scope.login_address = UserService.getLoggedIn().address;
+    //    $scope.login_phone = UserService.getLoggedIn().phone;
+    //    $scope.login_address = UserService.getLoggedIn().address;
     $scope.CreateUser = function(user) {
         $scope.spinner = true;
         var getURL =
             BASEURL + "/createuser?email=" +
             user.email.trim() +
-            "&phone=" +
-            user.phone.trim() +
             "&fullname=" +
             user.fullname.trim() +
             "&password=" +
-            user.password.trim() +
-            "&address=" +
-            user.address.trim();
+            user.password.trim();
         getURL = encodeURI(getURL);
         console.log("Create URL=" + getURL);
         $http({
@@ -2296,14 +2292,14 @@ app.controller("RegisterCtrl", function($scope, $http, $location, $window, UserS
             email = user.email;
         var getURL =
             BASEURL + "/updateuser?name=" + email;
-        if (user && user.phone)
+        /*if (user && user.phone)
             getURL += "&phone=" + user.phone.trim();
         else
             getURL += "&phone=" + UserService.getLoggedIn().phone;
         if (user && user.address)
             getURL += "&address=" + user.address.trim();
         else
-            getURL += "&address=" + UserService.getLoggedIn().address;
+            getURL += "&address=" + UserService.getLoggedIn().address;*/
         if (user && user.password)
             getURL += "&password=" + user.password.trim();
         getURL = encodeURI(getURL);
