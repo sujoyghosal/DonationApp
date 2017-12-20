@@ -16,7 +16,7 @@ app.config([
                 isLogin: true
             })
             .when("/home", {
-                templateUrl: "bootstraphome.html",
+                templateUrl: "home.html",
                 controller: "LoginCtrl"
             })
             .when("/register", {
@@ -87,8 +87,12 @@ app.config([
                 templateUrl: "ResetPassword.html",
                 controller: "RegisterCtrl"
             })
+            .when("/index", {
+                templateUrl: "index.html",
+                controller: "DonationCtrl"
+            })
             .otherwise({
-                redirectTo: "/login"
+                redirectTo: "/home"
             });
     }
 ]);
@@ -243,7 +247,7 @@ var BASEURL_LOCAL = "http://localhost:9000";
 var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
 var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
 
-var BASEURL = BASEURL_BLUEMIX;
+var BASEURL = BASEURL_PERSONAL;
 
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
@@ -286,8 +290,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
     };
     $scope.isVisible = function() {
-        return ("/login" !== $location.path() && "/signup" !== $location.path() &&
-            "/resetpw" !== $location.path() && "/updatepassword" !== $location.path());
+        /*return ("/login" !== $location.path() && "/signup" !== $location.path() &&
+            "/resetpw" !== $location.path() && "/updatepassword" !== $location.path());*/
+        return true;
     };
     $rootScope.$on("CallGetEventsMethod", function() {
         $scope.GetEventsForUser(true);
@@ -297,9 +302,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     });
     $rootScope.$on('$routeChangeStart', function(event, next) {
 
-        if (!UserService.getLoggedInStatus() && "/signup" !== $location.path() &&
-            "/resetpw" !== $location.path() &&
-            "/updatepassword" !== $location.path()) {
+        if (!UserService.getLoggedInStatus() && ("/offerdonation" === $location.path() ||
+                "/subscribe" === $location.path() || "/notifications" === $location.path() ||
+                "/updatepassword" === $location.path() || "/createneed" === $location.path() ||
+                "/createemergency" === $location.path() || "/offershistory" === $location.path())) {
             //console.log("User not logged in for access to " + $location.path());
             /* You can save the user's location to take him back to the same page after he has logged-in */
             //$rootScope.savedLocation = $location.url();
@@ -942,7 +948,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         } else return false;
     }
-
     $scope.SocialShare = function(row, site) {
 
         if (!DataService.isValidObject(row))
@@ -2110,15 +2115,10 @@ app.controller("LoginCtrl", function(
         $scope.setupWebSockets();
     });
     $scope.isVisible = function() {
-        return ("/login" !== $location.path() && "/signup" !== $location.path() && "/resetpw" !== $location.path());
+        //return ("/login" !== $location.path() && "/signup" !== $location.path() && "/resetpw" !== $location.path());
+        return true;
     };
 
-    $scope.showNav = "/login" !== $location.path();
-
-    if (!angular.isObject($scope.login_email) || $scope.login_email.length == 0)
-        $scope.showNav = false;
-    else $scope.showNav = true;
-    // alert($scope.showNav + "," + $scope.login_email.length);
     $scope.Login = function(login) {
         $scope.spinner = true;
         var getURL = BASEURL + "/loginuser?email=" + login.email.trim() + "&pw=" + login.password.trim();
@@ -2162,10 +2162,10 @@ app.controller("LoginCtrl", function(
                         UserService.setLoggedInStatus(true);
                         $scope.loginResult = obj.username;
                         $scope.login_fullname = obj.fullname;
-                        $scope.showNav = true;
                         $scope.login_email = obj.email;
                         $scope.login_phone = obj.phone;
                         $rootScope.username = obj.fullname;
+                        $rootScope.loggedIn = true;
                         $rootScope.$emit("CallGetGroupsForUserMethod", {});
                         $location.path("/home");
                         return;

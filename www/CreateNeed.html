@@ -60,7 +60,7 @@
                     </p>
                     <p>
                         <input id="items" name="items" ng-model="need.items" ng-minlength="2" type="text" autocomplete="off" placeholder="&#xf1b3; Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
-                        <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Please Provide Item Details</p>
+                        <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Please Enter Requirement Details</p>
                     </p>
                     <p>
                         <input type="button" name="submit" class="btn btn-success btn-xl" value="SUBMIT" ng-click="GeoCodeAddress(need, 'need'); spinner = true;" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
