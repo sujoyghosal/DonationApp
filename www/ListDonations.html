@@ -8,6 +8,7 @@
 
 <body>
     <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="sortfield='modified'">
+        <legend>VIEW OFFERS</legend>
         <div>
             <input type="radio" ng-model="criteria" value="City" ng-click="alldonations=false; found=''"> City Based
             <input type="radio" ng-model="criteria" value="Near Me" ng-click="alldonations=false; found=''"> Offers Near An Address

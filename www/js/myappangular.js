@@ -2093,7 +2093,11 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     };
     $scope.Logout = function() {
         $scope.login_email = "";
+        UserService.setLoggedIn({});
         UserService.setLoggedInStatus(false);
+        $rootScope.loggedIn = false;
+        $scope.eventsCount = 0;
+        $location.path("/home");
         console.log("Logout: Set logged in status = " + UserService.getLoggedInStatus());
         return;
     };
@@ -2185,12 +2189,13 @@ app.controller("LoginCtrl", function(
     };
     $scope.Logout = function() {
         $scope.login_email = "";
+        UserService.setLoggedIn({});
         UserService.setLoggedInStatus(false);
+        $rootScope.loggedIn = false;
+        $scope.eventsCount = 0;
+        $location.path("/home");
         console.log("Logout: Set logged in status = " + UserService.getLoggedInStatus());
         return;
-    };
-    $scope.OpenRegsiterForm = function() {
-        $location.path("/register");
     };
 });
 app.controller("RegisterCtrl", function($scope, $http, $location, $window, UserService, DataService, Notification) {

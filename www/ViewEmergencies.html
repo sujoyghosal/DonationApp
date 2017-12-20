@@ -9,6 +9,7 @@
 <body>
     <center>
         <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="orderByField='time'">
+            <legend>VIEW EMERGENCIES</legend>
             <div>
                 <input type="radio" ng-model="criteria" value="City" ng-click="allneeds=false; found=''"> City Based
                 <input type="radio" ng-model="criteria" value="Near Me" ng-click="allneeds=false; found=''"> Emergencies Near An Address
