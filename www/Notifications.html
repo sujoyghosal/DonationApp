@@ -15,7 +15,7 @@
         <br>
         <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>{{found}}
         <p>
-            <div class="container" ng-show="showevents">
+            <div class="container" ng-show="showevents && events.length > 0">
                 <label>Sort By:
                                 <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
                                     <option value="modified" selected>Date</option>                                                                     
