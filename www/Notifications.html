@@ -13,7 +13,7 @@
         <br>
         <center/><button type="button" class="btn btn-primary btn-md" ng-click="GetEventsForUser(false); spinner = true;">View Notifications</button>
         <br>
-        <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+        <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>{{found}}
         <p>
             <div class="container" ng-show="showevents">
                 <label>Sort By:
@@ -88,17 +88,6 @@
                                 </ul>
                             </li>
                         </td>
-                        <!--<td ng-show="isEmergency(row.itemtype)">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x icon-backgroundemergency"></i>
-                                <i class="fa fa-ambulance fa-stack-1x"></i>
-                              </span>
-                            <svg height="20" width="20">
-                                <circle cx="10" cy="10" r="10"  fill="red" />
-                                <text x="6" y="14" fill="white">e</text>  
-                               </svg>
-                        </td>-->
-
                     </tr>
                 </table>
             </div>

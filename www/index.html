@@ -16,7 +16,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.5/sweetalert2.all.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-notification/0.3.6/angular-ui-notification.min.js"></script>
-    <!--<script src="cordova.js"></script>-->
     <script src="js/angular-socialshare.min.js"></script>
     <script src="js/myappangular.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -132,12 +131,6 @@
             background-color: #FFF;*/
             align-self: auto;
         }
-        
-        .navbar-brand img {
-            height: 100%;
-            width: auto;
-            vertical-align: middle;
-        }
     </style>
     <script>
         function myFunction() {
@@ -166,21 +159,13 @@
                           <span class="icon-bar"></span>
                         </button>
                         <div>
-                            <a class="navbar-brand" href="#home" align="middle">FREECYCLE</a>
+                            <div><a class="navbar-brand" href="#home"><i class="fa fa-recycle fa-x">FREECYCLE</i></a></div>
                         </div>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gift fa-2x"></i>  <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#offerdonation"><i class="fa fa-plus fa-x "></i>&nbsp;Create Offer</a></li>
-                                    <li><a href="#getdonation"><i class="fa fa-binoculars fa-x "></i>&nbsp;View Offers</a></li>
-                                    <li><a href="#offershistory"><i class="fa fa-upload fa-x "></i>&nbsp;My Offers</a></li>
-                                </ul>
-                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ambulance fa-2x"></i>  <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -196,7 +181,15 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-notifications="{{eventsCount}}" class="buttonnotification" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-globe fa-2x"></i>  <span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gift fa-2x"></i>  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#offerdonation"><i class="fa fa-plus fa-x "></i>&nbsp;Create Offer</a></li>
+                                    <li><a href="#getdonation"><i class="fa fa-binoculars fa-x "></i>&nbsp;View Offers</a></li>
+                                    <li><a href="#offershistory"><i class="fa fa-upload fa-x "></i>&nbsp;My Offers</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-notifications="{{eventsCount}}" class="buttonnotification" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell fa-2x"></i>  <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#notifications"><i class="fa fa-bell fa-x "></i>&nbsp;Notifications</a></li>
                                     <li><a href="#subscribe"><i class="fa fa-check-square fa-x "></i>&nbsp;Subscribe</a></li>

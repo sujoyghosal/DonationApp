@@ -30,7 +30,7 @@
                 <p>
                     <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
                     <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="e.g. Park Street, Kolkata"></p>
-                <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'offers'); spinner = true;">Fetch Offers Within {{data.distance}} km of Address</button>
+                <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'offers'); spinner = true;">Fetch Offers</button>
                 <br>
             </div>
         </div>
@@ -63,12 +63,11 @@
                             <span class="fa-stack fa-2x">
                                         <i class="fa fa-circle fa-stack-2x icon-background4"></i>
                                         <i class={{stackicon}}></i>
-                            </span> &nbsp;
+                                    </span> &nbsp;
                             <span class="fa-stack fa-2x" ng-show="isEmergency(row.itemtype)">
-                                <i class="fa fa-circle fa-stack-2x icon-backgroundemergency"></i>
-                                <i class="fa fa-plus-square fa-stack-1x"></i>
-                              </span>
-                            <!--{{ TranslateEventToEnglish(row.itemtype); english }}-->
+                                        <i class="fa fa-circle fa-stack-2x icon-backgroundemergency"></i>
+                                        <i class="fa fa-plus-square fa-stack-1x"></i>
+                                      </span>
                             <br> {{row.items}} {{ 'Offered by ' + row.offeredby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                             <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
                             <span style="display:inline-block; width: 36px;"></span>

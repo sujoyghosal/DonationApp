@@ -22,21 +22,21 @@
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username" -->
                     <p><span class="fontawesome-envelope"></span>
-                        <input id="email" name="email" ng-model="need.email" ng-minlength="2" type="email" placeholder="&#xf0e0; {{login_email}}" class="form-control input-md " ng-readonly="true">
+                        <input id="email" name="email" ng-model="need.email" ng-minlength="2" type="email" placeholder="&#xf0e0; {{login_email}}" class="form-control input-md" ng-readonly="true">
                         <p class="isa_error " ng-show="myForm.email.$dirty && myForm.email.$invalid ">Invalid Email</p>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username " -->
                     <p><span class="fontawesome-phone "></span>
-                        <input id="phone " name="phone " ng-model="need.phone" ng-minlength="10" type="tel " placeholder="&#xf10b; Phone" class=" form-control input-md " ng-required="true">
+                        <input id="phone " name="phone " ng-model="need.phone " ng-minlength="10" type="tel" placeholder="&#xf10b; Phone" class="form-control input-md" ng-required="true">
                         <p class="isa_error " ng-show="myForm.phone.$dirty && myForm.phone.$invalid ">Invalid Phone</p>
                     </p>
                     <!-- JS because of IE support; better: placeholder="Username " -->
                     <p>
-                        <input id="city " name="city " ng-model="need.city" ng-minlength="2" type="text " placeholder="&#xf239; City " class="form-control input-md " ng-required="true">
+                        <input id="city " name="city " ng-model="need.city " ng-minlength="2" type="text" placeholder="&#xf239; City" class="form-control input-md" ng-required="true">
                         <p class="isa_error " ng-show="myForm.city.$dirty && myForm.city.$invalid ">City Needed</p>
                     </p>
                     <p>
-                        <input type="text " size="30 " id="address " name="address " ng-model="need.address " ng-minlength="5" placeholder="&#xf041; Address e.g. Park Street, Kolkata " class="form-control input-md" ng-required="true">
+                        <input type="text " size="30 " id="address " name="address " ng-model="need.address " ng-minlength="5" placeholder="&#xf041; Address e.g. Park Street, Kolkata " class="form-control input-md " ng-required="true">
                         <p class="isa_error " ng-show="myForm.address.$dirty && myForm.address.$invalid ">Address Needed e.g. Park Street, Kolkata</p>
                     </p>
                     <p>

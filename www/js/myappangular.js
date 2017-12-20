@@ -95,7 +95,6 @@ app.config([
                 redirectTo: "/login"
             });
     }
-
 ]);
 app.config(['socialshareConfProvider', function configApp(socialshareConfProvider) {
 
@@ -1196,6 +1195,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     if ($scope.cityneeds.length == 0) {
                         $scope.allneeds = false;
                         return;
+                    } else {
+                        $scope.allneeds = true;
+                        $scope.cancel = false;
                     }
                 } else {
                     $scope.cityneeds = [];
@@ -1203,9 +1205,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     $scope.spinner = false;
                     $scope.alldonations = false;
                     $scope.allneeds = false;
+                    return;
                 }
-                $scope.allneeds = true;
-                $scope.cancel = false;
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -1522,6 +1523,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     console.log("No Groups Found");
                     $scope.events = [];
                     $scope.eventsCount = 0;
+                    $scope.found = "You are not subscribed for notifications. Please select an event first from subscription menu.";
+                    $scope.showevents = false;
                     return;
                 }
                 //console.log("Events Count= " + response.data.length);
@@ -1544,6 +1547,9 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     //console.log("Filtered " + ($scope.events.length - filteredEvents.length) + " old records");
                     $scope.events = filteredEvents;
                     $scope.resultEvents = "Found " + $scope.events.length + " events matching your criteria.";
+                } else {
+                    $scope.found = "No Notifications Found";
+                    $scope.showevents = false;
                 }
                 $scope.eventsCount = $scope.events.length;
             },
@@ -1552,7 +1558,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // or server returns response with an error status.
                 $scope.spinner = false;
                 $scope.groupusers = "ERROR GETTING GROUP USERS ";
-                $scope.alldonations = false;
+                $scope.showevents = false;
+                $scope.found = "Problem fetching notifications. Please try again later.";
             }
         );
     };
@@ -1661,6 +1668,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         );
     };
     $scope.DeleteGroupForUser = function(group) {
+        if (!group || group.length < 2) {
+            console.log("####Invalid Group Name Received in DeleteGroupForUser");
+            return;
+        }
         $scope.spinner = true;
         $scope.showmyevents = false;
         //first create group with id=<city>-<place>
@@ -1997,11 +2008,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         );
     };
     $scope.CancelOffer = function(row) {
-        if (
-            confirm(
-                "Are you sure you want to cancel the offer?"
-            ) == false
-        ) {
+        if (confirm("Are you sure you want to cancel this offer?") == false) {
+            console.log("####User cancelled Offer Deletion");
             return;
         }
         $scope.spinner = true;
@@ -2101,6 +2109,7 @@ app.controller("LoginCtrl", function(
 ) {
     $scope.spinner = false;
     $scope.isCollapsed = true;
+    $rootScope.mobileDevice = false;
     $rootScope.$on("CallSetupWebSocketsMethod", function() {
         $scope.setupWebSockets();
     });
@@ -2176,38 +2185,6 @@ app.controller("LoginCtrl", function(
 
                 $scope.loginResult = "Could not submit request..";
                 //      $scope.login_email = '';
-            }
-        );
-    };
-    $scope.SendFCMPush = function(title, text) {
-
-        var sendURL =
-            BASEURL + "/sendfcmpush?&title=" + title + "&text=" + text;
-
-        $http({
-            method: "GET",
-            url: encodeURI(sendURL)
-        }).then(
-            function successCallback(response) {
-                // this callback will be called asynchronously
-                // when the response is available
-                $scope.loginResult = "Success";
-                if (response) {
-                    $scope.loginResult = "Push Sent";
-                    //alert("This Offer Has inetersted Users, notifying them now.");
-                    //swal("People want this!", "This Offer Has inetersted Users, notifying them now.", "info");
-                    console.log("SendFCMPush: Success");
-                    $scope.spinner = false;
-                } else {
-                    console.log("SendFCMPush: Failed");
-                    $scope.spinner = false;
-                }
-            },
-            function errorCallback(error) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
-                console.log("SendFCMPush: Failed");
-                $scope.spinner = false;
             }
         );
     };
@@ -2373,7 +2350,6 @@ app.controller("RegisterCtrl", function($scope, $http, $location, $window, UserS
                 } else {
                     Notification.success({ message: "An email has been sent with the password reset link.", positionY: 'bottom', positionX: 'center' });
                 }
-
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
