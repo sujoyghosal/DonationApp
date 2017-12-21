@@ -247,7 +247,7 @@ var BASEURL_LOCAL = "http://localhost:9000";
 var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
 var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
 
-var BASEURL = BASEURL_BLUEMIX;
+var BASEURL = BASEURL_PERSONAL;
 
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
@@ -308,7 +308,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 "/createemergency" === $location.path() || "/offershistory" === $location.path())) {
             //console.log("User not logged in for access to " + $location.path());
             /* You can save the user's location to take him back to the same page after he has logged-in */
-            //$rootScope.savedLocation = $location.url();
+            $rootScope.savedLocation = $location.path();
 
             $location.path("/login");
             return;
@@ -2171,7 +2171,7 @@ app.controller("LoginCtrl", function(
                         $rootScope.username = obj.fullname;
                         $rootScope.loggedIn = true;
                         $rootScope.$emit("CallGetGroupsForUserMethod", {});
-                        $location.path("/home");
+                        $location.path($rootScope.savedLocation);
                         return;
                     }
                 }
