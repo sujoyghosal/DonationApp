@@ -2097,7 +2097,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         UserService.setLoggedInStatus(false);
         $rootScope.loggedIn = false;
         $scope.eventsCount = 0;
-        $location.path("/index");
+        $location.path("/home");
         console.log("Logout: Set logged in status = " + UserService.getLoggedInStatus());
         return;
     };
@@ -2193,7 +2193,7 @@ app.controller("LoginCtrl", function(
         UserService.setLoggedInStatus(false);
         $rootScope.loggedIn = false;
         $scope.eventsCount = 0;
-        $location.path("/index");
+        $location.path("/home");
         console.log("Logout: Set logged in status = " + UserService.getLoggedInStatus());
         return;
     };
