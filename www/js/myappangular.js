@@ -256,6 +256,8 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.alldonations = false;
     $scope.allneeds = false;
     var socket = null;
+    var room = null;
+
     $rootScope.username = UserService.getLoggedIn().fullname;
     $scope.citydonations = "";
     $scope.cancel = false;
@@ -625,19 +627,25 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             }
         );
     };
-    $scope.setupWebSockets = function() {
+    $scope.setupWebSockets = function(purpose, arg) {
         console.log("#####Setting up listener for alerts");
-        var socket = null;
-        var room = null;
         socket = io.connect(BASEURL);
         socket.on('connect', function() {
+            console.log("##### Connected to server socket!");
+        });
+        if (purpose && purpose === "init") {
             for (var i = 0; i < $scope.usergroups.length; i++) {
                 //socket.join($scope.usergroups[i].name);
                 room = $scope.usergroups[i].name;
                 console.log("#### Joining events channel " + room);
                 socket.emit('room', room);
             }
-        });
+        } else if (purpose && purpose === "leave") {
+            if (arg && arg.length > 0) {
+                console.log("#### Leaving room " + arg);
+                socket.emit('leave', arg);
+            }
+        }
         socket.on('matchingevent', function(data) {
             console.log("####received matching event: " + JSON.stringify(data));
             if (!DataService.isValidObject(data) || !DataService.isValidArray(data.entities)) {
@@ -652,13 +660,17 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     console.log("#####Discarding duplicate events");
                 } else {
                     $rootScope.lastUUID = data.entities[0].uuid;
-                    console.log("#####received matching event created by others! " + data.entities[0].uuid);
-                    var msg = JSON.stringify(data.entities[0].items + "@: " +
-                        data.entities[0].address + ". Contact " + data.entities[0].postedby + ": " +
-                        data.entities[0].phone_number + " / " + data.entities[0].email);
-                    //swal(JSON.stringify(data._data.eventtype), msg, "success");
-                    $scope.HandleEvent("FreeCycle Alert", msg);
-                    return;
+                    for (var i = 0; i < $scope.usergroups.length; i++) {
+                        if ($scope.usergroups[i].name === data.entities[0].group_name) {
+                            var msg = JSON.stringify(data.entities[0].items + "@: " +
+                                data.entities[0].address + ". Contact " + data.entities[0].postedby + ": " +
+                                data.entities[0].phone_number + " / " + data.entities[0].email);
+                            console.log("#####received matching event created by others! " + msg);
+                            $scope.HandleEvent("FreeCycle Alert", msg);
+                            break;
+                        }
+
+                    }
                 }
             }
         });
@@ -1657,7 +1669,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 console.log("GetGroupsForUser success");
                 $scope.usergroups = response.data;
                 $rootScope.$emit("CallGetEventsMethod", {});
-                $scope.setupWebSockets();
+                $scope.setupWebSockets("init", null);
             },
             function errorCallback(error) {
                 // called asynchronously if an error occurs
@@ -1691,6 +1703,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.showmyevents = true;
                 Notification.success({ message: "Successfully removed this subscription!", positionY: 'bottom', positionX: 'center' });
                 $scope.result = "Successfully removed this subscription!";
+                $scope.setupWebSockets("leave", group);
                 $rootScope.$emit("CallGetGroupsForUserMethod", {});
             },
             function errorCallback(error) {
@@ -2116,7 +2129,7 @@ app.controller("LoginCtrl", function(
     $scope.isCollapsed = true;
     $rootScope.mobileDevice = false;
     $rootScope.$on("CallSetupWebSocketsMethod", function() {
-        $scope.setupWebSockets();
+        $scope.setupWebSockets("init", null);
     });
     $scope.isVisible = function() {
         //return ("/login" !== $location.path() && "/signup" !== $location.path() && "/resetpw" !== $location.path());
