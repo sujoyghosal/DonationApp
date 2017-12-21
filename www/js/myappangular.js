@@ -91,6 +91,10 @@ app.config([
                 templateUrl: "index.html",
                 controller: "DonationCtrl"
             })
+            .when("/contactus", {
+                templateUrl: "ContactUs.html",
+                controller: "DonationCtrl"
+            })
             .otherwise({
                 redirectTo: "/home"
             });
@@ -2101,6 +2105,50 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.accepted = false;
                 $scope.uuid = row.uuid;
                 $scope.cancel = false;
+            }
+        );
+    };
+    $scope.ContactUs = function(query) {
+        $scope.spinner = true;
+        var getURL =
+            BASEURL + "/createuserquery?email=" +
+            query.email.trim() +
+            "&fullname=" +
+            query.name.trim() +
+            "&phone=" +
+            query.phone.trim() + "&city=" +
+            query.city.trim() + "&subject=" +
+            query.subject.trim() + "&text=" +
+            query.text.trim();
+        getURL = encodeURI(getURL);
+        console.log("ContactUs URL=" + getURL);
+        $http({
+            method: "GET",
+            url: getURL
+        }).then(
+            function successCallback(response) {
+                // this callback will be called asynchronously
+                // when the response is available
+                $scope.spinner = false;
+                if (
+                    angular.isObject(response) &&
+                    response.data.toString() === "QUERY CREATED"
+                ) {
+                    Notification.success({ message: "Thank You! Your query has been sent. We will get back to you as soon as possible.", positionY: 'bottom', positionX: 'center' });
+                    $scope.result = "Thank You! Your query has been sent. We will get back to you as soon as possible.";
+                    return;
+                } else {
+                    $scope.result = "Error sending mail. Please try again later.";
+                    Notification.error({ message: "Could not create user id, might be existing!", positionY: 'bottom', positionX: 'center' });
+                    return;
+                }
+            },
+            function errorCallback(error) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                $scope.spinner = false;
+                $scope.result = "Error submitting  request. Please try again later.";
+                Notification.error({ message: "Could not create user id, might be existing!", positionY: 'bottom', positionX: 'center' });
             }
         );
     };

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Freecycle - Contact Us</title>
+</head>
+
+<body ng-app="myApp">
+    <div class="container">
+        <!--              -->
+        <div id="login">
+            <form class="form-horizontal" ng-controller="DonationCtrl" name="myForm" autocomplete="on" novalidate>
+                <center/>
+                <legend>Contact Us</legend>
+                <center/>
+                <br>
+                <fieldset class="clearfix:after">
+                    <p><span class="fontawesome-user"></span>
+                        <input id="name" name="name" ng-model="query.name" ng-minlength="2" type="text" placeholder="&#xf007; Name" class="form-control input-md" ng-required="true">
+                        <p class="isa_error" ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</p>
+                    </p>
+                    <!-- JS because of IE support; better: placeholder="Username" -->
+                    <p><span class="fontawesome-envelope"></span>
+                        <input id="email" name="email" ng-model="query.email" ng-minlength="2" type="email" placeholder="&#xf0e0; EMail" class="form-control input-md" ng-required="true">
+                        <p class="isa_error" ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</p>
+                    </p>
+                    <!-- JS because of IE support; better: placeholder="Username" -->
+                    <p><span class="fontawesome-phone"></span>
+                        <input id="phone" name="phone" ng-model="query.phone" placeholder="&#xf10b; Phone" ng-minlength="10" type="tel" class="form-control input-md" ng-required="true">
+                        <p class="isa_error" ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</p>
+                    </p>
+                    <!-- JS because of IE support; better: placeholder="Username" -->
+                    <p>
+                        <input id="city" name="city" ng-model="query.city" ng-minlength="2" type="text" placeholder="&#xf239; City" class="form-control input-md" ng-required="true">
+                        <p class="isa_error" ng-show="myForm.city.$dirty && myForm.city.$invalid">Please Enter City</p>
+                    </p>
+
+                    <p>
+                        <select class="form-control" id="sel1" name="subject" ng-model="query.subject">
+                                <option value="" selected disabled>Select Subject</option>
+                                <option value="Technical Query">Technical Query</option>
+                                <option value="Facing Problem Using App">Facing Problem Using App</option>
+                                <option value="Login Issues">Login Issues</option>
+                                <option value="Business Queries">Business Queries</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        <p class="isa_error" ng-show="myForm.subject.$dirty && myForm.subject.$invalid">Please Select A Subject</p>
+                    </p>
+                    <p>
+                        <input id="items" name="text" ng-model="query.text" ng-minlength="2" type="text" autocomplete="off" placeholder="&#xf1b3; Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
+                        <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Please Enter Your Query</p>
+                    </p>
+                    <p>
+                        <input type="button" name="submit" class="btn btn-success btn-xl" value="SUBMIT" ng-click="ContactUs(query); spinner = true;" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
+                                          myForm.city.$invalid ||  myForm.subject.$invalid ||  myForm.text.$invalid">
+                        <br>
+                        <center/> {{result}}
+                    </p>
+                    <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
