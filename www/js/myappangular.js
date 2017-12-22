@@ -699,7 +699,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             delay: 4000,
             replaceMessage: true
         });
-        //$scope.SendFCMPush(title, text);
+        console.log("#####Calling GetEvents");
         $rootScope.$emit("CallGetEventsMethod", {});
     }
     $scope.CreateNeed = function(need, emergency) {
