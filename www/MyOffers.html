@@ -11,19 +11,18 @@
         <i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i> {{found}}
         <br>
         <div class="container" ng-show="alldonations">
-            <label>
-                    <i class="fa fa-arrow-circle-up fa-2x" ng-show="!reverse" ng-click="reverse = !reverse;"> </i>
-                    <i class="fa fa-arrow-circle-down fa-2x" ng-show="reverse" ng-click="reverse = !reverse;"></i> &nbsp;&nbsp;&nbsp;&nbsp;                   
- 
+            <label><i class="fa fa-arrow-circle-up fa-2x" ng-show="!reverse" ng-click="reverse = !reverse;"> </i>
+                <i class="fa fa-arrow-circle-down fa-2x" ng-show="reverse" ng-click="reverse = !reverse;"></i> &nbsp;&nbsp;&nbsp;&nbsp;
                     <select name="sort" ng-model="sortfield">
                         <option value="modified" selected>Date</option>                                       
-                        <option value="itemtype">Item Type</option>
+                         <option value="itemtype">Item Type</option>
                         <option value="address">Address</option>
                     </select>
                     <br>
-                </label> &nbsp;&nbsp;
-            <label><i class="fa fa-search fa-2x"></i> 
-                <input type="text" placeholder="Search items, places etc." ng-model="searchText"/> 
+            </label>&nbsp;&nbsp;
+            <label>
+                <input type="text" placeholder="Search items, places etc." ng-model="searchText">&nbsp;&nbsp;
+                <i class="fa fa-search fa-2x"></i> 
             </label>
             <table class="table table-responsive">
                 <tr ng-repeat="row in citydonations | orderBy : sortfield : !reverse | filter:searchText">
@@ -46,31 +45,31 @@
                                 <li>
                                     <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
                                     <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'twitter')">
-                                        <i class="fa fa-twitter"></i>
+                                        <i class="fa fa-twitter fa-2x"></i>
                                     </a>
                                 </li>
                                 <li>
                                     <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
                                     <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'facebook')">
-                                        <i class="fa fa-facebook"></i>
+                                        <i class="fa fa-facebook fa-2x"></i>
                                     </a>
                                 </li>
                                 <li>
                                     <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
                                     <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'google')">
-                                        <i class="fa fa-google-plus"></i>
+                                        <i class="fa fa-google-plus fa-2x"></i>
                                     </a>
                                 </li>
                                 <li>
                                     <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
                                     <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'linkedin')">
-                                        <i class="fa fa-linkedin"></i>
+                                        <i class="fa fa-linkedin fa-2x"></i>
                                     </a>
                                 </li>
                                 <li>
                                     <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
                                     <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'pinterest')">
-                                        <i class="fa fa-pinterest"></i>
+                                        <i class="fa fa-pinterest fa-2x"></i>
                                     </a>
                                 </li>
                             </ul>
