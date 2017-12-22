@@ -276,3 +276,15 @@ p.copyright {
     vertical-align: middle;
     padding: 30px;
 }
+
+div.ex2 {
+    max-width: 500px;
+    margin: auto;
+    border: 2px solid #73AD21;
+    padding: 5px;
+}
+
+div.ex1 {
+    border: 2px solid #73AD21;
+    padding: 5px;
+}

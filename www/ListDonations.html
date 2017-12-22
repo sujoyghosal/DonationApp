@@ -8,21 +8,27 @@
 
 <body>
     <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="sortfield='modified'">
-        <legend>VIEW OFFERS</legend>
+        <h5>VIEW OFFERS</h5>
         <div>
             <input type="radio" ng-model="criteria" value="City" ng-click="alldonations=false; found=''"> City Based&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="radio" ng-model="criteria" value="Near Me" ng-click="alldonations=false; found=''"> Offers Near An Address
         </div>
         <div ng-switch="criteria">
             <div ng-switch-when="City">
-                <label for="citySelect">
-                            <p/>Enter City: </label>
                 <br>
-                <p><input type="text" name="citySelect" ng-model="data.citySelect" /></p>
-                <button type="button" class="btn btn-primary btn-md" ng-click="GetDonations('city',data.citySelect, false)">Fetch Donations in {{data.citySelect}}</button>
+                <div class="ex2">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <input type="text" placeholder="Enter City" name="citySelect" ng-model="data.citySelect" ng-minlength="2" ng-required="true" />&nbsp;
+                        </div>
+                        <div class="col-sm-5">
+                            <button type="button" class="btn btn-primary btn-md" ng-click="GetDonations('city',data.citySelect, false)">Fetch Donations</button>
+                        </div>
+                    </div>
+                </div>
                 <br>
             </div>
-            <div ng-switch-when="Near Me">
+            <div class="ex2" ng-switch-when="Near Me">
                 <br>
                 <div id="slidecontainer">
                     <p>Select Distance: </p><input type="range" ng-model="data.distance" min="1" max="50" value="25" class="slider" id="myRange">
@@ -30,8 +36,8 @@
                 </div>
                 <p>
                     <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
-                    <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="e.g. Park Street, Kolkata"></p>
-                <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'offers'); spinner = true;">Fetch Offers</button>
+                    <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="e.g. Park Street, Kolkata">
+                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'offers'); spinner = true;">Fetch Offers</button></p>
                 <br>
             </div>
         </div>
@@ -40,83 +46,81 @@
             {{found}}
             <br>
         </center>
-        <div class="container" ng-show="alldonations">
+        <div class="container ex2" ng-show="alldonations">
 
-            <label>Sort By:
-                                <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
+            <label><i class="fa fa-arrow-circle-up fa-2x" ng-show="!reverse" ng-click="reverse = !reverse;"> </i>
+                <i class="fa fa-arrow-circle-down fa-2x" ng-show="reverse" ng-click="reverse = !reverse;"></i> &nbsp;&nbsp;&nbsp;&nbsp;
+    
+                                <select name="sort" ng-model="sortfield">
                                     <option value="modified" selected>Date</option>                                       
                                     <option value="offeredby">Name</option>
                                     <option value="itemtype">Item Type</option>
                                     <option value="address">Address</option>
                                 </select>
                                 <br>
-                            </label> <span></span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
-            <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i></span>
-
-            <div class="container">
-                <label ng-show="alldonations">Search Items, Places etc in results:
-                                    <input ng-model="searchText">
-                                </label>
-                <br><b>{{result}}{{}}</b>
-                <table class="table table-responsive">
-                    <tr ng-repeat="row in citydonations | orderBy : sortfield : reverse| filter:searchText ">
-                        <td ng-init="stackicon = row.fa_icon + ' fa-stack-1x'">
-                            <span class="fa-stack fa-2x">
+                            </label>&nbsp;&nbsp; <label><i class="fa fa-search fa-2x"></i> 
+                                <input type="text" placeholder="Search items, places etc." ng-model="searchText"> 
+                            </label>
+            <br><b>{{result}}{{}}</b>
+            <table class="table table-responsive">
+                <tr ng-repeat="row in citydonations | orderBy : sortfield : reverse| filter:searchText ">
+                    <td ng-init="stackicon = row.fa_icon + ' fa-stack-1x'">
+                        <span class="fa-stack fa-2x">
                                         <i class="fa fa-circle fa-stack-2x icon-background4"></i>
                                         <i class={{stackicon}}></i>
                                     </span> &nbsp;
-                            <span class="fa-stack fa-2x" ng-show="isEmergency(row.itemtype)">
+                        <span class="fa-stack fa-2x" ng-show="isEmergency(row.itemtype)">
                                         <i class="fa fa-circle fa-stack-2x icon-backgroundemergency"></i>
                                         <i class="fa fa-plus-square fa-stack-1x"></i>
                                       </span>
-                            <br> {{row.items}} {{ 'Offered by ' + row.offeredby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
-                            <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
-                            <span style="display:inline-block; width: 36px;"></span>
-                            <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>
-                            <span style="display:inline-block; width: 36px;"></span>
-                            <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker"></i></a>
-                            <span ng-show="mobileDevice" style="display:inline-block; width: 36px;"></span>
-                            <a href='' ng-show="mobileDevice" ng-click="SocialShare(row, 'FreeCycle New Offers Alert')"><i class="fa fa-share-square-o"></i></a>
-                            <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                            <li class="dropdown" ng-show="!mobileDevice">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-square"></i>  <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                        <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'twitter')">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                        <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'facebook')">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                        <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'google')">
-                                            <i class="fa fa-google-plus"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                        <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'linkedin')">
-                                            <i class="fa fa-linkedin"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                        <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'pinterest')">
-                                            <i class="fa fa-pinterest"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                        <br> {{row.items}} {{ 'Offered by ' + row.offeredby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                        <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
+                        <span style="display:inline-block; width: 36px;"></span>
+                        <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>
+                        <span style="display:inline-block; width: 36px;"></span>
+                        <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker"></i></a>
+                        <span ng-show="mobileDevice" style="display:inline-block; width: 36px;"></span>
+                        <a href='' ng-show="mobileDevice" ng-click="SocialShare(row, 'FreeCycle New Offers Alert')"><i class="fa fa-share-square-o"></i></a>
+                        <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+                        <li class="dropdown" ng-show="!mobileDevice">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-square"></i>  <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+                                    <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'twitter')">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+                                    <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'facebook')">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+                                    <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'google')">
+                                        <i class="fa fa-google-plus"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+                                    <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'linkedin')">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+                                    <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'pinterest')">
+                                        <i class="fa fa-pinterest"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </td>
+                </tr>
+            </table>
+
         </div>
     </div>
 </body>

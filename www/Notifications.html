@@ -8,30 +8,30 @@
 <body>
     <center/>
     <h5>MY NOTIFICATIONS</h5>
-    <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="showevents=false;">
+    <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="showevents=false; sortfield='modified'">
 
         <br>
         <center/><button type="button" class="btn btn-primary btn-md" ng-click="GetEventsForUser(false); spinner = true;">View Notifications</button>
         <br>
         <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>{{found}}
         <p>
-            <div class="container" ng-show="showevents && events.length > 0">
-                <label>Sort By:
-                                <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
-                                    <option value="modified" selected>Date</option>                                                                     
-                                    <option value="eventtype">Event Type</option>                                   
-                                    <option value="itemtype">Item Type</option>
-                                    <option value="address">Address</option>
-                                </select>
-                                <br>
-                            </label> <span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
-                <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i></span>
-
-                <label ng-show="showevents">Search Items, Places etc. in events:
-                                <input ng-model="searchText">
-                            </label>
+            <div class="container ex2" ng-show="showevents && events.length > 0">
+                <label>
+                    <i class="fa fa-arrow-circle-up fa-2x" ng-show="!reverse" ng-click="reverse = !reverse;"> </i>
+                    <i class="fa fa-arrow-circle-down fa-2x" ng-show="reverse" ng-click="reverse = !reverse;"></i> &nbsp;&nbsp;&nbsp;&nbsp;                   
+                    <select name="sort" ng-model="sortfield">
+                        <option value="modified" selected>Date</option>                                       
+                        <option value="postedby">Name</option>
+                        <option value="itemtype">Item Type</option>
+                        <option value="address">Address</option>
+                    </select>
+                    <br>
+                </label> &nbsp;&nbsp;
+                <label><i class="fa fa-search fa-2x"></i> 
+                    <input type="text" placeholder="Search items, places etc." ng-model="searchText"/> 
+                </label>
                 <br><b>{{resultEvents}}{{}}</b>
-                <table class="table table-responsive" id="eventstable" id="searchResults2">
+                <table class="table table-responsive" id="eventstable">
                     <tr ng-repeat="row in events | orderBy : sortfield : reverse| filter:searchText">
                         <td ng-init="stackicon = row.fa_icon + ' fa-stack-1x'">
                             <span class="fa-stack fa-2x">

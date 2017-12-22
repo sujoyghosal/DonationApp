@@ -8,22 +8,28 @@
 
 <body>
     <center>
-        <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="orderByField='time'">
-            <legend>VIEW EMERGENCIES</legend>
+        <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="sortfield='modified'">
+            <h5>VIEW EMERGENCIES</h5>
             <div>
                 <input type="radio" ng-model="criteria" value="City" ng-click="allneeds=false; found=''"> City Based&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="radio" ng-model="criteria" value="Near Me" ng-click="allneeds=false; found=''"> Emergencies Near An Address
             </div>
             <div ng-switch="criteria">
                 <div ng-switch-when="City">
-                    <label for="citySelect">
-                            <p/>Enter City: </label>
                     <br>
-                    <p><input type="text" name="citySelect" ng-model="data.citySelect" /></p>
-                    <button type="button" class="btn btn-primary btn-md" ng-click="GetNeeds('city',data.citySelect,true); spinner = true;">Fetch Emergencies in {{data.citySelect}}</button>
+                    <div class="ex2">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <input type="text" placeholder="Enter City" name="citySelect" ng-model="data.citySelect" />&nbsp;&nbsp;
+                            </div>
+                            <div class="col-sm-5">
+                                <button type="button" class="btn btn-primary btn-md" ng-click="GetNeeds('city',data.citySelect,true); spinner = true;">Fetch Emergencies</button>
+                            </div>
+                        </div>
+                    </div>
                     <br>
                 </div>
-                <div ng-switch-when="Near Me">
+                <div class="ex2" ng-switch-when="Near Me">
                     <br>
                     <div id="slidecontainer">
                         <p>Select Distance: </p><input type="range" ng-model="data.distance" min="1" max="50" value="25" class="slider" id="myRange">
@@ -31,8 +37,8 @@
                     </div>
                     <p>
                         <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
-                        <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="e.g. Park Street, Kolkata"></p>
-                    <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'emergency'); spinner = true;">Fetch Emergencies</button>
+                        <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="e.g. Park Street, Kolkata">
+                        <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'emergency'); spinner = true;">Fetch Emergencies</button></p>
                     <br>
                 </div>
             </div>
@@ -41,23 +47,23 @@
                 {{found}}
                 <br>
             </center>
-            <div class="container" ng-show="allneeds">
-                <label>Sort By:
-                                <select name="sort" ng-change="reverse = !reverse" ng-model="sortfield">
-                                    <option value="modified" selected>Date</option>                                     
-                                    <option value="postedby">Name</option>
-                                    <option value="itemtype">Item Type</option>
-                                    <option value="address">Address</option>
-                                </select>
-                                <br>
-                            </label> <span></span><i class="fa fa-sort-asc " ng-show="reverse " ng-click="reverse = !reverse;"> </i>
-                <i class="fa fa-sort-desc " ng-show="!reverse " ng-click="reverse = !reverse;"></i>
-
-                <label>Search Places, Items etc in Emergencies:
-                                <input ng-model="searchText">
-                            </label>
+            <div class="container ex2" ng-show="allneeds">
+                <label>
+                    <i class="fa fa-arrow-circle-up fa-2x" ng-show="!reverse" ng-click="reverse = !reverse;"> </i>
+                    <i class="fa fa-arrow-circle-down fa-2x" ng-show="reverse" ng-click="reverse = !reverse;"></i> &nbsp;&nbsp;&nbsp;&nbsp;                   
+                    <select name="sort" ng-model="sortfield">
+                        <option value="modified" selected>Date</option>                                       
+                        <option value="postedby">Name</option>
+                        <option value="itemtype">Item Type</option>
+                        <option value="address">Address</option>
+                    </select>
+                    <br>
+                </label> &nbsp;&nbsp;
+                <label><i class="fa fa-search fa-2x"></i> 
+                    <input type="text" placeholder="Search items, places etc." ng-model="searchText"/> 
+                </label>
                 <br><b>{{result}}{{}}</b>
-                <table class="table table-responsive" id="needstable" id="searchResults2">
+                <table class="table table-responsive" id="needstable">
                     <tr ng-repeat="row in cityneeds | orderBy : sortfield : reverse| filter:searchText">
                         <td ng-init="stackicon = row.fa_icon + ' fa-stack-1x'">
                             <span class="fa-stack fa-2x">
@@ -70,7 +76,7 @@
                                     </span>
                             {{ TranslateEventToEnglish(row.itemtype); english }}-->
 
-                            <br> {{row.items}} {{ 'Required by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                            <br> {{row.items + '; Posted by ' + row.postedby}} at {{row.address}} on {{row.modified | date:'medium'}}<br>
                             <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
                             <span style="display:inline-block; width: 36px;"></span>
                             <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>
