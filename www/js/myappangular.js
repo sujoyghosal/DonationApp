@@ -251,7 +251,7 @@ var BASEURL_LOCAL = "http://localhost:9000";
 var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
 var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
 
-var BASEURL = BASEURL_PIVOTAL;
+var BASEURL = BASEURL_BLUEMIX;
 
 var GEOCODEURL = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyA_sdHo_cdsKULJF-upFVP26L7zs58_Zfg";
 
