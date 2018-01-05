@@ -76,7 +76,7 @@
                                     <i class="fa fa-ambulance fa-stack-1x"></i>
                                 </span>
                                 <!--{{ TranslateEventToEnglish(row.itemtype); english }}-->
-                                <br> {{row.items}} {{ 'Required by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
+                                <br> {{row.items}} {{ '. Required by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
                                 <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
                                 <span style="display:inline-block; width: 36px;"></span>
                                 <a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i></a>
