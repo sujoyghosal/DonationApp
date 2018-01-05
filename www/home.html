@@ -4,16 +4,32 @@
 <head>
     <title>FreeCycle</title>
     <link rel="stylesheet" href="css/landing-page.css" media="screen" type="text/css" />
+    <style>
+        .Row {
+            display: table-row;
+            width: fit-content;
+        }
+        
+        .Cell {
+            display: table-cell;
+            border: solid goldenrod;
+            border-width: 1px;
+            padding-left: 5px;
+            padding-right: 5px;
+            align-self: auto;
+            width: auto;
+        }
+    </style>
 </head>
 
 <body ng-controller="DonationCtrl">
-    <fieldset class="fieldset-auto-width">
-        <h2>FREECYCLE</h2> <br><br> MAKE OFFERS. PUBLISH NEEDS. DONATE. FEEL GOOD.
-        <hr>
-        <img src="img/LoginIcon.png"></img>
-        <br>
-        <hr>
-        <br/><br/>
+    MAKE OFFERS. PUBLISH EMERGENCIES AND NEEDS. DONATE. FEEL GOOD.
+    <hr>
+    <div class="vl"></div>
+    <!--    <img src="img/LoginIcon.png"></img>
+    <br>
+    <hr>
+         <br/><br/>
         <p align="left "><em>The Freecycle platform is primarily intended to help people announce emergencies and seek community help. It also provides a platform to recycle common household stuff to ineterested recipients. It intends to help people in need with urgent medical supplies, books for children,&nbsp;</em><em>food for street children and other support through community involvement.</em></p>
         <p>&nbsp;</p>
         <p align="left "><b>Features:</b></p><br>
@@ -25,9 +41,49 @@
             <li>Subscribe to events like urgent medical needs and other emergencies or for items of interest. e.g if you need a phone, subscribe to event category electronics to get notified of offers made.</li>
         </ul>
         <p align="left ">Organizations like blood banks, hospitals and other services can use this platform to publish emergency needs. NGOs can use the platform to publish needs and collect articles and donations.
-        </p>
-    </fieldset>
-
+        </p> -->
+    <div class="Row">
+        <div class="Cell">
+            <div class="Row">
+                <a href="#createemergency"><i class="fa fa-ambulance fa-3x"></i></a>
+            </div>
+            <div class="Row">Create Emergency</div>
+        </div>
+        <div class="Cell">
+            <div class="Row">
+                <a href="#viewemergencies"><i class="fa fa-plus fa-3x"></i></a>
+            </div>
+            <div class="Row">View Emergencies</div>
+        </div>
+    </div>
+    <div class="Row">
+        <div class="Cell">
+            <div class="Row">
+                <a href="#offerdonation"><i class="fa fa-gift fa-4x"></i></a>
+            </div>
+            <div class="Row">Create Offer</div>
+        </div>
+        <div class="Cell">
+            <div class="Row">
+                <a href="#getdonation"><i class="fa fa-binoculars fa-4x"></i></a>
+            </div>
+            <div class="Row">Browse Offers</div>
+        </div>
+    </div>
+    <div class="Row">
+        <div class="Cell">
+            <div class="Row">
+                <a href="#subscribe"><i class="fa fa-check-square fa-4x"></i></a>
+            </div>
+            <div class="Row">Subscribe Events</div>
+        </div>
+        <div class="Cell">
+            <div class="Row">
+                <a href="#notifications"><i class="fa fa-bell fa-4x"></i></a>
+            </div>
+            <div class="Row">Event Alerts</div>
+        </div>
+    </div>
 
 </body>
 
