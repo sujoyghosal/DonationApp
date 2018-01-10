@@ -337,7 +337,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 if (!DataService.isValidObject(response) || !DataService.isValidObject(response.data) ||
                     !DataService.isValidArray(response.data.results)) {
                     console.log("####Invalid response")
-                        //swal("Error", "A problem occured!", "error");
                     Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
                     return;
                 } else {
@@ -358,10 +357,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                     $scope.SendOffer(offer);
                 } else {
                     console.log("No action after Geocoding");
-                    //alert("Could Not Submit Request");
-                    //swal("Hmmm..some issues", "Could Not Submit Request.", "error");
                     Notification.error({ message: "A problem occured getting address latitude/longitude!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
-
                 }
             },
             function myError(response) {
@@ -548,8 +544,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // when the response is available
                 console.log("Create Donation Response:" + JSON.stringify(response));
                 $scope.loginResult = "Success";
-                //alert("Successufully Published Your Offer. Thank You!");
-                //swal("Good job!", "Successufully Published Your Offer. Thank You!", "success");
                 Notification.success({ message: "Good job! Successufully Published Your Offer. Thank You!", positionY: 'bottom', positionX: 'center' });
                 //Notification.success({message: 'Success Top Left', positionX: 'left'});
                 $scope.spinner = false;
@@ -598,8 +592,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 $scope.loginResult = "Success";
                 if (response && response.data && response.data.entities && response.data.entities.length > 0) {
                     $scope.loginResult = "Success";
-                    //alert("This Offer Has inetersted Users, notifying them now.");
-                    //swal("People want this!", "This Offer Has inetersted Users, notifying them now.", "info");
                     console.log("CheckIfGroupExists: Groups exists for event " + group);
                     $scope.spinner = false;
                     // Connect event uuid with group name
@@ -673,7 +665,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             text: text,
             foreground: true
         });*/
-        //swal(title, text, "success");
         console.log("####Handling matching event..." + text);
         if (!text || text.length < 2) {
             console.log("No substantial text for notification..aborting");
@@ -715,8 +706,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.loginResult = "Success";
-                //alert("Successufully Published Your Need. Thank You!");
-                //swal("Good job!", "Successufully Published. Thank You!", "success");
                 Notification.success({ message: "Successufully Published. Thank You!", title: "Good job!", positionY: 'bottom', positionX: 'center', delay: 4000 });
                 $scope.spinner = false;
                 $scope.status = response.statusText;
@@ -1064,12 +1053,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
-                        //swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        //swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     }
@@ -1148,7 +1135,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        //                        swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     }
@@ -1208,14 +1194,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     }
     $scope.OrchestrateGetNearby = function(data, type) {
         if (!data || !data.searchAddress || data.searchAddress.length < 5) {
-            //alert("Please provide a valid address");
-            //swal("Need Address", "Please provide a valid address", "warning");
             Notification.error({ message: "Please provide a valid address", positionY: 'bottom', positionX: 'center' });
             return;
         }
         if (!data.distance) {
-            //alert("Please provide a valid distance");
-            //swal("Need Radius", "Please select distance", "warning");
             Notification.error({ message: "Please select distance", positionY: 'bottom', positionX: 'center' });
             return;
         }
@@ -1228,7 +1210,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 if (!DataService.isValidObject(response) || !DataService.isValidObject(response.data) ||
                     !DataService.isValidArray(response.data.results)) {
                     console.log("####Invalid response")
-                        //                   swal("Error", "A problem occured!", "error");
                     Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                     return;
                 } else {
@@ -1276,12 +1257,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
-                        //swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        //swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     }
@@ -1373,8 +1352,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
     $scope.Subscribe = function(data, user) {
         $scope.spinner = true;
         if (!data || !data.city || !data.itemtype) {
-            //alert("Please enter City and Item name for alerts");
-            //swal("Need Info", "Please enter City and Item name for alerts", "info");
             Notification.error({ message: "Please enter City and Item name for alerts", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
             return;
         }
@@ -1562,12 +1539,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
-                        //swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        //swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     }
@@ -1617,12 +1592,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
 
                     if (DataService.isString(response)) {
                         console.log("####Invalid response: " + JSON.stringify(response));
-                        //swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
                         return;
                     } else {
                         console.log("####Invalid response - null or undefined");
-                        //swal("Error", "A problem occured!", "error");
                         Notification.error({ message: "A problem occured!", title: "Error", positionY: 'top', positionX: 'center', delay: 4000 });
                         return;
                     }
@@ -1994,7 +1967,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         }
         $scope.spinner = true;
         var cancelURL = BASEURL + "/canceloffer?uuid=" + row.uuid;
-        //swal("Obliterating Offer!", "Please Wait..", "warning");
         Notification.info({ message: "Obliterating offer..please wait!", positionY: 'bottom', positionX: 'center' });
         $http({
             method: "GET",
@@ -2045,8 +2017,6 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 // this callback will be called asynchronously
                 // when the response is available
                 $scope.spinner = false;
-                //alert("Successfully Cancelled.");
-                //swal("Good job!", "Successfully Cancelled!", "success");
                 Notification.info({ message: "Successfully Cancelled This Offer!", positionY: 'bottom', positionX: 'center' });
                 if (responseAsMessage) {
                     $scope.GetMyAccepteddonations(login_email);
@@ -2186,8 +2156,6 @@ app.controller("LoginCtrl", function(
                     //        alert("Id Found");
                     if (angular.isObject(response) &&
                         response.data.toString() === "Authentication Error") {
-                        //alert("Invalid Password");
-                        //swal("Oops!", "Invalid Pasword!", "error");
                         Notification.error({ message: "Invalid Password!", title: "Error", positionY: 'bottom', positionX: 'center', delay: 4000 });
                         return;
                     } else {
@@ -2256,17 +2224,12 @@ app.controller("RegisterCtrl", function($scope, $http, $location, $window, UserS
                         angular.isObject(response) &&
                         response.data.toString() === "CREATED"
                     ) {
-                        //alert("Account Created with id " + user.email);
-                        //swal("Good job!", "Account Created with id " + user.email, "success");
                         Notification.success({ message: "Account Created with id " + user.email, positionY: 'bottom', positionX: 'center' });
                         $location.path("/login");
                         return;
                     } else {
                         $scope.result = "Error creating id. Email already in use.";
-                        //alert("Could not create user id");
-                        //swal("Problem!", "Could not create user id, might be existing!", "error");
                         Notification.error({ message: "Could not create user id, might be existing!", positionY: 'bottom', positionX: 'center' });
-
                         //        $location.path("/login");
                         return;
                     }
@@ -2340,8 +2303,6 @@ app.controller("RegisterCtrl", function($scope, $http, $location, $window, UserS
                     }
                 } else {
                     $scope.result = "Could not update profile";
-                    //alert("Could not update profile");
-                    //swal("Oops!", "Could not update profile!", "error");
                     Notification.error({ message: "Could not update profile!", positionY: 'top', positionX: 'center', delay: 4000 });
                     //        $location.path("/login");
                     return;
