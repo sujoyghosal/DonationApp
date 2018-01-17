@@ -533,8 +533,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             city: offer.city,
             items: offer.items,
             itemtype: offer.itemtype,
-            latitude: $scope.lat,
-            longitude: $scope.lng,
+            location: {
+                latitude: $scope.lat,
+                longitude: $scope.lng
+            },
             fa_icon: $scope.GetFontAwesomeIconsForCategory(offer.itemtype)
         };
         postURL = encodeURI(postURL);
@@ -695,8 +697,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
             city: need.city,
             items: need.items,
             itemtype: need.itemtype,
-            latitude: $scope.lat,
-            longitude: $scope.lng,
+            location: {
+                latitude: $scope.lat,
+                longitude: $scope.lng
+            },
             fa_icon: $scope.GetFontAwesomeIconsForCategory(need.itemtype),
             emergency: emergency
         };
