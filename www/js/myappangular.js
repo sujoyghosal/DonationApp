@@ -247,7 +247,7 @@ app.service("UserService", function() {
 });
 
 var BASEURL_BLUEMIX = "https://freecycleapissujoy.mybluemix.net";
-var BASEURL_LOCAL = "http://localhost:9000";
+//var BASEURL_LOCAL = "http://localhost:9000";
 var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
 var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
 
