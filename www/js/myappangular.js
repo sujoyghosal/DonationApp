@@ -660,6 +660,10 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 }
             }
         });
+        socket.onclose = function(evt) {
+            console.log("##### Received socket onlcose event: " + JSON.stringify(evt));
+            $scope.setupWebSockets('init', null);
+        };
     }
     $scope.HandleEvent = function(title, text) {
         /*cordova.plugins.notification.local.schedule({
