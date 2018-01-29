@@ -618,6 +618,12 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
         socket = io.connect(BASEURL);
         socket.on('connect', function() {
             console.log("##### Connected to server socket!");
+            for (var i = 0; i < $scope.usergroups.length; i++) {
+                //socket.join($scope.usergroups[i].name);
+                room = $scope.usergroups[i].name;
+                console.log("#### Joining events channel " + room);
+                socket.emit('room', room);
+            }
         });
         if (purpose && purpose === "init") {
             for (var i = 0; i < $scope.usergroups.length; i++) {
