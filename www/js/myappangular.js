@@ -623,6 +623,7 @@ app.controller("DonationCtrl", function($scope, $rootScope, $http, $filter, $loc
                 room = $scope.usergroups[i].name;
                 console.log("#### Joining events channel " + room);
                 socket.emit('room', room);
+                console.log("Test message");
             }
         });
         if (purpose && purpose === "init") {
