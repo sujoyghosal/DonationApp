@@ -6,8 +6,8 @@
 
 body,
 html {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 body,
@@ -17,274 +17,271 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 400;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
 }
 
 .topnav {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .lead {
-    font-size: 18px;
-    font-weight: 400;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 .intro-header {
-    padding-top: 50px;
-    /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
-    padding-bottom: 50px;
-    text-align: center;
-    color: #f8f8f8;
-    background: url(../img/poverty-hd.jpg) no-repeat center center;
-    background-size: cover;
+  padding-top: 50px;
+  /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+  padding-bottom: 50px;
+  text-align: center;
+  color: #f8f8f8;
+  background: url(../img/poverty-hd.jpg) no-repeat center center;
+  background-size: cover;
 }
 
 .intro-message {
-    position: relative;
-    padding-top: 20%;
-    padding-bottom: 20%;
+  position: relative;
+  padding-top: 20%;
+  padding-bottom: 20%;
 }
 
-.intro-message>h1 {
-    margin: 0;
-    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
-    font-size: 5em;
+.intro-message > h1 {
+  margin: 0;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+  font-size: 5em;
 }
 
 .intro-divider {
-    width: 400px;
-    border-top: 1px solid #f8f8f8;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  width: 400px;
+  border-top: 1px solid #f8f8f8;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.intro-message>h3 {
-    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+.intro-message > h3 {
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
 }
 
-@media(max-width:767px) {
-    .intro-message {
-        padding-bottom: 15%;
-    }
-    .intro-message>h1 {
-        font-size: 3em;
-    }
-    ul.intro-social-buttons>li {
-        display: block;
-        margin-bottom: 20px;
-        padding: 0;
-    }
-    ul.intro-social-buttons>li:last-child {
-        margin-bottom: 0;
-    }
-    .intro-divider {
-        width: 100%;
-    }
+@media (max-width: 767px) {
+  .intro-message {
+    padding-bottom: 15%;
+  }
+  .intro-message > h1 {
+    font-size: 3em;
+  }
+  ul.intro-social-buttons > li {
+    display: block;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+  ul.intro-social-buttons > li:last-child {
+    margin-bottom: 0;
+  }
+  .intro-divider {
+    width: 100%;
+  }
 }
 
 .network-name {
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 2px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 2px;
 }
 
 .content-section-a {
-    padding: 50px 0;
-    background-color: #f8f8f8;
+  padding: 50px 0;
+  background-color: #f8f8f8;
 }
 
 .content-section-b {
-    padding: 50px 0;
-    border-top: 1px solid #e7e7e7;
-    border-bottom: 1px solid #e7e7e7;
+  padding: 50px 0;
+  border-top: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
 }
 
 .section-heading {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .section-heading-spacer {
-    float: left;
-    width: 200px;
-    border-top: 3px solid #e7e7e7;
+  float: left;
+  width: 200px;
+  border-top: 3px solid #e7e7e7;
 }
 
 .banner {
-    padding: 100px 0;
-    color: #f8f8f8;
-    background: url(../img/banner-bg.jpg) no-repeat center center;
-    background-size: cover;
+  padding: 100px 0;
+  color: #f8f8f8;
+  background: url(../img/banner-bg.jpg) no-repeat center center;
+  background-size: cover;
 }
 
 .banner h2 {
-    margin: 0;
-    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
-    font-size: 3em;
+  margin: 0;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+  font-size: 3em;
 }
 
 .banner ul {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .banner-social-buttons {
-    float: right;
-    margin-top: 0;
+  float: right;
+  margin-top: 0;
 }
 
-@media(max-width:1199px) {
-    ul.banner-social-buttons {
-        float: left;
-        margin-top: 15px;
-    }
+@media (max-width: 1199px) {
+  ul.banner-social-buttons {
+    float: left;
+    margin-top: 15px;
+  }
 }
 
-@media(max-width:767px) {
-    .banner h2 {
-        margin: 0;
-        text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
-        font-size: 3em;
-    }
-    ul.banner-social-buttons>li {
-        display: block;
-        margin-bottom: 20px;
-        padding: 0;
-    }
-    ul.banner-social-buttons>li:last-child {
-        margin-bottom: 0;
-    }
+@media (max-width: 767px) {
+  .banner h2 {
+    margin: 0;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
+    font-size: 3em;
+  }
+  ul.banner-social-buttons > li {
+    display: block;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+  ul.banner-social-buttons > li:last-child {
+    margin-bottom: 0;
+  }
 }
 
 footer {
-    padding: 50px 0;
-    background-color: #f8f8f8;
+  padding: 50px 0;
+  background-color: #f8f8f8;
 }
 
 p.copyright {
-    margin: 15px 0 0;
+  margin: 15px 0 0;
 }
-
 
 /* Make the badge float in the top right corner of the button */
 
 .button__badge {
-    background-color: #fa3e3e;
-    border-radius: 2px;
-    color: white;
-    padding: 1px 3px;
-    font-size: 10px;
-    position: absolute;
-    /* Position the badge within the relatively positioned button */
-    top: 0;
-    right: 0;
+  background-color: #fa3e3e;
+  border-radius: 2px;
+  color: white;
+  padding: 1px 3px;
+  font-size: 10px;
+  position: absolute;
+  /* Position the badge within the relatively positioned button */
+  top: 0;
+  right: 0;
 }
 
 .isa_info,
 .isa_success,
 .isa_warning,
 .isa_error {
-    margin: 10px 0px;
-    padding: 5px;
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 500;
+  margin: 10px 0px;
+  padding: 5px;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
 }
 
 .isa_info {
-    color: #00529B;
+  color: #00529b;
 }
 
 .isa_success {
-    color: #4F8A10;
+  color: #4f8a10;
 }
 
 .isa_warning {
-    color: #9F6000;
+  color: #9f6000;
 }
 
 .isa_error {
-    color: #D8000C;
+  color: #d8000c;
 }
 
 .isa_info i,
 .isa_success i,
 .isa_warning i,
 .isa_error i {
-    margin: 10px 22px;
-    font-size: 2em;
-    vertical-align: middle;
+  margin: 10px 22px;
+  font-size: 2em;
+  vertical-align: middle;
 }
 
 .btn-xl {
-    width: 10em;
-    padding: 10px 20px;
-    font-size: 20px;
-    border-radius: 10px;
+  width: 10em;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 10px;
 }
 
 .form-control {
-    font-family: "FontAwesome", "comma"
+  font-family: "FontAwesome", "comma";
 }
-
 
 /*empty vertical space*/
 
 .vl {
-    height: 16px;
+  height: 16px;
 }
 
 .icon-backgroundemergency {
-    color: #ff0000;
+  color: #ff0000;
 }
 
 .icon-background1 {
-    color: #ffc0ff;
+  color: #ffc0ff;
 }
 
 .icon-background2 {
-    color: #ffffc0;
+  color: #ffffc0;
 }
 
 .icon-background3 {
-    color: #c0ffff;
+  color: #c0ffff;
 }
 
 .icon-background4 {
-    color: #c0ffc0;
+  color: #c0ffc0;
 }
 
 .icon-background6 {
-    color: #40c040;
+  color: #40c040;
 }
 
 .icon-background5 {
-    color: #c0c0ff;
+  color: #c0c0ff;
 }
 
 .circle-icon2 {
-    background: #ffc0c0;
-    padding: 30px;
-    border-radius: 50%;
+  background: #ffc0c0;
+  padding: 30px;
+  border-radius: 50%;
 }
 
 .circle-icon {
-    background: #ffc0c0;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 100px;
-    vertical-align: middle;
-    padding: 30px;
+  background: #ffc0c0;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 100px;
+  vertical-align: middle;
+  padding: 30px;
 }
 
 div.ex2 {
-    max-width: 500px;
-    margin: auto;
-    border: 2px solid #73AD21;
-    padding: 5px;
+  max-width: 500px;
+  margin: auto;
+  border: 2px solid #73ad21;
+  padding: 5px;
 }
 
 div.ex1 {
-    border: 2px solid #73AD21;
-    padding: 5px;
+  border: 2px solid #73ad21;
+  padding: 5px;
 }

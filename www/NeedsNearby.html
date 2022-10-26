@@ -2,132 +2,180 @@
 <html>
 
 <head>
-    <title>View Needs Nearby</title>
-    <link rel="stylesheet" href="css/slider.css" type="text/css" />
+  <title>View Needs Nearby</title>
+  <link rel="stylesheet" href="css/slider.css" type="text/css" />
 </head>
+<style>
+  .red_text {
+    font-size: 2.2rem !important;
+    color: red;
+  }
+
+  .coupon {
+    /*border: 5px solid deepskyblue;*/
+    border-width: 5px;
+    border-style: outset;
+    width: 50%;
+    /*border-radius: 12px;
+margin: 0 auto;
+max-width: 800px;*/
+  }
+
+  .container {
+    padding: 2px 16px;
+  }
+
+  .promo {
+    background: #ccc;
+    padding: 3px;
+  }
+
+  .expire {
+    color: red;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+</style>
 
 <body>
-    <center>
-        <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="sortfield='modified'">
-            <h5>VIEW NEEDS</h5>
-            <div>
-                <input type="radio" ng-model="criteria" value="City" ng-click="allneeds=false; found=''"> City Based&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="radio" ng-model="criteria" value="Near Me" ng-click="allneeds=false; found=''"> Needs Near An Address
-            </div>
-            <div ng-switch="criteria">
-                <div ng-switch-when="City">
-                    <br>
-                    <div class="ex2">
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <input type="text" placeholder="Enter City" name="citySelect" ng-model="data.citySelect" />&nbsp;&nbsp;
-                            </div>
-                            <div class="col-sm-5">
-                                <button type="button" class="btn btn-primary btn-md" ng-click="GetNeeds('city',data.citySelect,false); spinner = true;">Fetch Needs</button>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                </div>
-                <div class="ex2" ng-switch-when="Near Me">
-                    <br>
-                    <div id="slidecontainer">
-                        <p>Select Distance: </p><input type="range" ng-model="data.distance" min="1" max="50" value="25" class="slider" id="myRange">
-                        <p>{{'Within ' + data.distance + 'Km'}} Of Address</p>
-                    </div>
-                    <p>
-                        <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
-                        <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="e.g. Park Street, Kolkata">
-                        <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'needs'); spinner = true;">Fetch Needs</button></p>
-                    <br>
-                </div>
-            </div>
-            <center/><i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
-            <center>
-                {{found}}
-                <br>
-            </center>
-            <p>
-                <div class="container ex2" ng-show="allneeds">
-                    <label><i class="fa fa-arrow-circle-up fa-2x" ng-show="!reverse" ng-click="reverse = !reverse;"> </i>
-                        <i class="fa fa-arrow-circle-down fa-2x" ng-show="reverse" ng-click="reverse = !reverse;"></i> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <select name="sort" ng-model="sortfield">
-                                <option value="modified" selected>Date</option>                                       
-                                <option value="postedby">Name</option>
-                                <option value="itemtype">Item Type</option>
-                                <option value="address">Address</option>
-                            </select>
-                            <br>
-                    </label>&nbsp;&nbsp;
-                    <label>
-                        <input type="text" placeholder="Search items, places etc." ng-model="searchText">&nbsp;&nbsp;
-                        <i class="fa fa-search fa-2x"></i> 
-                    </label>
-                    <br><b>{{result}}{{}}</b>
-                    <table class="table table-responsive" id="needstable">
-                        <tr ng-repeat="row in cityneeds | orderBy : sortfield : reverse| filter:searchText">
-                            <td ng-init="stackicon = row.fa_icon + ' fa-stack-1x'">
-                                <span class="fa-stack fa-2x">
-                                    <i class="fa fa-circle fa-stack-2x icon-background4"></i>
-                                    <i class={{stackicon}}></i>
-                                </span> &nbsp;
-                                <span class="fa-stack fa-2x" ng-show="isEmergency(row.itemtype)">
-                                    <i class="fa fa-circle fa-stack-2x icon-backgroundemergency"></i>
-                                    <i class="fa fa-ambulance fa-stack-1x"></i>
-                                </span>
-                                <!--{{ TranslateEventToEnglish(row.itemtype); english }}-->
-                                <br> {{row.items}} {{ '. Required by ' + row.postedby}} at {{row.address}}; posted on {{row.modified | date:'medium'}}<br>
-                                <a href=mailto:{{row.email}}><i class="fa fa-envelope fa-2x"></i></a>
-                                <span style="display:inline-block; width: 36px;"></span>
-                                <a href=tel:{{row.phone_number}}><i class="fa fa-phone fa-2x"></i></a>
-                                <span style="display:inline-block; width: 36px;"></span>
-                                <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker fa-2x"></i></a>
-                                <span ng-show="mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                <a href='' ng-show="mobileDevice" ng-click="SocialShare(row, 'FreeCycle New Needs Alert')"><i class="fa fa-share-square-o fa-2x"></i></a>
-                                <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                <li class="dropdown" ng-show="!mobileDevice">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-square fa-2x"></i>  <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                            <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'twitter')">
-                                                <i class="fa fa-twitter fa-2x"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                            <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'facebook')">
-                                                <i class="fa fa-facebook fa-2x"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                            <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'google')">
-                                                <i class="fa fa-google-plus fa-2x"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                            <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'linkedin')">
-                                                <i class="fa fa-linkedin fa-2x"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
-                                            <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'pinterest')">
-                                                <i class="fa fa-pinterest fa-2x"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </p>
 
+  <div ng-app="myApp" ng-controller="DonationCtrl" ng-init="sortfield='modified'">
+    <h5>VIEW NEEDS</h5>
+    <div>
+      <input type="radio" ng-model="criteria" value="City" ng-click="show_needs=false; found=''"> City Based&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" ng-model="criteria" value="Near Me" ng-click="allneeds=false; found=''"> Needs Near An Address
+    </div>
+    <div ng-switch="criteria">
+      <div ng-switch-when="City">
+        <br>
+        <div class="ex2">
+          <div class="row">
+            <div>
+              <input type="text" placeholder="Enter City" name="citySelect" ng-model="data.citySelect" />&nbsp;&nbsp;
+            </div>
+            <div>
+              <button type="button" class="btn btn-primary btn-md" ng-click="GetEventsByCityAndType(data.citySelect,'NEED'); spinner = true;">Fetch Needs</button>
+            </div>
+          </div>
         </div>
-    </center>
+        <br>
+      </div>
+      <div class="ex2" ng-switch-when="Near Me">
+        <br>
+        <div id="slidecontainer">
+          <p>Select Distance: </p><input type="range" ng-model="data.distance" min="1" max="50" value="25" class="slider" id="myRange">
+          <p>{{'Within ' + data.distance + 'Km'}} Of Address</p>
+        </div>
+        <p>
+          <!--    <button type="button" class="btn btn-primary btn-sm" ng-click="PopulateDefaultAddress();data.searchAddress=address">Use My Default Address</button>-->
+          <input type="text" name="myAddress" size="20" ng-model="data.searchAddress" placeholder="e.g. Park Street, Kolkata">
+          <button type="button" class="btn btn-primary btn-md" ng-click="OrchestrateGetNearby(data,'NEED'); spinner = true;">Fetch Needs</button></p>
+        <br>
+      </div>
+    </div>
+    <i ng-show="spinner" class="fa fa-circle-o-notch fa-spin"></i>
+
+    {{found}}
+    <br>
+    <div ng-show="list_events">
+      <label><i class="fa fa-arrow-circle-up " ng-show="!reverse" ng-click="reverse = !reverse;"> </i>
+        <i class="fa fa-arrow-circle-down " ng-show="reverse" ng-click="reverse = !reverse;"></i> &nbsp;&nbsp;&nbsp;&nbsp;
+        <select name="sort" ng-model="sortfield">
+          <option value="time_created" selected>Date</option>
+          <option value="postedby">Name</option>
+          <option value="itemtype">Item Type</option>
+          <option value="address">Address</option>
+        </select>
+        <br>
+      </label>&nbsp;&nbsp;
+      <label>
+        <input type="text" placeholder="Search items, places etc." ng-model="searchText">&nbsp;&nbsp;
+        <i class="fa fa-search "></i>
+      </label>
+      <br><b>{{resultEvents}}{{}}</b>
+    </div>
+    <div class="coupon" ng-repeat="row in events | orderBy : sortfield : reverse| filter:searchText">
+      <!--<div class="center" style=" margin: 5px;" ng-init="GetEmoji(row.score)">-->
+      <div ng-init="stackicon = row.fa_icon + ' fa-stack-1x'; iconcolor = row.event_type == 'NEED' ? 'redicon' : 'greenicon'" style=" margin: 5px;">
+        <span class="fa-stack" style="vertical-align: top;">
+          <i class="'fa-regular fa-circle fa-stack-2x"></i>
+          <i class="{{stackicon}}"></i>
+        </span>&nbsp;
+      </div>
+      <div>
+        <b class="{{iconcolor}}">{{row.event_type + ' ' + row.itemtype}}</b>
+      </div>
+      <div>
+        <b>Item Type: </b>{{row.itemtype}}
+      </div>
+      <div>
+        <b>Items: </b>{{row.items}}
+      </div>
+      <div>
+        <b>Posted By: {{row.postedby}}</b>
+      </div>
+      <div>
+        <b>Date: </b>{{row.time_created | date : "dd-MM-y:HH.mm"}}
+      </div>
+      <div>
+        <b>Address: </b>{{row.address}}
+      </div>
+      <div>
+        <b>Email : </b>{{row.email}}
+      </div>
+      <div>
+        <b>Mobile: </b>{{row.phone_number}}
+      </div>
+      <div>
+        <a href=mailto:{{row.email}}><i class="fa fa-envelope"></i></a>
+        <span style="display:inline-block; width: 36px;"></span>
+        <a href=tel:{{row.phone_number}}><i class="fa fa-phone"></i></a>
+        <span style="display:inline-block; width: 36px;"></span>
+        <a href='' ng-click="ShowDirections(row.address)"><i class="fa fa-map-marker"></i></a>
+        <span ng-show="mobileDevice" style="display:inline-block; width: 36px;"></span>
+        <a href='' ng-show="mobileDevice" ng-click="SocialShare(row, 'FreeCycle New Event Alert')"><i class="fa fa-share-square-o"></i></a>
+        <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+        <li class="dropdown" ng-show="!mobileDevice">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-square"></i> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+              <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'twitter')">
+                <i class="fa fa-twitter"></i>
+              </a>
+            </li>
+            <li>
+              <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+              <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'facebook')">
+                <i class="fa fa-facebook "></i>
+              </a>
+            </li>
+            <li>
+              <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+              <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'google')">
+                <i class="fa fa-google-plus "></i>
+              </a>
+            </li>
+            <li>
+              <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+              <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'linkedin')">
+                <i class="fa fa-linkedin "></i>
+              </a>
+            </li>
+            <li>
+              <span ng-show="!mobileDevice" style="display:inline-block; width: 36px;"></span>
+              <a href='' ng-show="!mobileDevice" ng-click="SocialShare(row, 'pinterest')">
+                <i class="fa fa-pinterest "></i>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

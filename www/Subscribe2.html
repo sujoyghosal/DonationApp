@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Subscribe Events</title>
+</head>
+<style>
+  .text-small {
+    font-size: 0.9rem !important;
+  }
+
+  .red_text {
+    font-size: 2.2rem !important;
+    color: red;
+  }
+
+  body {
+    background: linear-gradient(to left, #fff, #fff);
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .slidecontainer {
+    width: 100%;
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  .slider:hover {
+    opacity: 1;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+
+</style>
+
+<body>
+  <div ng-app="myApp" ng-controller="DonationCtrl">
+
+    <br>
+    <section class="py-5 header text-center text-white">
+      <div class="container pt-4">
+        <header>
+          <h1 class="display-4">Get Notified for Needs Posted or Donations Offered</h1>
+
+          <p class="font-italic mb-1">If you are interested in specific types of emergencies or donation offers for a city, add that place name and item here. Whenever someone creates an emergency need or donation offer for that item and place, you will get a notification.</p>
+        </header>
+      </div>
+    </section>
+
+    <section>
+      <div class="container-fluid">
+        <b>Select Events of Your Interest to Get Notifications Real Time</b>
+        <br>
+        <label for="city"> Enter City: </label>
+        <br>
+        <input type="text" name="city" ng-model="city" />
+        <br>
+        <br>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_blood" name="itemtype" ng-model="data.donate_blood"> Donate Blood
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_blood" name="itemtype" ng-model="data.need_blood"> Need Blood
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_medicines" name="itemtype1" ng-model="data.donate_medicines"> Donate Medicines
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_medicines" name="itemtype" ng-model="data.need_blood"> Need Medicines
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_organs" name="itemtype1" ng-model="data.donate_organs"> Donate Organs
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_organs" name="itemtype" ng-model="data.need_organs"> Need Organs
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_doctor" name="itemtype1" ng-model="data.donate_doctor"> Donate Doctor Services
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_doctor" name="itemtype" ng-model="data.need_doctor"> Need Doctor
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_clothes" name="itemtype1" ng-model="data.donate_clothes"> Donate Clothes
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_clothes" name="itemtype" ng-model="data.need_clothes"> Need Clothes
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_food" name="itemtype1" ng-model="data.donate_food"> Donate Food
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_food" name="itemtype" ng-model="data.need_food"> Need Food
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_mobile" name="itemtype1" ng-model="data.donate_mobile"> Donate Mobile
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_mobile" name="itemtype" ng-model="data.need_mobile"> Need Mobile
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_laptop" name="itemtype1" ng-model="data.donate_laptop"> Donate Laptop
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_laptop" name="itemtype" ng-model="data.need_laptop"> Need Laptop
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_electronics" name="itemtype1" ng-model="data.donate_electronics"> Donate Electronics and Electricals
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_electronics" name="itemtype" ng-model="data.need_electronics"> Need Electronics and Electricals
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_books" name="itemtype1" ng-model="data.donate_books"> Donate Books
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_books" name="itemtype" ng-model="data.need_books"> Need Books
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_fashion" name="itemtype1" ng-model="data.donate_fashion"> Donate Fashion Items
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_fashion" name="itemtype" ng-model="data.need_fashion"> Need Fashion Items
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_furniture" name="itemtype1" ng-model="data.donate_furniture"> Donate Furniture
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_furniture" name="itemtype" ng-model="data.need_furniture"> Need Furniture
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_sports" name="itemtype1" ng-model="data.donate_sports"> Donate Sports Related
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_sports" name="itemtype" ng-model="data.need_sports"> Need Sports Related
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_household" name="itemtype1" ng-model="data.donate_household"> Donate Household Items
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_household" name="itemtype" ng-model="data.need_household"> Need Household Items
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(103, 243, 138);">
+            <input class="form-check-input" id="checkbox1" type="checkbox" value="donate_misc" name="itemtype1" ng-model="data.donate_misc"> Donate Miscellaneous
+          </div>
+          <div class="col-sm-6" class="form-check" style="text-align: left; background-color:rgb(240, 80, 80);">
+            <input class="form-check-input" type="checkbox" value="need_misc" name="itemtype" ng-model="data.need_household"> Need Miscellaneous
+          </div>
+        </div>
+      </div>
+      <br>
+      <div>
+        <b>Show me events within distance of (in miles):</b>
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange" ng-model="event_receive.max_distance">
+        <h4 class="red_text">{{event_receive.max_distance}}</h4><br>
+        <p>From Address</p>
+        <input type="text" name="event_receive_address" ng-model="event_receive.address" />
+      </div>
+      <!--<input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data, type, login_user); spinner = true;">-->
+      <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="GeoCodeSubscribeEventsAddress(); spinner = true;">
+      <br>
+    </section>
+
+
+    <div ng-show="spinner">
+      <i class="fa fa-circle-o-notch fa-spin "></i>
+    </div>
+    {{result}}
+  </div>
+  <hr>
+
+</body>
+
+</html>

@@ -2,88 +2,201 @@
 <html>
 
 <head>
-    <title>Subscribe Events</title>
+  <title>Subscribe Events</title>
 </head>
+<style>
+  .text-small {
+    font-size: 0.9rem !important;
+  }
+
+  .red_text {
+    font-size: 2.2rem !important;
+    color: red;
+  }
+
+  body {
+    background: linear-gradient(to left, #fff, #fff);
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .slidecontainer {
+    width: 100%;
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  .slider:hover {
+    opacity: 1;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+
+</style>
 
 <body>
-    <p align="left">If you are interested in specific types of emergencies or donation offers for a city, add that place name and item here. Whenever someone creates an emergency need or donation offer for that item and place, you will get a notification.</p>
-    <div ng-app="myApp" ng-controller="DonationCtrl">
+  <div ng-app="myApp" ng-controller="DonationCtrl">
+
+    <br>
+    <section class="py-5 header text-center text-white">
+      <div class="container pt-4">
+        <header>
+          <h1 class="display-4">Get Notified for Needs Posted or Donations Offered</h1>
+
+          <p class="font-italic mb-1">If you are interested in specific types of emergencies or donation offers for a city, add that place name and item here. Whenever someone creates an emergency need or donation offer for that item and place, you will get a notification.</p>
+        </header>
+      </div>
+    </section>
+
+
+    <section>
+      <div class="container">
         <label for="city">
-                        <p/>Enter City: </label>
+          <p />Enter City: </label>
 
         <br>
         <input type="text" name="city" ng-model="data.city" />
         <br>
-        <!--        <label for="item">
-                    <p/>Enter Item: </label>
-        <br>
-        <input type="text" name="item" ng-model="data.item" /> -->
-        <br>
         <p>
-            <label for="sel1">Select Type:</label>
-            <select class="form-control" id="sel1" name="itemtype" ng-model="data.itemtype" style="width:200px">
-                    <option value="" selected disabled>Select Type</option>
-                    <option value="" disabled>Emergencies</option>
-                    <option value="Blood">Blood Needed</option>
-                    <option value="Life Saving Drugs">Life Saving Drugs</option>
-                    <option value="Organs">Organs Needed</option>
-                    <option value="General Medicines">General Medicines</option>
-                    <option value="Ambulance">Ambulance Services</option>
-                    <option value="Doctor">Doctor</option>
-                    <option value="Medical">Other Medical</option>
-                    <option value="Natural Disaster">Natural Disaster</option>
-                    <option value="Terrorism">Terrorism</option>
-                    <option value="Accident">Accident</option>
-                    <option value="Women's Safety">Women's Safety</option>
-                    <option value="Children's Safety">Children's Safety</option>
-                    <option value="" disabled>Non-Emergencies</option>
-                        <option value="Electronics">Electronics</option>
-                        <option value="Fashion">Utilities</option>
-                        <option value="Educational">Educational</option>
-                        <option value="Medical">Medical</option>
-                        <option value="Food">Food</option>
-                        <option value="Furniture">Furniture</option>
-                        <option value="Clothes">Clothes</option>
-                        <option value="Fashion">Fashion</option>
-                        <option value="Household">Household</option>
-                        <option value="Sports">Sports</option>
-                        <option value="Shoes">Shoes</option>                               
-                        <option value="Other">Other</option>
-                    </select>
+          <input type="radio" value="donate" name="outer_options" ng-model="data.outer_options"> Donate
+          <input type="radio" value="need" name="outer_options" ng-model="data.outer_options"> Need
         </p>
-
         <br>
-        <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data, login_user); spinner = true;">
-        <br>
-        <div ng-show="spinner">
-            <i class="fa fa-circle-o-notch fa-spin "></i>
-        </div>
-        {{result}}
-    </div>
-    <hr>
+        <div class="row">
+          <div class="col-lg-7 mx-auto">
+            <div class="card shadow border-0 mb-5">
+              <div class="card-body p-5">
+                <h2 class="h4 mb-1">Choose from Emergencies</h2>
+                <p class="small text-muted font-italic mb-4">Emergency Listings</p>
+                <ul class="list-group">
+                  <li class="list-group-item rounded-0">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck1" type="checkbox" name="itemtype" ng-model="type.Blood" value="Blood">&nbsp;<b>Blood</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck2" type="checkbox" name="itemtype" ng-model="type.Doctor" value="Doctor">&nbsp;<b>Doctor</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck3" type="checkbox" name="itemtype" ng-model="type.Medicines" value="Medicines">&nbsp;<b>Medicines</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck4" type="checkbox" name="itemtype" ng-model="type.Organs" value="Organs">&nbsp;<b>Organs</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item rounded-0">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck5" type="checkbox" name="itemtype" ng-model="type.Ambulence" value="Ambulence">&nbsp;<b>Ambulence</b>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-    <p align="center">YOUR CURRENT SUBSCRIPTIONS</p>
-    <div ng-show="usergroups.length > 0" ng-init="result=''">
-        <table class="table table-bordered" id="events">
-            <thead>
-                <tr>
-                    <th>Event</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tr ng-repeat="row in usergroups">
-                <td><i class="fa fa-check-square-o fa-2x"></i>&nbsp;&nbsp;{{row.name}}</td>
-                <td><button type="button" class="btn btn-primary btn-md" ng-click="DeleteGroupForUser(row.name); spinner = true;">Unsubscribe</button></td>
-            </tr>
-        </table>
-        <div ng-show="spinner">
-            <i class="fa fa-circle-o-notch fa-spin "></i>
-        </div>
-    </div>
-    <div ng-show="usergroups.length == 0">
-        You are currently not subscribed to any events.
-    </div>
+            <div class="card shadow border-0 mb-5">
+              <div class="card-body p-5">
+                <h2 class="h4 mb-1">Household Items Listings</h2>
+                <p class="small text-muted font-italic mb-4"></p>
+                <ul class="list-group list-group-horizontal-xl mx-auto">
+                  <li class="list-group-item rounded-0">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck6" type="checkbox" name="itemtype" ng-model="type.Clothes" value="Clothes">&nbsp;<b>Clothes</b>
+                      <label class="cursor-pointer font-italic d-block custom-control-label" for="customCheck6">Clothes</label>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck7" type="checkbox" name="itemtype" ng-model="type.Books" value="Books">&nbsp;<b>Books</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck8" type="checkbox" i name="itemtype" ng-model="type.Food" value="Food">&nbsp;<b>Food</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck9" type="checkbox" name="itemtype" ng-model="type.Mobile" value="Mobile">&nbsp;<b>Mobile</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck9" type="checkbox" name="itemtype" ng-model="type.Electronics" value="Electronics">&nbsp;<b>Electronics</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck9" type="checkbox" name="itemtype" ng-model="type.Furniture" value="Furniture">&nbsp;<b>Furniture</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck9" type="checkbox" name="itemtype" ng-model="type.Sports" value="Sports">&nbsp;<b>Sports</b>
+                    </div>
+                  </li>
+                  <li class="list-group-item">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" id="customCheck9" type="checkbox" name="itemtype" ng-model="type.Misc" value="Misc">&nbsp;<b>Miscellaneous</b>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <p>Show me events within distance of (in miles):</p>
+              <input type="range" min="1" max="100" value="50" class="slider" id="myRange" ng-model="event_receive.max_distance">
+              <h4 class="red_text">{{event_receive.max_distance}}</h4><br>
+              <p>From Address</p>
+              <input type="text" name="event_receive_address" ng-model="event_receive.address" />
+            </div>
 
+
+          </div>
+        </div>
+      </div>
+      <br>
+      <!--<input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="Subscribe(data, type, login_user); spinner = true;">-->
+      <input type="button" class="btn btn-primary btn-md" name="SubmitTo" value="Subscribe" ng-click="GeoCodeSubscribeEventsAddress(); spinner = true;">
+      <br>
+    </section>
+
+
+    <div ng-show="spinner">
+      <i class="fa fa-circle-o-notch fa-spin "></i>
+    </div>
+    {{result}}
+  </div>
+  <hr>
 
 </body>
 

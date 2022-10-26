@@ -2,246 +2,280 @@
 <html ng-app="myApp">
 
 <head>
-    <title>Freecycle</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
-    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.5.0.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.5/sweetalert2.all.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-notification/0.3.6/angular-ui-notification.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <script src="js/angular-socialshare.min.js"></script>
-    <script src="js/myappangular.js"></script>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="css/dropdownhover.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.5/sweetalert2.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-notification/0.3.6/angular-ui-notification.min.css">
-    <link rel="stylesheet" href="css/landing-page.css" media="screen" type="text/css" />
-    <script>
-        // Script to open and close sidebar
-        function w3_open() {
-            document.getElementById("mySidebar").style.display = "block";
-        }
+  <title>Freecycle</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+  <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.5.0.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.5/sweetalert2.all.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-notification/0.3.6/angular-ui-notification.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <script src="js/angular-socialshare.min.js"></script>
+  <script src="js/myappangular.js"></script>
+  <script src="https://kit.fontawesome.com/72f4710995.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="css/dropdownhover.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.5/sweetalert2.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-notification/0.3.6/angular-ui-notification.min.css">
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+    }
 
-        function w3_close() {
-            document.getElementById("mySidebar").style.display = "none";
-        }
-        $(function() {
-            var navMain = $(".navbar-collapse"); // avoid dependency on #id
-            // "a:not([data-toggle])" - to avoid issues caused
-            // when you have dropdown inside navbar
-            navMain.on("click", "a:not([data-toggle])", null, function() {
-                navMain.collapse('hide');
-            });
-        });
-    </script>
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+    $(function() {
+      var navMain = $(".navbar-collapse"); // avoid dependency on #id
+      // "a:not([data-toggle])" - to avoid issues caused
+      // when you have dropdown inside navbar
+      navMain.on("click", "a:not([data-toggle])", null, function() {
+        navMain.collapse('hide');
+      });
+    });
 
-    <style>
-        header {
-            padding: 32px;
-        }
-        
-        .style-logo {
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-        }
-        
-        .style-nav ul {
-            list-style-type: none;
-        }
-        
-        .style-nav ul li a {
-            text-decoration: none;
-            color: #2F322A;
-            text-align: center;
-            display: block;
-            text-transform: uppercase;
-            padding-top: 20px;
-            padding-right: 40px;
-        }
-        
-        @media (max-width: 992px) {
-            .navbar-header {
-                float: none;
-            }
-            .navbar-left,
-            .navbar-right {
-                float: none !important;
-            }
-            .navbar-toggle {
-                display: block;
-            }
-            .navbar-collapse {
-                border-top: 1px solid transparent;
-                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            }
-            .navbar-fixed-top {
-                top: 0;
-                border-width: 0 0 1px;
-            }
-            .navbar-collapse.collapse {
-                display: none!important;
-            }
-            .navbar-nav {
-                float: none!important;
-                margin-top: 7.5px;
-            }
-            .navbar-nav>li {
-                float: none;
-            }
-            .navbar-nav>li>a {
-                padding-top: 10px;
-                padding-bottom: 10px;
-            }
-            .collapse.in {
-                display: block !important;
-            }
-        }
-        /*notifications badge*/
-        
-        .buttonnotification {
-            display: inline-block;
-            text-decoration: none;
-            padding: 0px 0px;
-        }
-        
-        [data-notifications] {
-            position: relative;
-        }
-        
-        [data-notifications]:after {
-            content: attr(data-notifications);
-            position: relative;
-            background: red;
-            border-radius: 50%;
-            display: inline-block;
-            padding: 0.3em;
-            color: #f2f2f2;
-            right: -10px;
-            top: -10px;
-        }
-        
-        .fieldset-auto-width {
-            display: inline-block;
-        }
-        
-        #center {
-            display: table-row;
-        }
-        
-        #center>div {
-            display: table-cell;
-            /*border: solid #55A 1px;
+  </script>
+
+  <style>
+    header {
+      padding: 32px;
+    }
+
+    .style-logo {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    .style-nav ul {
+      list-style-type: none;
+    }
+
+    .style-nav ul li a {
+      text-decoration: none;
+      color: #2F322A;
+      text-align: center;
+      display: block;
+      /*text-transform: uppercase;*/
+      padding-top: 20px;
+      padding-right: 40px;
+    }
+
+    @media (max-width: 992px) {
+      .navbar-header {
+        float: none;
+      }
+
+      .navbar-left,
+      .navbar-right {
+        float: none !important;
+      }
+
+      .navbar-toggle {
+        display: block;
+      }
+
+      .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+      }
+
+      .navbar-collapse.collapse {
+        display: none !important;
+      }
+
+      .navbar-nav {
+        float: none !important;
+        margin-top: 7.5px;
+      }
+
+      .navbar-nav>li {
+        float: none;
+      }
+
+      .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .collapse.in {
+        display: block !important;
+      }
+
+      .red_text {
+        font-size: 2.2rem !important;
+        color: red;
+      }
+    }
+
+    b.important {
+      color: green;
+    }
+
+    b.events {
+      color: red;
+    }
+
+    /*notifications badge*/
+
+    .buttonnotification {
+      display: inline-block;
+      text-decoration: none;
+      padding: 0px 0px;
+    }
+
+    [data-notifications] {
+      position: relative;
+    }
+
+    [data-notifications]:after {
+      content: attr(data-notifications);
+      position: relative;
+      background: red;
+      border-radius: 50%;
+      display: inline-block;
+      padding: 0.3em;
+      color: #f2f2f2;
+      right: -10px;
+      top: -10px;
+    }
+
+    .fieldset-auto-width {
+      display: inline-block;
+    }
+
+    #center {
+      display: table-row;
+    }
+
+    #center>div {
+      display: table-cell;
+      /*border: solid #55A 1px;
             background-color: #FFF;*/
-            align-self: auto;
-        }
-    </style>
-    <script>
-        function myFunction() {
-            var x = document.getElementById("myTopnav");
-            if (x.className === "topnav") {
-                x.className += " responsive";
-            } else {
-                x.className = "topnav";
-            }
-        };
-    </script>
+      align-self: auto;
+    }
+
+  </style>
+  <script>
+    function myFunction() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+    };
+
+  </script>
 </head>
 
 <body>
 
-    <div ng-controller="DonationCtrl" ng-show="isVisible()" ng-init="eventsCount=0;">
-        <header>
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                          <span class="sr-only">Toggle navigation</span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                        </button>
-                        <div>
-                            <div><a class="navbar-brand" href="#home"><i class="fa fa-home fa-x">FREECYCLE</i></a></div>
-                        </div>
-                    </div>
+  <div ng-controller="DonationCtrl" ng-show="isVisible()">
+    <header>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <div>
+              <div>
+                <a class="navbar-brand" href="#home" style="color: green"><i class="fa fa-home fa-x">FREECYCLE</i></a>
+              </div>
+            </div>
+          </div>
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav navbar-right">
-                            <!--<li class="dropdown">
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <!--<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ambulance fa-2x"></i>Emergencies</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#createemergency"><i class="fa fa-plus fa-x "></i>&nbsp;Create Emergency</a></li>
                                     <li><a href="#viewemergencies"><i class="fa fa-binoculars fa-x "></i>&nbsp;View Emergencies</a></li>
                                 </ul>
                             </li>-->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cart-arrow-down fa-2x"></i>Needs</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#createneed"><i class="fa fa-plus fa-x "></i>&nbsp;Create Needs</a></li>
-                                    <li><a href="#viewneeds"><i class="fa fa-binoculars fa-x "></i>&nbsp;View Needs</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gift fa-2x"></i>Offers</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#offerdonation"><i class="fa fa-plus fa-x "></i>&nbsp;Create Offer</a></li>
-                                    <li><a href="#getdonation"><i class="fa fa-binoculars fa-x "></i>&nbsp;View Offers</a></li>
-                                    <li><a href="#offershistory"><i class="fa fa-upload fa-x "></i>&nbsp;My Offers</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-notifications="{{eventsCount}}" class="buttonnotification" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell fa-2x"></i>Events</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#notifications"><i class="fa fa-bell fa-x "></i>&nbsp;Notifications</a></li>
-                                    <li><a href="#subscribe"><i class="fa fa-check-square fa-x "></i>&nbsp;Subscribe</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown" ng-show="loggedIn">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-2x"></i>Me</a>
-                                <ul class="dropdown-menu">
-                                    <li>{{'Logged in as ' + username + '!'}}</li>
-                                    <!--<li><a href="#/updateuser "><i class="fa fa-edit fa-x "></i>&nbsp;Update Profile</a></li>-->
-                                    <li><a href="#" ng-click="Logout()"><i class="fa fa-sign-out fa-x "></i>&nbsp;Logout</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#contactus"><i class="fa fa-envelope fa-2x"></i>Contact Us</a>
-                                <!--<ul class="dropdown-menu">
-                                    <li>{{'Logged in as ' + username + '!'}}</li>
-                                    <li><a href="#" ng-click="Logout()"><i class="fa fa-sign-out fa-x "></i>&nbsp;Logout</a></li>
-                                </ul>-->
-                            </li>
-
-                        </ul>
-                        <!--<ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" style="color: green" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cart-plus fa-2x"></i>Needs</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#createneed" style="color: green">Create Needs</a></li>
+                  <li><a href="#viewneeds" style="color: green">View All Needs</a></li>
+                  <li><a href="#myneeds" style="color: green">View My Needs</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" style="color: green" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gift fa-2x"></i>Offers</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#offerdonation" style="color: green">Create Offer</a></li>
+                  <li><a href="#getdonation" style="color: green">View Offers</a></li>
+                  <li><a href="#offershistory" style="color: green">My Offers</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" style="color: green" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <span class="fa-layers fa-fw" style="background:MistyRose">
+                    <i class="fa-solid fa-envelope fa-2x"></i>
+                    <span class="fa-layers-counter" style="color: red"> <b>{{eventsCount}}</b></span>
+                  </span>Events
+                </a>
+                <ul class=" dropdown-menu">
+                  <li><a href="#subscribe" style="color: green">Subscribe Events</a></li>
+                  <li><a href="#notifications" style="color: green">Events of My Interest</a></li>
+                  <li><a href="#eventsnearby" style="color: green">Events Nearby</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#contactus" style="color: green"><i class="fa fa-envelope fa-2x"></i>Contact Us</a>
+              </li>
+              <li class="dropdown">
+                <a href="#" style="color: green" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-user fa-2x"></i>{{username}}</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#getdonation" style="color: green">My Profile</a></li>
+                  <li class="dropdown">
+                    <a href="#" style="color: green" ng-click="Logout()"><i class="fa fa-sign-out fa-2x"></i>Logout</a>
+                  </li>
+                </ul>
+              </li>
+              <!--<li class="dropdown">
+                <a href="#" style="color: green" ng-click="Logout()"><i class="fa fa-sign-out fa-2x"></i>Logout</a>
+              </li>-->
+            </ul>
+            <!--<ul class="nav navbar-nav navbar-right">
                             <li><a href="#/updateuser "><i class="fa fa-user fa-2x "></i></a></li>
                             <li><a href="#" ng-click="Logout()"><i class="fa fa-sign-out fa-2x "></i></a></li>
                         </ul>-->
-                    </div>
-                    <!-- /.navbar-collapse -->
-                </div>
-                <!-- /.container-fluid -->
-            </nav>
-        </header>
-    </div>
-    <center>
-        <div ng-controller="DonationCtrl " class="container ">
-            <div class="col-md-9 ">
-                <div ng-view></div>
-            </div>
+          </div>
+          <!-- /.navbar-collapse -->
         </div>
-    </center>
+        <!-- /.container-fluid -->
+      </nav>
+    </header>
+  </div>
+  <center>
+    <div ng-controller="DonationCtrl " class="container ">
+      <div class="col-md-9 ">
+        <div ng-view></div>
+      </div>
+    </div>
+  </center>
 </body>
 
 </html>

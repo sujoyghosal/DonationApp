@@ -2,77 +2,82 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Freecycle - Offer Donation</title>
+  <meta charset="UTF-8">
+  <title>Freecycle - Offer Donation</title>
 </head>
 
 <body ng-app="myApp">
-    <div class="container">
-        <!--              -->
-        <div id="login">
-            <form class="form-horizontal" ng-controller="DonationCtrl" name="myForm" autocomplete="on" novalidate>
-                <center/>
-                <legend>CREATE A DONATION OFFER</legend>
-                <center/>
-                <br>
-                <fieldset class="clearfix:after">
-                    <p><span class="fontawesome-user"></span>
-                        <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder="&#xf007; {{login_fullname}}" class="form-control input-md" ng-readonly="true">
-                        <p class="isa_error" ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</p>
-                    </p>
-                    <!-- JS because of IE support; better: placeholder="Username" -->
-                    <p><span class="fontawesome-envelope"></span>
-                        <input id="email" name="email" ng-model="offer.email" ng-minlength="2" type="email" placeholder="&#xf0e0; {{login_email}}" class="form-control input-md" ng-readonly="true">
-                        <p class="isa_error" ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</p>
-                    </p>
-                    <!-- JS because of IE support; better: placeholder="Username" -->
-                    <p><span class="fontawesome-phone"></span>
-                        <input id="phone" name="phone" ng-model="offer.phone" placeholder="&#xf10b; Phone" ng-minlength="10" type="tel" class="form-control input-md" ng-required="true">
-                        <p class="isa_error" ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</p>
-                    </p>
-                    <!-- JS because of IE support; better: placeholder="Username" -->
-                    <p>
-                        <input id="city" name="city" ng-model="offer.city" ng-minlength="2" type="text" placeholder="&#xf239; City" class="form-control input-md" ng-required="true">
-                        <p class="isa_error" ng-show="myForm.city.$dirty && myForm.city.$invalid">Please Enter City</p>
-                    </p>
-                    <p>
-                        <input type="text" size="20" id="address" name="address" ng-model="offer.address" ng-minlength="9" placeholder="&#xf041; Address e.g. Park Street, Kolkata" class="form-control input-md" ng-required="true">
-                        <p class="isa_error" ng-show="myForm.address.$dirty && myForm.address.$invalid">Address Needed e.g. Park Street, Kolkata</p>
-                    </p>
-                    <p>
-                        <select class="form-control" id="sel1" name="itemtype" ng-model="offer.itemtype">
-                                <option value="" selected disabled>Select Type</option>
-                                <option value="Electronics">Electronics</option>
-                                <option value="Utilities">Utilities</option>
-                                <option value="Educational">Educational</option>
-                                <option value="Medical">Medical</option>
-                                <option value="Food">Food</option>
-                                <option value="Furniture">Furniture</option>
-                                <option value="Clothes">Clothes</option>
-                                <option value="Fashion">Fashion</option>
-                                <option value="Household">Household</option>
-                                <option value="Sports">Sports</option>
-                                <option value="Shoes">Shoes</option>                               
-                                <option value="Other">Other</option>
-                            </select>
-                        <p class="isa_error" ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Please Select Item Type</p>
-                    </p>
-                    <p>
-                        <input id="items" name="items" ng-model="offer.items" ng-minlength="2" type="text" autocomplete="off" placeholder="&#xf1b3; Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
-                        <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Please Enter Offer Details</p>
-                    </p>
-                    <p>
-                        <input type="button" name="submit" class="btn btn-success btn-xl" value="SUBMIT" ng-click="GeoCodeAddress(offer, 'offer'); spinner = true;" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
+  <div class="container">
+    <!--              -->
+    <div id="login">
+      <form class="form-horizontal" ng-controller="DonationCtrl" name="myForm" autocomplete="on" novalidate>
+        <center />
+        <legend>CREATE A DONATION OFFER</legend>
+        <center />
+        <br>
+        <fieldset class="clearfix:after">
+          <p><span class="fontawesome-user"></span>
+            <input id="name" name="name" ng-model="offer.name" ng-minlength="2" type="text" placeholder="{{login_fullname}}" class="form-control input-md" ng-readonly="true">
+            <p class="isa_error" ng-show="myForm.name.$dirty && myForm.name.$invalid">Invalid Name</p>
+          </p>
+          <!-- JS because of IE support; better: placeholder="Username" -->
+          <p><span class="fontawesome-envelope"></span>
+            <input id="email" name="email" ng-model="offer.email" ng-minlength="2" type="email" placeholder="{{login_email}}" class="form-control input-md" ng-readonly="true">
+            <p class="isa_error" ng-show="myForm.email.$dirty && myForm.email.$invalid">Invalid Email</p>
+          </p>
+          <!-- JS because of IE support; better: placeholder="Username" -->
+          <p><span class="fontawesome-phone"></span>
+            <input id="phone" name="phone" ng-model="offer.phone" placeholder="Phone" ng-minlength="10" type="tel" class="form-control input-md" ng-required="true">
+            <p class="isa_error" ng-show="myForm.phone.$dirty && myForm.phone.$invalid">Invalid Phone</p>
+          </p>
+          <!-- JS because of IE support; better: placeholder="Username" -->
+          <p>
+            <input id="city" name="city" ng-model="offer.city" ng-minlength="2" type="text" placeholder="City" class="form-control input-md" ng-required="true">
+            <p class="isa_error" ng-show="myForm.city.$dirty && myForm.city.$invalid">Please Enter City</p>
+          </p>
+          <p>
+            <input type="text" size="20" id="address" name="address" ng-model="offer.address" ng-minlength="9" placeholder="Address e.g. Park Street, Kolkata" class="form-control input-md" ng-required="true">
+            <p class="isa_error" ng-show="myForm.address.$dirty && myForm.address.$invalid">Address Needed e.g. Park Street, Kolkata</p>
+          </p>
+          <p>
+            <select class="form-control" id="sel1" name="itemtype" ng-model="offer.itemtype">
+              <option value="" selected disabled>Select Type</option>
+              <option value="" selected disabled>Select Type</option>
+              <option value="Blood">Blood</option>
+              <option value="Medicines">Medicines</option>
+              <option value="Organs">Organs</option>
+              <option value="Doctor">Doctor</option>
+              <option value="Medical">Medical</option>
+              <option value="Food">Food</option>
+              <option value="Mobile">Mobile</option>
+              <option value="Laptop">Laptop</option>
+              <option value="Electronics">Electricals & Electronics</option>
+              <option value="Books">Books</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Clothes">Clothes</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Household">Household</option>
+              <option value="Sports">Sports</option>
+              <option value="Other">Other</option>
+            </select>
+            <p class="isa_error" ng-show="myForm.itemtype.$dirty && myForm.itemtype.$invalid">Please Select Item Type</p>
+          </p>
+          <p>
+            <input id="items" name="items" ng-model="offer.items" ng-minlength="2" type="text" autocomplete="off" placeholder="Type e.g. books, clothes, food, household etc" class="form-control input-md" ng-required="true">
+            <p class="isa_error" ng-show="myForm.items.$dirty && myForm.items.$invalid">Please Enter Offer Details</p>
+          </p>
+          <p>
+            <input type="button" name="submit" class="btn btn-success btn-xl" value="SUBMIT" ng-click="GeoCodeAddress(offer, 'offer'); spinner = true;" ng-disabled="myForm.name.$invalid||  myForm.email.$invalid ||  myForm.phone.$invalid || 
                                           myForm.city.$invalid ||  myForm.from.$invalid ||  myForm.to.$invalid">
-                        <br>
-                        <center/> {{loginResult}}
-                    </p>
-                    <center/><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
-                </fieldset>
-            </form>
-        </div>
-        <!-- end login -->
+            <br>
+            <center /> {{loginResult}}
+          </p>
+          <center /><i ng-show="spinner " class="fa fa-circle-o-notch fa-spin "></i>
+        </fieldset>
+      </form>
     </div>
+    <!-- end login -->
+  </div>
 </body>
 
 </html>

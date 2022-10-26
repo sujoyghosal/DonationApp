@@ -2,86 +2,61 @@
 <html ng-app="myApp">
 
 <head>
-    <title>FreeCycle</title>
-    <link rel="stylesheet" href="css/landing-page.css" media="screen" type="text/css" />
-    <style>
-        .Row {
-            display: table-row;
-            width: fit-content;
-        }
-        
-        .Cell {
-            display: table-cell;
-            border: solid goldenrod;
-            border-width: 1px;
-            padding-left: 5px;
-            padding-right: 5px;
-            align-self: auto;
-            width: auto;
-        }
-    </style>
+  <title>FreeCycle</title>
+  <script src="https://kit.fontawesome.com/72f4710995.js" crossorigin="anonymous"></script>
+  <style>
+    .Row {
+      display: table-row;
+      width: fit-content;
+    }
+
+    .Cell {
+      display: table-cell;
+      border: solid goldenrod;
+      border-width: 1px;
+      padding-left: 5px;
+      padding-right: 5px;
+      align-self: auto;
+      width: auto;
+    }
+
+  </style>
 </head>
 
 <body ng-controller="DonationCtrl">
-    <img src="img/freecyclehome.png"></img>
-    <hr> MAKE OFFERS. PUBLISH EMERGENCIES AND NEEDS. DONATE. FEEL GOOD.
-    <hr>
+  <img src="img/freecyclehome.png"></img>
+  <hr> MAKE OFFERS. PUBLISH EMERGENCIES AND NEEDS. DONATE. FEEL GOOD.
+  <hr>
 
-    <!--    <br/><br/>
-        <p align="left "><em>The Freecycle platform is primarily intended to help people announce emergencies and seek community help. It also provides a platform to recycle common household stuff to ineterested recipients. It intends to help people in need with urgent medical supplies, books for children,&nbsp;</em><em>food for street children and other support through community involvement.</em></p>
-        <p>&nbsp;</p>
-        <p align="left "><b>Features:</b></p><br>
-        <ul align="left ">
-            <li>Browse Offers by City or Distance from you current location.&nbsp;</li>
-            <li>View local emergencies.</li>
-            <li>View common household and other needs.&nbsp;</li>
-            <li>Create Offers, emergencies and needs.&nbsp;</li>
-            <li>Subscribe to events like urgent medical needs and other emergencies or for items of interest. e.g if you need a phone, subscribe to event category electronics to get notified of offers made.</li>
-        </ul>
-        <p align="left ">Organizations like blood banks, hospitals and other services can use this platform to publish emergency needs. NGOs can use the platform to publish needs and collect articles and donations.
-        </p> -->
-    <!--<div class="Row">
-        <div class="Cell">
-            <div class="Row">
-                <a href="#createemergency"><i class="fa fa-ambulance fa-5x"></i></a>
-            </div>
-            <div class="Row">Create Emergency</div>
-        </div>
-        <div class="Cell">
-            <div class="Row">
-                <a href="#viewemergencies"><i class="fa fa-plus fa-5x"></i></a>
-            </div>
-            <div class="Row">View Emergencies</div>
-        </div>
-    </div>-->
-    <div class="Row">
-        <div class="Cell">
-            <div class="Row">
-                <a href="#offerdonation"><i class="fa fa-gift fa-5x"></i></a>
-            </div>
-            <div class="Row">Create Offer</div>
-        </div>
-        <div class="Cell">
-            <div class="Row">
-                <a href="#getdonation"><i class="fa fa-binoculars fa-5x"></i></a>
-            </div>
-            <div class="Row">Browse Offers</div>
-        </div>
+
+  <div class="Row">
+    <div class="Cell">
+      <div class="Row">
+        <a href="#offerdonation"><i class="fa fa-gift fa-5x"></i></a>
+      </div>
+      <div class="Row">Create Offer</div>
     </div>
-    <div class="Row">
-        <div class="Cell">
-            <div class="Row">
-                <a href="#subscribe"><i class="fa fa-check-square fa-5x"></i></a>
-            </div>
-            <div class="Row">Subscribe To Alerts</div>
-        </div>
-        <div class="Cell">
-            <div class="Row">
-                <a href="#notifications"><i class="fa fa-bell fa-5x"></i></a>
-            </div>
-            <div class="Row">Notifications</div>
-        </div>
+    <div class="Cell">
+      <div class="Row">
+        <a href="#getdonation"><i class="fa fa-binoculars fa-5x"></i></a>
+      </div>
+      <div class="Row">Browse Offers</div>
     </div>
+  </div>
+  <div class="Row">
+    <div class="Cell">
+      <div class="Row">
+        <a href="#subscribe"><i class="fa fa-check-square fa-5x"></i></a>
+      </div>
+      <div class="Row">Subscribe To Alerts</div>
+    </div>
+    <div class="Cell">
+      <div class="Row">
+        <a href="#notifications"><i class="fa fa-bell fa-5x"></i></a>
+      </div>
+      <div class="Row">Notifications</div>
+    </div>
+  </div>
 
 </body>
 
