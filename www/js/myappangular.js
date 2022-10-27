@@ -255,7 +255,7 @@ var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
 var BASEURL_GCP = "https://donation-demo-api-vq2uax3u4q-em.a.run.app";
 var BASEURL_IBM = "http://159.122.177.104:30989";
 
-var BASEURL = BASEURL_GCP;
+var BASEURL = BASEURL_IBM;
 var socket = null;
 var GEOCODEURL =
   "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAwQOPx91fjj06kDNq7hjkT-ZSxkQFtJPA";
@@ -857,12 +857,13 @@ app.controller(
     };
     $scope.events = [];
     $scope.setupWebSockets = function (purpose, arg) {
-      socket = io(BASEURL, {
+      /*socket = io(BASEURL, {
         withCredentials: true,
         extraHeaders: {
           "my-custom-header": "abcd",
         },
-      });
+      });*/
+      socket = io(BASEURL, {});
       socket.on("connect", () => {
         console.log("Connected to WebSocket server..socket id " + socket.id); // x8WIv7-mJelg7on_ALbx
         console.log(
