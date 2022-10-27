@@ -249,7 +249,7 @@ app.service("UserService", function () {
 });
 
 var BASEURL_BLUEMIX = "https://freecycleapissujoy.mybluemix.net";
-var BASEURL_LOCAL = "http://localhost:49155";
+var BASEURL_LOCAL = "http://localhost:5555";
 var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
 var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
 var BASEURL_GCP = "https://donation-demo-api-vq2uax3u4q-em.a.run.app";
@@ -857,13 +857,12 @@ app.controller(
     };
     $scope.events = [];
     $scope.setupWebSockets = function (purpose, arg) {
-      /*socket = io(BASEURL, {
+      socket = io(BASEURL, {
         withCredentials: true,
         extraHeaders: {
           "my-custom-header": "abcd",
         },
-      });*/
-      socket = io(BASEURL, {});
+      });
       socket.on("connect", () => {
         console.log("Connected to WebSocket server..socket id " + socket.id); // x8WIv7-mJelg7on_ALbx
         console.log(
