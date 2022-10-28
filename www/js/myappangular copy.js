@@ -21,19 +21,19 @@ app.config([
       })
       .when("/register", {
         templateUrl: "Register.html",
-        controller: "DonationCtrl",
+        controller: "RegisterCtrl",
       })
       .when("/updateuser", {
         templateUrl: "UpdateProfile.html",
-        controller: "DonationCtrl",
+        controller: "RegisterCtrl",
       })
       .when("/updatepassword", {
         templateUrl: "UpdateProfile.html",
-        controller: "DonationCtrl",
+        controller: "RegisterCtrl",
       })
       .when("/signup", {
         templateUrl: "Register.html",
-        controller: "DonationCtrl",
+        controller: "RegisterCtrl",
       })
       .when("/getdonation", {
         //templateUrl: "ListDonations.html",
@@ -94,7 +94,7 @@ app.config([
       })
       .when("/resetpw", {
         templateUrl: "ResetPassword.html",
-        controller: "DonationCtrl",
+        controller: "RegisterCtrl",
       })
       .when("/index", {
         templateUrl: "index.html",
@@ -2604,6 +2604,19 @@ app.controller(
       );
       return;
     };
+  }
+);
+app.controller(
+  "RegisterCtrl",
+  function (
+    $scope,
+    $http,
+    $location,
+    $window,
+    UserService,
+    DataService,
+    Notification
+  ) {
     $scope.spinner = false;
     $scope.login_fullname = UserService.getLoggedIn().fullname;
     $scope.login_email = UserService.getLoggedIn().email;
