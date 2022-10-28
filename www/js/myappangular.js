@@ -1178,6 +1178,7 @@ app.controller(
             $scope.loginResult = obj.name;
             $scope.name = obj.name;
             $scope.login_email = obj.email;
+            $scope.login_fullname = obj.name;
             $scope.login_phone = obj.phone;
             $rootScope.username = obj.name;
             $rootScope.subscribed_events = obj.subscribed_events;
@@ -2605,8 +2606,8 @@ app.controller(
       return;
     };
     $scope.spinner = false;
-    $scope.login_fullname = UserService.getLoggedIn().fullname;
-    $scope.login_email = UserService.getLoggedIn().email;
+    //$scope.login_fullname = UserService.getLoggedIn().fullname;
+    //$scope.login_email = UserService.getLoggedIn().email;
     //    $scope.login_phone = UserService.getLoggedIn().phone;
     //    $scope.login_address = UserService.getLoggedIn().address;
     $scope.CreateUser = function (user) {
