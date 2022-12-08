@@ -1,1 +1,1 @@
-gcloud run deploy donation-web --source .
+gcloud run deploy translate-web --source .

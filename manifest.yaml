@@ -1,5 +1,4 @@
 applications:
-- name: SujoyFreeCycleWeb
-  random-route: true
-  memory: 128M
-  
+  - name: TranslateWeb
+    random-route: true
+    memory: 128M

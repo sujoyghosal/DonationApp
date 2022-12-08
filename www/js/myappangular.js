@@ -255,11 +255,12 @@ var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
 var BASEURL_GCP = "https://donation-demo-api-vq2uax3u4q-em.a.run.app";
 var BASEURL_IBM = "http://159.122.177.104:31072";
 
-var BASEURL = BASEURL_IBM;
+var BASEURL = BASEURL_LOCAL;
 var socket = null;
 var GEOCODEURL =
   "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAwQOPx91fjj06kDNq7hjkT-ZSxkQFtJPA";
 //"http://api.positionstack.com/v1/forward?access_key=cff8960a5b6a7fde5eac5d20b3d16295";
+
 app.controller(
   "DonationCtrl",
   function (
@@ -297,6 +298,34 @@ app.controller(
     $scope.offererUUID = "";
     $scope.reverseSort = false;
     $scope.emergency = false;
+    $scope.loggedinUsers = [];
+    $scope.synth = window.speechSynthesis;
+    $scope.rate = 1;
+    $scope.pitch = "1";
+    $scope.targetLang = "hi-IN";
+    $scope.SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    $scope.SpeechGrammarList =
+      SpeechGrammarList || window.webkitSpeechGrammarList;
+    $scope.SpeechRecognitionEvent =
+      SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+    $scope.recognition = new SpeechRecognition();
+    if (SpeechGrammarList) {
+      // SpeechGrammarList is not currently available in Safari, and does not have any effect in any other browser.
+      // This code is provided as a demonstration of possible capability. You may choose not to use it.
+      var speechRecognitionList = new SpeechGrammarList();
+      var grammar =
+        "#JSGF V1.0; grammar colors; public <color> = " +
+        colors.join(" | ") +
+        " ;";
+      speechRecognitionList.addFromString(grammar, 1);
+      $scope.recognition.grammars = speechRecognitionList;
+    }
+    $scope.recognition.continuous = false;
+    $scope.recognition.lang = "bn-IN";
+    //recognition.lang = "en-US";
+    $scope.recognition.interimResults = false;
+    $scope.recognition.maxAlternatives = 1;
+    $scope.targetLang = "th";
     $scope.event_receive = {
       max_distance: 0,
       lng: 0,
@@ -354,6 +383,83 @@ app.controller(
         return;
       }
     });
+    $scope.Speak = function (lang, text) {
+      if ($scope.synth.speaking) {
+        console.error("speechSynthesis.speaking");
+        return;
+      }
+
+      if (text !== "") {
+        const utterThis = new SpeechSynthesisUtterance();
+
+        utterThis.onend = function (event) {
+          console.log("SpeechSynthesisUtterance.onend");
+        };
+
+        utterThis.onerror = function (event) {
+          console.error("SpeechSynthesisUtterance.onerror");
+        };
+        /*
+    const selectedOption =
+      voiceSelect.selectedOptions[0].getAttribute("data-name");
+
+    for (let i = 0; i < voices.length; i++) {
+      if (voices[i].name === selectedOption) {
+        utterThis.voice = voices[i];
+        break;
+      }
+    }*/
+        utterThis.pitch = 1;
+        utterThis.rate = 1;
+        utterThis.lang = lang;
+        utterThis.text = text;
+        synth.speak(utterThis);
+      }
+    };
+
+    $scope.SpeechToText = function (srcLang, targetLang) {
+      /*
+      var diagnostic = document.querySelector(".output");
+      var bg = document.querySelector("html");
+      var hints = document.querySelector(".hints");
+      */
+      $scope.recognition.lang = srcLang ? srcLang : "bn-IN";
+      $scope.recognition.start();
+      console.log("Ready to receive a speech command.");
+      $scope.targetLang = targetLang;
+      alert("Speak something in " + srcLang);
+    };
+    $scope.recognition.onresult = function (event) {
+      // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
+      // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
+      // It has a getter so it can be accessed like an array
+      // The first [0] returns the SpeechRecognitionResult at the last position.
+      // Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
+      // These also have getters so they can be accessed like arrays.
+      // The second [0] returns the SpeechRecognitionAlternative at position 0.
+      // We then return the transcript property of the SpeechRecognitionAlternative object
+      var color = event.results[0][0].transcript;
+      alert(event.results[0][0].transcript);
+      console.log("Confidence: " + event.results[0][0].confidence);
+      socket.emit("speech", {
+        text: event.results[0][0].transcript,
+        //target: targetLang.value,
+        target: $scope.targetLang ? $scope.targetLang : "hi-IN",
+      });
+    };
+
+    $scope.recognition.onspeechend = function () {
+      recognition.stop();
+    };
+
+    $scope.recognition.onnomatch = function (event) {
+      alert("I did not recognize that");
+    };
+
+    $scope.recognition.onerror = function (event) {
+      alert("I did not recognize that - " + event.error);
+    };
+
     //Google
     $scope.GeoCodeAddress = function (offer, func) {
       console.log("Google GeoCode client..");
@@ -870,40 +976,26 @@ app.controller(
             JSON.stringify($rootScope.subscribed_events)
         );
         //createRoom($rootScope.subscribed_events);
-        socket.emit("create-room", {
-          channels: $rootScope.subscribed_events,
+        socket.emit("send-login", {
+          userInfo: UserService.getLoggedIn(),
         });
       });
+      socket.on("loggedin-users", (data) => {
+        console.log(
+          "Received logged in users info from server: " + JSON.stringify(data)
+        );
+        $scope.loggedinUsers = data;
+      });
+      //var socket = io("http://localhost:5555");
       socket.on("event", (data) => {
-        console.log("New event received from Websocket server...");
-        var message =
-          "A new event of your interest has just been created!! City - " +
-          data.eventDetails.city +
-          ", Event type - " +
-          data.eventDetails.event_name +
-          " , Event Posted By - " +
-          data.eventDetails.postedby +
-          ", Email - " +
-          data.eventDetails.email +
-          ", Phone - " +
-          data.eventDetails.phone_number +
-          ", Address - " +
-          data.eventDetails.address +
-          ", Item Type - " +
-          data.eventDetails.itemtype +
-          ", Item - " +
-          data.eventDetails.items;
-        //$scope.events.push(data);
         Notification.info({
-          message: message,
+          message: JSON.stringify(data),
           title: "New Event",
           positionY: "top",
           positionX: "center",
           delay: 7000,
         });
-        $rootScope.eventsCount++;
-        $rootScope.$emit("CallGetEventsMethod", {});
-        //const myTimeout = setTimeout($scope.ShowMessage, 5000);
+        $scope.Speak(data.lang, data.text);
       });
 
       socket.on("disconnect", () => {
